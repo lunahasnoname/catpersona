@@ -63,8 +63,16 @@ body{
 #intro h1 span{color:var(--accent)}
 #intro .desc{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:440px;margin:0 auto 32px}
 .intro-cats{display:flex;gap:0;margin:0 auto 32px;max-width:480px;justify-content:center;flex-wrap:wrap}
-.intro-cats img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:var(--shadow);margin:-4px;transition:transform 0.3s}
-.intro-cats img:hover{transform:translateY(-4px);z-index:2}
+.intro-cats img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:var(--shadow);margin:-4px;transition:transform 0.3s,opacity 0.4s;animation:pulse 2.5s ease-in-out infinite;cursor:default}
+.intro-cats img:nth-child(1){animation-delay:0s}
+.intro-cats img:nth-child(2){animation-delay:.3s}
+.intro-cats img:nth-child(3){animation-delay:.6s}
+.intro-cats img:nth-child(4){animation-delay:.9s}
+.intro-cats img:nth-child(5){animation-delay:1.2s}
+.intro-cats img:nth-child(6){animation-delay:1.5s}
+.intro-cats img:nth-child(7){animation-delay:1.8s}
+.intro-cats img:nth-child(8){animation-delay:2.1s}
+.intro-cats img:hover{transform:translateY(-4px) scale(1.08);z-index:2}
 .intro-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .btn{
   padding:14px 48px;border:none;border-radius:100px;font-size:1rem;
@@ -76,6 +84,8 @@ body{
 .btn-secondary{background:transparent;border:2px solid var(--ink);color:var(--ink)}
 .btn-secondary:hover{background:var(--warm)}
 .intro-meta{color:var(--muted);font-size:0.82rem;margin-top:20px}
+.dim-link{color:var(--accent);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;transition:color 0.2s}
+.dim-link:hover{color:var(--ink)}
 
 /* ===== QUIZ ===== */
 #quiz{text-align:center}
@@ -101,8 +111,8 @@ body{
 .quiz-opt:active{transform:scale(0.985)}
 
 /* ===== RESULT ===== */
-#result{text-align:center;max-width:720px;margin:0 auto}
-.result-hero{position:relative;width:100%;border-radius:24px;overflow:hidden;margin-bottom:20px;aspect-ratio:16/9;max-height:380px;box-shadow:var(--shadow)}
+#result{text-align:center;max-width:720px;margin:0 auto;padding-bottom:20px}
+.result-hero{position:relative;width:100%;border-radius:24px;overflow:hidden;margin-bottom:16px;aspect-ratio:16/9;max-height:380px;box-shadow:var(--shadow)}
 .result-hero img{width:100%;height:100%;object-fit:cover}
 .result-hero-overlay{
   position:absolute;bottom:0;left:0;right:0;
@@ -112,22 +122,26 @@ body{
 .result-hero-code{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:#fff;letter-spacing:0.04em}
 .result-hero-name{color:rgba(255,255,255,0.85);font-size:1rem;margin-bottom:10px}
 .result-hero-breed{color:rgba(255,255,255,0.7);font-size:0.85rem}
-.result-match-bar{width:100%;max-width:360px;margin:12px auto 0;background:rgba(255,255,255,0.2);border-radius:6px;overflow:hidden;height:8px}
-.result-match-fill{height:100%;background:var(--gold);border-radius:6px;transition:width 1s ease}
 .result-match-pct{color:var(--gold);font-weight:700;font-size:1.3rem;margin-top:4px}
 
-.top3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;margin:24px 0}
-.top3-card{
-  background:var(--card-bg);border-radius:18px;overflow:hidden;
-  border:1px solid var(--border);box-shadow:var(--shadow);
-  cursor:pointer;transition:all 0.3s
-}
-.top3-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(44,36,22,0.12)}
-.top3-card-img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
-.top3-card-body{padding:12px 14px 16px}
-.top3-card-code{font-size:0.9rem;font-weight:700;color:var(--accent);letter-spacing:0.03em}
-.top3-card-name{color:var(--muted);font-size:0.8rem;margin:2px 0 8px}
-.top3-card-pct{font-size:1.15rem;font-weight:800;color:var(--ink)}
+/* ===== TOP3 CAROUSEL ===== */
+.top3-carousel{width:100%;max-width:380px;margin:20px auto 0;overflow:hidden;position:relative;-webkit-overflow-scrolling:touch}
+.top3-track{display:flex;transition:transform 0.45s cubic-bezier(.4,0,.2,1);will-change:transform;height:420px}
+.top3-slide{min-width:100%;display:flex;flex-direction:column;align-items:center;padding:0 8px;box-sizing:border-box;height:420px;justify-content:center}
+.top3-avatar-wrap{position:relative;margin-bottom:16px;cursor:pointer;flex-shrink:0}
+.top3-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--accent);box-shadow:0 4px 24px rgba(44,36,22,0.15);transition:transform 0.3s}
+.top3-avatar-wrap:active .top3-avatar{transform:scale(0.95)}
+.top3-avatar-fallback{width:120px;height:120px;border-radius:50%;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:3.2rem;border:4px solid var(--accent)}
+.top3-pct-badge{position:absolute;bottom:-2px;right:-2px;background:var(--accent);color:#fff;border-radius:20px;padding:3px 10px;font-size:0.78rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.top3-slide-info{text-align:center;width:100%;overflow-y:auto;flex:1;padding:0 4px}
+.top3-slide-code{font-size:1.15rem;font-weight:800;letter-spacing:0.04em}
+.top3-slide-name{font-size:0.9rem;color:var(--muted);margin:2px 0 4px}
+.top3-slide-breed{font-size:0.78rem;color:var(--accent2)}
+.top3-slide-btn{margin-top:14px;padding:10px 28px;background:var(--ink);color:var(--cream);border:none;border-radius:100px;font-size:0.85rem;cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.2s;display:inline-block}
+.top3-slide-btn:hover{background:#4A3D2A}
+.top3-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.top3-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.3s;border:none;padding:0;margin:0}
+.top3-dot.active{background:var(--accent);width:24px;border-radius:4px}
 
 .section-label{
   font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;
@@ -182,7 +196,7 @@ body{
 .ov-filter:hover{color:var(--ink);border-color:var(--accent)}
 .ov-filter.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
 
-/* ===== MODAL ===== */
+/* ===== MODAL (type detail) ===== */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(44,36,22,0.6);z-index:100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .modal-overlay.active{display:flex}
 .modal-box{
@@ -209,6 +223,29 @@ body{
 .qr-modal-box .qr-canvas{margin:0 auto 8px;display:block;image-rendering:pixelated}
 .qr-modal-box .qr-url{font-size:0.75rem;color:var(--muted);word-break:break-all}
 
+/* ===== DIMENSIONS POPUP ===== */
+.dim-popup-overlay{display:none;position:fixed;inset:0;background:rgba(44,36,22,0.55);z-index:200;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.dim-popup-overlay.active{display:flex}
+.dim-popup-box{background:var(--card-bg);border-radius:24px;padding:0;max-width:440px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(44,36,22,0.18);animation:popIn 0.35s ease;position:relative}
+@keyframes popIn{from{opacity:0;transform:scale(0.92) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.dim-popup-head{padding:28px 28px 0}
+.dim-popup-head h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--ink);margin-bottom:4px}
+.dim-popup-head .dim-popup-sub{color:var(--muted);font-size:0.85rem;line-height:1.6}
+.dim-popup-close{position:absolute;top:16px;right:16px;background:var(--warm);border:none;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,0.08);z-index:2}
+.dim-popup-body{padding:20px 28px 28px}
+.dim-card{background:var(--warm);border-radius:16px;padding:18px;margin:10px 0;transition:transform 0.2s;border-left:4px solid var(--gold)}
+.dim-card:nth-child(2){border-left-color:#C4734F}
+.dim-card:nth-child(3){border-left-color:#5B8C5A}
+.dim-card:nth-child(4){border-left-color:#6B5E4A}
+.dim-card:nth-child(5){border-left-color:#B8860B}
+.dim-card-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.dim-card-icon{font-size:1.6rem}
+.dim-card-title{font-weight:700;font-size:0.95rem;color:var(--ink)}
+.dim-card-sub{font-size:0.78rem;color:var(--muted);margin-left:auto;white-space:nowrap}
+.dim-card-desc{font-size:0.85rem;color:#5A4F3F;line-height:1.65}
+.dim-card-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.dim-tag{padding:3px 10px;background:var(--card-bg);border-radius:12px;font-size:0.72rem;color:var(--accent);font-weight:500}
+
 /* ===== FALLBACK ===== */
 .cat-fallback{display:flex;align-items:center;justify-content:center;background:var(--warm);color:var(--accent2);font-size:3rem}
 .cat-fallback.sm{font-size:1.5rem;width:36px;height:36px;border-radius:50%}
@@ -218,24 +255,20 @@ body{
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ===== INTRO CATS PULSE ===== */
-.intro-cats img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:var(--shadow);margin:-4px;transition:transform 0.3s,opacity 0.4s;animation:pulse 2.5s ease-in-out infinite;cursor:default}
-.intro-cats img:nth-child(1){animation-delay:0s}
-.intro-cats img:nth-child(2){animation-delay:.3s}
-.intro-cats img:nth-child(3){animation-delay:.6s}
-.intro-cats img:nth-child(4){animation-delay:.9s}
-.intro-cats img:nth-child(5){animation-delay:1.2s}
-.intro-cats img:nth-child(6){animation-delay:1.5s}
-.intro-cats img:nth-child(7){animation-delay:1.8s}
-.intro-cats img:nth-child(8){animation-delay:2.1s}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
 @media(max-width:600px){
-  .top3-grid{grid-template-columns:1fr;gap:12px}
+  .top3-carousel{max-width:320px}
+  .top3-track{height:400px}
+  .top3-slide{height:400px}
+  .top3-avatar{width:100px;height:100px}
+  .top3-avatar-fallback{width:100px;height:100px;font-size:2.5rem}
   .fo-grid{grid-template-columns:1fr}
   .quiz-card{padding:24px 20px}
   .result-hero{max-height:240px}
   .overview-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
   .lang-toggle button{padding:6px 12px;font-size:0.72rem}
+  .dim-popup-box{max-width:100%}
 }
 </style>
 </head>
@@ -265,7 +298,7 @@ body{
     <button class="btn btn-primary" onclick="startQuiz()" id="btnStart">开始测试</button>
     <button class="btn btn-secondary" onclick="showOverview()" id="btnOverview">浏览 20 种类型</button>
   </div>
-  <p class="intro-meta" id="introMeta">12 道趣味测试 · 约 2 分钟 · 基于猫咪行为学</p>
+  <p class="intro-meta" id="introMeta"></p>
 </div>
 
 <!-- ===== QUIZ ===== -->
@@ -285,7 +318,10 @@ body{
 <div id="result" class="screen">
   <div class="result-hero" id="resultHero"></div>
   <p class="result-match-pct" id="resultPct"></p>
-  <div class="top3-grid" id="top3Grid"></div>
+  <div class="top3-carousel" id="top3Carousel">
+    <div class="top3-track" id="top3Track"></div>
+    <div class="top3-dots" id="top3Dots"></div>
+  </div>
   <p class="section-label" id="dimLabel">五维人格分析</p>
   <div class="dim-section" id="dimSection"></div>
   <p class="section-label" id="foLabel">最佳猫友 & 宿命对手</p>
@@ -309,12 +345,41 @@ body{
   <div class="modal-box" id="modalBox"></div>
 </div>
 
+<!-- ===== DIMENSIONS POPUP ===== -->
+<div class="dim-popup-overlay" id="dimPopup">
+  <div class="dim-popup-box">
+    <button class="dim-popup-close" onclick="closeDimPopup()">×</button>
+    <div class="dim-popup-head">
+      <h3 id="dimPopupTitle">CATI 五维人格模型</h3>
+      <p class="dim-popup-sub" id="dimPopupSub">基于猫咪行为学，从 5 个核心维度解构人格原型</p>
+    </div>
+    <div class="dim-popup-body" id="dimPopupBody"></div>
+  </div>
+</div>
+
 <!-- ===== QR MODAL ===== -->
 <div class="modal-overlay" id="qrModal">
   <div class="modal-box qr-modal-box" id="qrModalBox"></div>
 </div>
 
 <script>
+// ===== PAGE VIEW COUNTER =====
+function initPageViews(){
+  const ns='catpersona';
+  const key='pageviews';
+  // First hit the counter to increment, then read
+  fetch(`https://api.countapi.xyz/hit/${ns}/${key}`)
+    .then(r=>r.json())
+    .then(d=>{
+      const el=document.getElementById('viewCount');
+      if(el) el.textContent = d.value!==undefined ? d.value.toLocaleString() : '*';
+    })
+    .catch(()=>{
+      const el=document.getElementById('viewCount');
+      if(el) el.textContent = '*';
+    });
+}
+
 // ===== LANGUAGE STATE =====
 let LANG = 'zh';
 
@@ -323,7 +388,7 @@ function setLang(l){
   document.getElementById('langZh').classList.toggle('active',l==='zh');
   document.getElementById('langEn').classList.toggle('active',l==='en');
   document.documentElement.lang = l==='zh'?'zh-CN':'en';
-  document.title = l==='zh'?'CATI 猫格测试 — 发现你的猫咪人格原型':'CATI — Discover Your Cat Archetype';
+  document.title = l==='zh'?'CATI 猫格测试 — 发现你的猫咪人格原型':'CATI — Discover Your Cat Persona';
   refreshI18n();
   localStorage.setItem('cati_lang',l);
 }
@@ -336,7 +401,7 @@ const I18N = {
     introDesc:'20 种猫咪原型，5 个核心维度。<br>从暹罗到波斯，从街头浪猫到皇室知己——<br>哪一种才是藏在人类外表下的你？',
     btnStart:'开始测试',
     btnOverview:'浏览 20 种类型',
-    introMeta:'12 道趣味测试 · 约 2 分钟 · 基于猫咪行为学',
+    introMeta:'12 道趣味测试 · 看过😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">基于猫咪行为学</span>',
     dimLabel:'五维人格分析',
     foLabel:'最佳猫友 & 宿命对手',
     btnRetake:'再测一次',
@@ -360,6 +425,15 @@ const I18N = {
     shareUrl:'catpersona.pages.dev',
     modalFriends:'猫友',
     modalOpponents:'对手',
+    dimPopupTitle:'CATI 五维人格模型',
+    dimPopupSub:'基于猫咪行为学，从 5 个核心维度解构人格原型',
+    dimCards:[
+      {icon:'🤝',title:'社交性 Social',sub:'L vs S',desc:'L（Lapcat/粘人型）：喜欢亲近人类，渴望关注和陪伴；S（Solitary/独立型）：享受独处，保持距离感，不轻易依赖。',tags:['L 粘人','S 独立']},
+      {icon:'⚡',title:'能量 Energy',sub:'C vs M',desc:'C（Chaotic/混乱型）：情绪高涨、行为不可预测、充满戏剧性；M（Mellow/淡定型）：情绪稳定、做事有条不紊、波澜不惊。',tags:['C 混乱','M 淡定']},
+      {icon:'🗣️',title:'表达 Voice',sub:'V vs Q',desc:'V（Vocal/表达型）：善于用声音和语言沟通，喜欢"说话"；Q（Quiet/沉默型）：安静内敛，用行动而非语言表达自己。',tags:['V 表达','Q 沉默']},
+      {icon:'🗺️',title:'冒险 Adventure',sub:'A vs G',desc:'A（Adventurous/冒险型）：喜欢探索新环境、接受挑战；G（Guarded/谨慎型）：偏好熟悉安全的环境，对新事物保持警惕。',tags:['A 冒险','G 谨慎']},
+      {icon:'📅',title:'规律 Consistency',sub:'K vs W',desc:'K（Keeps Routine/规律型）：生活高度规律，习惯固定，讨厌变化；W（Whimsical/随性型）：随心所欲，行为难以预测，拥抱变化。',tags:['K 规律','W 随性']}
+    ],
     questions:[
       {e:'🛋️',t:'你的主人坐到沙发上了。你怎么做？',o:['立刻跳到他们胸口，大声打呼噜，挡住屏幕的视线','在房间另一头看着他们。享受陪伴，但保持尊重距离','走过去，但只坐在他们脚边——不算太近也不算太远','完全无视，继续睡觉，但尾巴尖微微抽动表示你注意到了']},
       {e:'🐭',t:'玩具老鼠滚过木地板。你的反应是什么？',o:['从墙上翻身而下，在毯子上漂移，把它撕成碎片！','看着它滚过去，慢慢眨眨眼，继续睡','悄悄跟踪，潜伏，然后无声地猛扑——猎杀模式启动','假装没看见，但耳朵转向声音方向，尾巴开始抽动']},
@@ -369,9 +443,9 @@ const I18N = {
       {e:'⏰',t:'凌晨 3 点。你的能量状态是？',o:['ZOOMIES！！！全速冲刺，跳上柜子，打翻水杯——生命的意义在此','在温暖的人类腿边蜷缩着，轻轻地打着小呼噜','醒来，伸个懒腰，去厨房检查一下碗（然后再回来睡）','睁一只眼看看发生了什么，然后决定这太吵了，继续睡']},
       {e:'📦',t:'人类买了一个新纸箱回家。你怎么做？',o:['0.5 秒内占领纸箱，对任何试图靠近的生物发出嘶嘶声','先观察——纸箱安全吗？有没有其他猫的气味？等一天再进去','立刻钻进去，然后卡在里面，用无辜的眼神看着人类','无聊。纸箱不如原来的那个旧盒子好。不屑一顾']},
       {e:'👥',t:'家里来了陌生人。你的第一反应是？',o:['立刻跑过去，用响亮的喵叫迎接他们，求摸摸','消失。等我确认安全了再说——可能需要几小时或几天','从家具后面偷偷观察，判断这个人的威胁等级','继续做你的事，但保持一只眼睛注视着他们']},
-      {e:'🖥️',t:'人类在电脑前工作。你决定……',o:['坐在键盘上。你的屁股比他们的工作重要','坐在他们腿上，呼噜呼噜呼噜','在旁边的椅子上看着他们，偶尔用眼神提醒他们该休息了','完全不管，自己找个有阳光的舒适位置睡觉']},
+      {e:'💻',t:'人类在电脑前工作。你决定……',o:['坐在键盘上。你的屁股比他们的工作重要','坐在他们腿上，呼噜呼噜呼噜','在旁边的椅子上看着他们，偶尔用眼神提醒他们该休息了','完全不管，自己找个有阳光的舒适位置睡觉']},
       {e:'🐟',t:'关于你的日常作息，以下哪句话最符合你？',o:['我每天精确在同一时间做同一件事——规律是我的中间名','我完全没规律，人类永远猜不到我下一秒要干什么','我有一套规律作息，但偶尔会因为心情改变计划','什么是作息？我只听从内心的呼唤']},
-      {e:'🎣',t:'你拿到一根逗猫棒。接下来会发生什么？',o:['后空翻！飞扑！撕咬！这是狩猎！这是生命！','用爪子轻轻拍一下，然后走开——太幼稚了','静静地盯着看，计算最佳扑击角度，然后精准出击','假装不感兴趣，但趁人类不注意时偷偷去碰一下']},
+      {e:'🪶',t:'你拿到一根逗猫棒。接下来会发生什么？',o:['后空翻！飞扑！撕咬！这是狩猎！这是生命！','用爪子轻轻拍一下，然后走开——太幼稚了','静静地盯着看，计算最佳扑击角度，然后精准出击','假装不感兴趣，但趁人类不注意时偷偷去碰一下']},
       {e:'🏠',t:'你和你的人类之间的关系是……',o:['我是老板，他们是我的仆人。我们的关系很健康（对他们来说）','我们是灵魂伴侣，我需要他们，他们也需要我','我们是室友。我偶尔允许他们摸我，但他们得先通过安检','人类？什么是人类？我只知道那个每天给我放食物的两脚兽']}
     ]
   },
@@ -381,7 +455,7 @@ const I18N = {
     introDesc:'20 feline archetypes, 5 core dimensions.<br>From Siamese to Persian, from street legend to royal confidant —<br>which one hides beneath your human exterior?',
     btnStart:'Start the Test',
     btnOverview:'Browse All 20 Types',
-    introMeta:'12 fun questions · ~2 minutes · Based on feline behavior',
+    introMeta:'12 fun questions · Seen 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">Based on feline behavior</span>',
     dimLabel:'Five-Dimensional Analysis',
     foLabel:'Best Cat Friends & Arch Rivals',
     btnRetake:'Retake Test',
@@ -405,6 +479,15 @@ const I18N = {
     shareUrl:'catpersona.pages.dev',
     modalFriends:'Friends',
     modalOpponents:'Rivals',
+    dimPopupTitle:'CATI 5-Dimension Model',
+    dimPopupSub:'Based on feline behaviorism, 5 core dimensions define your cat persona',
+    dimCards:[
+      {icon:'🤝',title:'Sociability',sub:'L vs S',desc:'L (Lap-cat): Craves closeness and attention; S (Solitary): Enjoys alone time, keeps distance.',tags:['L Lap-cat','S Solitary']},
+      {icon:'⚡',title:'Energy',sub:'C vs M',desc:'C (Chaotic): High-energy, unpredictable, dramatic; M (Mellow): Steady, calm, goes with the flow.',tags:['C Chaotic','M Mellow']},
+      {icon:'🗣️',title:'Expression',sub:'V vs Q',desc:'V (Vocal): Communicates with voice and sound; Q (Quiet): Silent, expresses through actions.',tags:['V Vocal','Q Quiet']},
+      {icon:'🗺️',title:'Adventure',sub:'A vs G',desc:'A (Adventurous): Loves exploring new places; G (Guarded): Prefers familiar safe spaces.',tags:['A Adventurous','G Guarded']},
+      {icon:'📅',title:'Consistency',sub:'K vs W',desc:'K (Keeps Routine): Highly routine-driven, hates change; W (Whimsical): Goes with the mood, embraces chaos.',tags:['K Routine','W Whimsical']}
+    ],
     questions:[
       {e:'🛋️',t:'Your human sits down on the sofa. What do you do?',o:['Immediately jump onto their chest, purr loudly, and block the screen','Watch them from across the room — enjoy their company from a respectful distance','Walk over and sit at their feet — not too close, not too far','Completely ignore them, keep sleeping, but twitch your tail tip to show you noticed']},
       {e:'🐭',t:'A toy mouse rolls across the hardwood floor. Your reaction?',o:['Do a backflip off the wall, drift across the rug, and shred it to pieces!','Watch it roll by, slowly blink, and return to your nap','Silently stalk, crouch, then pounce without a sound — hunt mode engaged','Pretend you didn\'t see it, but your ears swivel and tail starts twitching']},
@@ -414,9 +497,9 @@ const I18N = {
       {e:'⏰',t:'It\'s 3 AM. What\'s your energy level?',o:['ZOOMIES!!! Full sprint, jump on cabinets, knock over water glasses — THIS IS LIVING','Curled up next to a warm human, softly purring','Wake up, stretch, check the food bowl in the kitchen (then go back to sleep)','Open one eye to see what\'s happening, decide it\'s too noisy, keep sleeping']},
       {e:'📦',t:'The human brings home a new cardboard box. What do you do?',o:['Claim the box within 0.5 seconds and hiss at any creature that tries to approach','Observe first — is it safe? Does it smell like another cat? Wait a day before entering','Immediately jump in, get stuck, and look at the human with innocent eyes','Boring. This box isn\'t as good as the old one. Completely unimpressed']},
       {e:'👥',t:'A stranger comes to the house. Your first reaction?',o:['Immediately run over and greet them with loud meows, demanding pets','Vanish. I\'ll come out when I feel safe — could be hours or days','Peek from behind furniture, assess this person\'s threat level','Continue doing what you\'re doing, but keep one eye on them']},
-      {e:'🖥️',t:'The human is working on their laptop. You decide to…',o:['Sit on the keyboard. Your butt is more important than their work','Sit on their lap and purr, purr, purr','Watch from a nearby chair, occasionally giving them the "take a break" look','Completely ignore them — find a sunny spot and take a nap instead']},
+      {e:'💻',t:'The human is working on their laptop. You decide to…',o:['Sit on the keyboard. Your butt is more important than their work','Sit on their lap and purr, purr, purr','Watch from a nearby chair, occasionally giving them the "take a break" look','Completely ignore them — find a sunny spot and take a nap instead']},
       {e:'🐟',t:'Which sentence best describes your daily routine?',o:['I do the same thing at the exact same time every day — routine is my middle name','I have absolutely no routine — the human can never guess what I\'ll do next','I have a routine but occasionally change plans depending on my mood','What\'s a routine? I follow only the call of my heart']},
-      {e:'🎣',t:'You get a feather wand toy. What happens next?',o:['Backflip! Pounce! Bite! This is hunting! This is life!','Tap it gently with one paw, then walk away — too childish','Stare silently, calculate the optimal pounce angle, then strike with precision','Pretend not to be interested, but secretly touch it when the human isn\'t looking']},
+      {e:'🪶',t:'You get a feather wand toy. What happens next?',o:['Backflip! Pounce! Bite! This is hunting! This is life!','Tap it gently with one paw, then walk away — too childish','Stare silently, calculate the optimal pounce angle, then strike with precision','Pretend not to be interested, but secretly touch it when the human isn\'t looking']},
       {e:'🏠',t:'Your relationship with your human is…',o:['I am the boss, they are my servant. Our relationship is healthy (for them)','We are soulmates — I need them, they need me','We are roommates. I occasionally allow them to pet me after security clearance','Human? What\'s a human? I only know the bipedal creature that gives me food']}
     ]
   }
@@ -429,10 +512,16 @@ function refreshI18n(){
   document.getElementById('introDesc').innerHTML=d.introDesc;
   document.getElementById('btnStart').textContent=d.btnStart;
   document.getElementById('btnOverview').textContent=d.btnOverview;
-  document.getElementById('introMeta').textContent=d.introMeta;
+  document.getElementById('introMeta').innerHTML=d.introMeta;
   document.getElementById('btnRetake').textContent=d.btnRetake;
   document.getElementById('btnShare').textContent=d.btnShare;
   if(document.getElementById('result').classList.contains('active')) updateResultText();
+  // Update dim popup if open
+  if(document.getElementById('dimPopup').classList.contains('active')){
+    document.getElementById('dimPopupTitle').textContent=d.dimPopupTitle;
+    document.getElementById('dimPopupSub').textContent=d.dimPopupSub;
+    renderDimCards();
+  }
 }
 
 function updateResultText(){
@@ -445,6 +534,32 @@ function updateResultText(){
   const ols=document.querySelectorAll('.opponent-label');
   fls.forEach(x=>x.textContent=d.friends);
   ols.forEach(x=>x.textContent=d.opponents);
+}
+
+// ===== DIMENSIONS POPUP =====
+function showDimPopup(){
+  const d=I18N[LANG];
+  document.getElementById('dimPopupTitle').textContent=d.dimPopupTitle;
+  document.getElementById('dimPopupSub').textContent=d.dimPopupSub;
+  renderDimCards();
+  document.getElementById('dimPopup').classList.add('active');
+}
+function closeDimPopup(){
+  document.getElementById('dimPopup').classList.remove('active');
+}
+function renderDimCards(){
+  const d=I18N[LANG];
+  const colors=['#B8860B','#C4734F','#5B8C5A','#6B5E4A','#B8860B'];
+  document.getElementById('dimPopupBody').innerHTML=d.dimCards.map((c,i)=>`
+    <div class="dim-card">
+      <div class="dim-card-head">
+        <span class="dim-card-icon">${c.icon}</span>
+        <span class="dim-card-title">${c.title}</span>
+        <span class="dim-card-sub">${c.sub}</span>
+      </div>
+      <div class="dim-card-desc">${c.desc}</div>
+      <div class="dim-card-tags">${c.tags.map(t=>`<span class="dim-tag">${t}</span>`).join('')}</div>
+    </div>`).join('');
 }
 
 // ===== IMAGE MAPPING =====
@@ -489,7 +604,7 @@ const GROUP_NAMES_EN=['Chaos Creators','The Monarchs','Shadow Stalkers','Zen Mas
 
 const TYPES = [
   {code:"LCVAK",name:"演艺巨星",en:"The Showstopper",breed:"暹罗猫",breedEn:"Siamese",color:"#C4734F",desc:"外向、吵闹、极度规律。每天同一时间同一地点表演同样的节目。无法容忍被忽视，要求成为绝对焦点。",descEn:"Loud, hyper-social, and relentlessly active. Performs the same show at the same time every day. Cannot tolerate being ignored.",mbti:"ENFP / ESFP",mbtiName:"终极外向者",mbtiNameEn:"The Ultimate Extravert",traits:["外向","吵闹","规律","粘人"],traitsEn:["Extraverted","Loud","Routine","Clingy"],f:["LMVAK","LCVAW","SCVAK"],o:["SMQGK","SMQGW","SCQGK"],d:{S:"L",E:"C",V:"V",A:"A",C:"K"}},
-  {code:"LCVGK",name:"戏剧粘人精",en:"The Dramatic Velcro",breed:"橘猫",breedEn:"Orange Taby",color:"#D4834A",desc:"贪吃、粘人、规律。像橘色胶水一样粘在主人身上，眼里只有食物和爱。对罐头声音极度敏感，听到开罐声能从睡梦中弹射起床。",descEn:"Food-obsessed, clingy, routine-driven. Sticks like orange glue — only food and love matter. Hearing a can opener sends them flying out of deep sleep.",mbti:"ENFJ",mbtiName:"深情照顾者",mbtiNameEn:"The Deeply Expressive Caregiver",traits:["粘人","贪吃","温暖","规律"],traitsEn:["Clingy","Food-obsessed","Warm","Routine"],f:["LMVGK","LCVAK","LMQGK"],o:["SCVAK","SCVAW","SCQAK"],d:{S:"L",E:"C",V:"V",A:"G",C:"K"}},
+  {code:"LCVGK",name:"戏剧粘人精",en:"The Dramatic Velcro",breed:"橘猫",breedEn:"Orange Tabby",color:"#D4834A",desc:"贪吃、粘人、规律。像橘色胶水一样粘在主人身上，眼里只有食物和爱。对罐头声音极度敏感，听到开罐声能从睡梦中弹射起床。",descEn:"Food-obsessed, clingy, routine-driven. Sticks like orange glue — only food and love matter. Hearing a can opener sends them flying out of deep sleep.",mbti:"ENFJ",mbtiName:"深情照顾者",mbtiNameEn:"The Deeply Expressive Caregiver",traits:["粘人","贪吃","温暖","规律"],traitsEn:["Clingy","Food-obsessed","Warm","Routine"],f:["LMVGK","LCVAK","LMQGK"],o:["SCVAK","SCVAW","SCQAK"],d:{S:"L",E:"C",V:"V",A:"G",C:"K"}},
   {code:"LCQAK",name:"精英运动员",en:"The Elite Athlete",breed:"孟加拉豹猫",breedEn:"Bengal",color:"#C49A3C",desc:"运动型、安静、规律。沉默地在墙上爬来爬去，以专注的沉默完成高难度动作。生活极其规律。",descEn:"Athletic, quiet, routine-driven. Scales walls in focused silence. Executes high-difficulty moves with laser precision.",mbti:"ESTP",mbtiName:"高速寻求刺激者",mbtiNameEn:"The High-Octane Thrillseeker",traits:["运动型","安静","大胆","规律"],traitsEn:["Athletic","Quiet","Bold","Routine"],f:["SCQAK","LCQGK","LMQAK"],o:["SMQGK","LMVGK","SMVGK"],d:{S:"L",E:"C",V:"Q",A:"A",C:"K"}},
   {code:"LCQGK",name:"辣味甜心",en:"The Spicy Sweetheart",breed:"三花猫",breedEn:"Calico",color:"#C4786B",desc:"爱意满满但脾气火爆。规律生活中的定时炸弹。对最爱的人极其温柔，转头却可能因为被摸了肚子而咬人。",descEn:"Full of love but with a fiery temper. A ticking time bomb in an otherwise routine life. Sweet one moment, biting the next.",mbti:"INFJ / ESFJ",mbtiName:"复杂的保护者",mbtiNameEn:"The Complex Protector",traits:["爱意","火爆","独立","规律"],traitsEn:["Loving","Fiery","Independent","Routine"],f:["SCQGK","LCQAK","LMQGK"],o:["LMVAK","SCVAK","SMVAK"],d:{S:"L",E:"C",V:"Q",A:"G",C:"K"}},
   {code:"LMVAK",name:"话痨室友",en:"The Chatty Roommate",breed:"狸花猫",breedEn:"Li Hua Cat",color:"#8B7355",desc:"聪明、话多、规律。中国街头最传奇的猫，适应力极强。每天都在同一位置「开会」，用各种叫声讨论今天的菜单、天气和隔壁猫的八卦。",descEn:"Clever, chatty, routine-driven. China's most legendary street cat — incredibly adaptable. Holds daily 'meetings' from the same spot, discussing everything.",mbti:"ENTP",mbtiName:"机智辩手",mbtiNameEn:"The Witty Debater",traits:["聪明","健谈","适应","规律"],traitsEn:["Clever","Chatty","Adaptable","Routine"],f:["LCVAK","SCVAK","LMQAK"],o:["SMQGK","SCQGK","SMVGK"],d:{S:"L",E:"M",V:"V",A:"A",C:"K"}},
@@ -550,6 +665,7 @@ function s(id){
   const saved=localStorage.getItem('cati_lang');
   if(saved==='zh'||saved==='en')LANG=saved;
   setLang(LANG);
+  initPageViews();
   setTimeout(()=>s('intro'),600);
 })();
 
@@ -564,7 +680,6 @@ function initIntro(){
     return `<div class="cat-fallback sm" title="${t.name}">🐾</div>`;
   }).join('');
 }
-// initIntro() called from s('intro')
 
 // ===== TYPING & SHUFFLE =====
 let _shuffleInterval=null;
@@ -606,9 +721,7 @@ function shuffleCats(){
       return `<div class="cat-fallback sm" title="${t.name}">🐾</div>`;
     }).join('');
     setTimeout(()=>{
-      Array.from(grid.children).forEach((el,i)=>{
-        setTimeout(()=>{el.style.opacity='1';el.style.transform='scale(1)'},i*60);
-      });
+      Array.from(grid.children).forEach((el,i)=>{setTimeout(()=>{el.style.opacity='1';el.style.transform='scale(1)'},i*60)});
     },50);
   },450);
 }
@@ -625,10 +738,7 @@ function rq(){
   document.getElementById('quizCount').textContent=`${curQ+1} / 12`;
   const oD=document.getElementById('qOpts');
   oD.innerHTML='';
-  qd.o.forEach((t,i)=>{
-    const b=document.createElement('button');b.className='quiz-opt';b.textContent=t;
-    b.onclick=()=>sel(i);oD.appendChild(b)
-  });
+  qd.o.forEach((t,i)=>{const b=document.createElement('button');b.className='quiz-opt';b.textContent=t;b.onclick=()=>sel(i);oD.appendChild(b)});
   const c=document.getElementById('quizCard');c.style.animation='none';c.offsetHeight;c.style.animation='slideIn 0.35s ease'
 }
 
@@ -663,14 +773,8 @@ function showResult(top,top3,uD){
     :`<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.name} · ${top.type.en}</div><div class=result-hero-breed>${LANG==='zh'?top.type.breed:top.type.breedEn} / ${LANG==='zh'?top.type.breedEn:top.type.breed}</div></div>`;
   document.getElementById('resultPct').innerHTML=`${d.matchPct} <strong style=color:${top.type.color}>${top.pct}%</strong>`;
 
-  // Top 3
-  const grid=document.getElementById('top3Grid');
-  grid.innerHTML=top3.map((r,i)=>{
-    const src=getImage(r.type.code);
-    return `<div class=top3-card onclick="showModal('${r.type.code}')" style="border-color:${i===0?'var(--accent)':'var(--border)'}">
-      ${src?`<img class=top3-card-img src="${src}" alt="${LANG==='zh'?r.type.breed:r.type.breedEn}" loading=lazy onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class=cat-fallback style=display:none;aspect-ratio:1;font-size:2.5rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:1;font-size:2.5rem>🐾</div>`}
-      <div class=top3-card-body><div class=top3-card-code style=color:${r.type.color}>${r.type.code}</div><div class=top3-card-name>${r.type.name}</div><div class=top3-card-pct>${r.pct}%</div></div></div>`;
-  }).join('');
+  // Top3 Carousel
+  renderTop3Carousel(top3);
 
   // Dimensions
   const dl={S:d.dimS,E:d.dimE,V:d.dimV,A:d.dimA,C:d.dimC};
@@ -691,6 +795,68 @@ function showResult(top,top3,uD){
 
   document.getElementById('dimLabel').textContent=d.dimLabel;
   document.getElementById('foLabel').textContent=d.foLabel;
+}
+
+// ===== TOP3 CAROUSEL =====
+let _carouselIndex=0;
+let _carouselTop3=[];
+let _touchStartX=0;
+let _touchEndX=0;
+
+function renderTop3Carousel(top3){
+  _carouselTop3=top3;
+  _carouselIndex=0;
+  const track=document.getElementById('top3Track');
+  const dots=document.getElementById('top3Dots');
+  track.innerHTML=top3.map((r,i)=>{
+    const src=getImage(r.type.code);
+    const breed=LANG==='zh'?r.type.breed:r.type.breedEn;
+    return `<div class=top3-slide>
+      <div class=top3-avatar-wrap onclick="showModal('${r.type.code}')">
+        ${src?`<img class=top3-avatar src="${src}" alt="${breed}" loading=lazy>`:`<div class=top3-avatar-fallback>🐾</div>`}
+        <span class=top3-pct-badge>${r.pct}%</span>
+      </div>
+      <div class=top3-slide-info>
+        <div class=top3-slide-code style=color:${r.type.color}>${r.type.code}</div>
+        <div class=top3-slide-name>${r.type.name} · ${r.type.en}</div>
+        <div class=top3-slide-breed>${breed}</div>
+        <button class=top3-slide-btn onclick="showModal('${r.type.code}')">${LANG==='zh'?'查看详情':'View Details'}</button>
+      </div>
+    </div>`;
+  }).join('');
+  dots.innerHTML=top3.map((_,i)=>`<button class=top3-dot${i===0?' active':''} onclick="goToSlide(${i})"></button>`).join('');
+  updateCarouselPosition();
+
+  // Touch events
+  track.ontouchstart=function(e){_touchStartX=e.changedTouches[0].screenX};
+  track.ontouchend=function(e){_touchEndX=e.changedTouches[0].screenX;handleSwipe()};
+  // Mouse drag
+  let mouseDown=false, mouseStartX=0;
+  track.onmousedown=function(e){mouseDown=true;mouseStartX=e.clientX;track.style.transition='none'};
+  track.onmousemove=function(e){if(!mouseDown)return;e.preventDefault();const diff=e.clientX-mouseStartX;track.style.transform=`translateX(calc(${-_carouselIndex*100}%-${diff}px))`};
+  track.onmouseup=function(e){if(!mouseDown)return;mouseDown=false;track.style.transition='transform 0.45s cubic-bezier(.4,0,.2,1)';const diff=e.clientX-mouseStartX;if(Math.abs(diff)>50){if(diff>0&&_carouselIndex>0)goToSlide(_carouselIndex-1);else if(diff<0&&_carouselIndex<_carouselTop3.length-1)goToSlide(_carouselIndex+1);else updateCarouselPosition()}else updateCarouselPosition()};
+  track.onmouseleave=function(){if(mouseDown){mouseDown=false;track.style.transition='transform 0.45s cubic-bezier(.4,0,.2,1)';updateCarouselPosition()}};
+}
+
+function handleSwipe(){
+  const diff=_touchStartX-_touchEndX;
+  if(Math.abs(diff)>50){
+    if(diff>0&&_carouselIndex<_carouselTop3.length-1)goToSlide(_carouselIndex+1);
+    else if(diff<0&&_carouselIndex>0)goToSlide(_carouselIndex-1);
+    else updateCarouselPosition();
+  }else updateCarouselPosition();
+}
+
+function goToSlide(i){
+  _carouselIndex=Math.max(0,Math.min(i,_carouselTop3.length-1));
+  updateCarouselPosition();
+  // Update dots
+  document.querySelectorAll('.top3-dot').forEach((d,idx)=>{d.classList.toggle('active',idx===_carouselIndex)});
+}
+
+function updateCarouselPosition(){
+  const track=document.getElementById('top3Track');
+  if(track)track.style.transform=`translateX(-${_carouselIndex*100}%)`;
 }
 
 // ===== OVERVIEW =====
@@ -762,7 +928,6 @@ function showQR(){
   const avatarSrc=getImage(top.type.code);
   const url='https://catpersona.pages.dev/';
 
-  // Generate QR using canvas + QRCode logic
   const box=document.getElementById('qrModalBox');
   box.innerHTML=`
     <button class=modal-close style=float:right onclick="document.getElementById('qrModal').classList.remove('active')">×</button>
@@ -777,30 +942,16 @@ function showQR(){
   generateQR(url);
 }
 
-// Minimal QR code generator (byte mode, version up to 40)
+// Minimal QR code generator
 function generateQR(text){
   const canvas=document.getElementById('qrCanvas');
   if(!canvas)return;
   const ctx=canvas.getContext('2d');
   const size=200;const margin=4;
-
-  // QR code algorithm - simplified but functional
-  // We'll use the API approach as a reliable fallback, and try to draw it manually
-  // Let's use the qrserver API as img
   const img=new Image();
   img.crossOrigin='anonymous';
-  img.onload=function(){
-    ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,size,size);
-    ctx.drawImage(img,0,0,size,size);
-  };
-  img.onerror=function(){
-    // Fallback: draw text QR placeholder
-    ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,size,size);
-    ctx.fillStyle='#2C2416';ctx.font='14px monospace';ctx.textAlign='center';
-    ctx.fillText('QR: catpersona.pages.dev',size/2,size/2-10);
-    ctx.font='12px monospace';
-    ctx.fillText('Scan to discover your cat persona',size/2,size/2+16);
-  };
+  img.onload=function(){ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,size,size);ctx.drawImage(img,0,0,size,size);};
+  img.onerror=function(){ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,size,size);ctx.fillStyle='#2C2416';ctx.font='14px monospace';ctx.textAlign='center';ctx.fillText('QR: catpersona.pages.dev',size/2,size/2-10);ctx.font='12px monospace';ctx.fillText('Scan to discover your cat persona',size/2,size/2+16);};
   img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(text)+'&margin='+margin;
 }
 
