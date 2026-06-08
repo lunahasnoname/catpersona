@@ -55,7 +55,7 @@ body{
 
 /* ===== INTRO ===== */
 #intro{text-align:center;max-width:600px;margin:0 auto}
-.intro-eyebrow{font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--accent);margin-bottom:20px;font-weight:500}
+.intro-eyebrow{font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--accent);margin-bottom:20px;font-weight:500;display:inline-block;min-height:1.2em}
 #intro h1{
   font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.6rem);
   color:var(--ink);font-weight:700;line-height:1.15;margin-bottom:12px
@@ -213,6 +213,22 @@ body{
 .cat-fallback{display:flex;align-items:center;justify-content:center;background:var(--warm);color:var(--accent2);font-size:3rem}
 .cat-fallback.sm{font-size:1.5rem;width:36px;height:36px;border-radius:50%}
 
+/* ===== TYPING CURSOR ===== */
+.cursor{display:inline-block;width:2px;height:1em;background:var(--accent);margin-left:3px;vertical-align:text-bottom;animation:blink .7s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ===== INTRO CATS PULSE ===== */
+.intro-cats img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:var(--shadow);margin:-4px;transition:transform 0.3s,opacity 0.4s;animation:pulse 2.5s ease-in-out infinite;cursor:default}
+.intro-cats img:nth-child(1){animation-delay:0s}
+.intro-cats img:nth-child(2){animation-delay:.3s}
+.intro-cats img:nth-child(3){animation-delay:.6s}
+.intro-cats img:nth-child(4){animation-delay:.9s}
+.intro-cats img:nth-child(5){animation-delay:1.2s}
+.intro-cats img:nth-child(6){animation-delay:1.5s}
+.intro-cats img:nth-child(7){animation-delay:1.8s}
+.intro-cats img:nth-child(8){animation-delay:2.1s}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
 @media(max-width:600px){
   .top3-grid{grid-template-columns:1fr;gap:12px}
   .fo-grid{grid-template-columns:1fr}
@@ -241,8 +257,8 @@ body{
 
 <!-- ===== INTRO ===== -->
 <div id="intro" class="screen">
-  <p class="intro-eyebrow">Cat Archetype Type Indicator</p>
-  <h1 id="introTitle">你是哪一种<span>猫咪人格</span>？</h1>
+  <p class="intro-eyebrow" id="eyebrowText"></p>
+  <h1 id="introTitle">你是哪种<span>喵星人</span>？</h1>
   <p class="desc" id="introDesc">20 种猫咪原型，5 个核心维度。<br>从暹罗到波斯，从街头浪猫到皇室知己——<br>哪一种才是藏在人类外表下的你？</p>
   <div class="intro-cats" id="introCats"></div>
   <div class="intro-actions">
@@ -316,7 +332,7 @@ function setLang(l){
 const I18N = {
   zh:{
     loading:'正在召唤猫咪能量…',
-    introTitle:'你是哪一种<span>猫咪人格</span>？',
+    introTitle:'你是哪种<span>喵星人</span>？',
     introDesc:'20 种猫咪原型，5 个核心维度。<br>从暹罗到波斯，从街头浪猫到皇室知己——<br>哪一种才是藏在人类外表下的你？',
     btnStart:'开始测试',
     btnOverview:'浏览 20 种类型',
@@ -518,9 +534,15 @@ let curQ=0,answers=[];
 
 // ===== SCREEN NAV =====
 function s(id){
+  if(id!=='intro') stopShuffle();
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.getElementById('topbar').style.display = (id==='intro'||id==='result'||id==='overview')?'flex':'none';
+  if(id==='intro'){
+    initIntro();
+    setTimeout(typeEyebrow,100);
+    startShuffle();
+  }
 }
 
 // ===== INIT =====
@@ -542,7 +564,54 @@ function initIntro(){
     return `<div class="cat-fallback sm" title="${t.name}">🐾</div>`;
   }).join('');
 }
-initIntro();
+// initIntro() called from s('intro')
+
+// ===== TYPING & SHUFFLE =====
+let _shuffleInterval=null;
+function typeEyebrow(){
+  const el=document.getElementById('eyebrowText');
+  if(!el)return;
+  el.textContent='';
+  const cursor=document.createElement('span');
+  cursor.className='cursor';
+  el.appendChild(cursor);
+  const text='Cat Persona';
+  let i=0;
+  function tick(){
+    if(i<text.length){
+      el.insertBefore(document.createTextNode(text[i]),cursor);
+      i++;
+      setTimeout(tick,120);
+    }
+  }
+  tick();
+}
+function startShuffle(){
+  if(_shuffleInterval)clearInterval(_shuffleInterval);
+  _shuffleInterval=setInterval(shuffleCats,3000);
+}
+function stopShuffle(){
+  if(_shuffleInterval){clearInterval(_shuffleInterval);_shuffleInterval=null;}
+}
+function shuffleCats(){
+  const grid=document.getElementById('introCats');
+  if(!grid)return;
+  const imgs=Array.from(grid.children);
+  imgs.forEach(el=>{el.style.opacity='0';el.style.transform='scale(0.8)'});
+  setTimeout(()=>{
+    const shuffled=[...TYPES].sort(()=>Math.random()-0.5).slice(0,8);
+    grid.innerHTML=shuffled.map(t=>{
+      const src=getImage(t.code);
+      if(src)return `<img src="${src}" alt="${LANG==='zh'?t.breed:t.breedEn}" title="${t.name} · ${LANG==='zh'?t.breed:t.breedEn}" loading="lazy">`;
+      return `<div class="cat-fallback sm" title="${t.name}">🐾</div>`;
+    }).join('');
+    setTimeout(()=>{
+      Array.from(grid.children).forEach((el,i)=>{
+        setTimeout(()=>{el.style.opacity='1';el.style.transform='scale(1)'},i*60);
+      });
+    },50);
+  },450);
+}
 
 // ===== QUIZ =====
 function startQuiz(){curQ=0;answers=[];s('quiz');rq()}
