@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CATI 猫格测试 — 发现你的猫咪人格原型</title>
+<title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<style>
+    <link rel="preconnect" href="https://api.countapi.xyz">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%98%BC%3C%2Ftext%3E%3C%2Fsvg%3E" type="image/svg+xml">
+    <style>
 :root{
   --cream:#FEFBF6;--warm:#F3EDE4;--ink:#2C2416;--muted:#6B5E4A;
   --accent:#C4734F;--accent2:#8B6F5C;--gold:#B8860B;
@@ -125,9 +127,11 @@ body{
 .result-match-pct{color:var(--gold);font-weight:700;font-size:1.3rem;margin-top:4px}
 
 /* ===== TOP3 CAROUSEL ===== */
-.top3-carousel{width:100%;max-width:380px;margin:20px auto 0;overflow:hidden;position:relative;-webkit-overflow-scrolling:touch}
-.top3-track{display:flex;transition:transform 0.45s cubic-bezier(.4,0,.2,1);will-change:transform;height:420px}
-.top3-slide{min-width:100%;display:flex;flex-direction:column;align-items:center;padding:0 8px;box-sizing:border-box;height:420px;justify-content:center}
+.top3-carousel{width:100%;max-width:400px;margin:20px auto 0;overflow:hidden;position:relative}
+.top3-track{display:flex;transition:transform 0.5s cubic-bezier(.4,0,.2,1);will-change:transform}
+.top3-slide{min-width:80%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 20px;box-sizing:border-box;transition:opacity 0.35s,transform 0.35s}
+.top3-slide:not(.active-slide){opacity:0.35;transform:scale(0.92)}
+.top3-slide.active-slide{opacity:1;transform:scale(1)}
 .top3-avatar-wrap{position:relative;margin-bottom:16px;cursor:pointer;flex-shrink:0}
 .top3-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--accent);box-shadow:0 4px 24px rgba(44,36,22,0.15);transition:transform 0.3s}
 .top3-avatar-wrap:active .top3-avatar{transform:scale(0.95)}
@@ -137,11 +141,13 @@ body{
 .top3-slide-code{font-size:1.15rem;font-weight:800;letter-spacing:0.04em}
 .top3-slide-name{font-size:0.9rem;color:var(--muted);margin:2px 0 4px}
 .top3-slide-breed{font-size:0.78rem;color:var(--accent2)}
-.top3-slide-btn{margin-top:14px;padding:10px 28px;background:var(--ink);color:var(--cream);border:none;border-radius:100px;font-size:0.85rem;cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.2s;display:inline-block}
-.top3-slide-btn:hover{background:#4A3D2A}
-.top3-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
-.top3-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.3s;border:none;padding:0;margin:0}
-.top3-dot.active{background:var(--accent);width:24px;border-radius:4px}
+.top3-slide-link{margin-top:14px;color:var(--accent);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;cursor:pointer;font-size:0.85rem;font-family:inherit;font-weight:500;transition:color 0.2s;background:none;border:none;padding:0}
+.top3-slide-link:hover{color:var(--ink)}
+.top3-paws{display:flex;justify-content:center;align-items:flex-end;gap:32px;margin-top:16px;position:relative;height:36px}
+.paw-step{font-size:1rem;cursor:pointer;transition:all 0.4s cubic-bezier(.4,0,.2,1);position:relative;line-height:1;opacity:0.4}
+.paw-step.paw-active{font-size:1.7rem;opacity:1;animation:pawBounce 0.5s ease}
+.paw-step:not(.paw-active){filter:grayscale(0.5)}
+@keyframes pawBounce{0%{transform:translateY(0) scale(1)}30%{transform:translateY(-8px) scale(1.1)}50%{transform:translateY(-4px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
 
 .section-label{
   font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;
@@ -258,9 +264,7 @@ body{
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
 @media(max-width:600px){
-  .top3-carousel{max-width:320px}
-  .top3-track{height:400px}
-  .top3-slide{height:400px}
+  .top3-carousel{max-width:340px}
   .top3-avatar{width:100px;height:100px}
   .top3-avatar-fallback{width:100px;height:100px;font-size:2.5rem}
   .fo-grid{grid-template-columns:1fr}
@@ -320,7 +324,7 @@ body{
   <p class="result-match-pct" id="resultPct"></p>
   <div class="top3-carousel" id="top3Carousel">
     <div class="top3-track" id="top3Track"></div>
-    <div class="top3-dots" id="top3Dots"></div>
+    <div class="top3-paws" id="top3Paws"></div>
   </div>
   <p class="section-label" id="dimLabel">五维人格分析</p>
   <div class="dim-section" id="dimSection"></div>
@@ -363,20 +367,24 @@ body{
 </div>
 
 <script>
-// ===== PAGE VIEW COUNTER =====
+// ===== PAGE VIEW COUNTER (using countapi.xyz) =====
 function initPageViews(){
-  const ns='catpersona';
-  const key='pageviews';
-  // First hit the counter to increment, then read
-  fetch(`https://api.countapi.xyz/hit/${ns}/${key}`)
-    .then(r=>r.json())
-    .then(d=>{
-      const el=document.getElementById('viewCount');
-      if(el) el.textContent = d.value!==undefined ? d.value.toLocaleString() : '*';
+  const el = document.getElementById('viewCount');
+  if(el) el.textContent = '...';
+  // Use countapi.xyz — if CORS fails, fallback to localStorage counter
+  fetch('https://api.countapi.xyz/hit/catpersona/pageviews', { mode:'cors', cache:'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject('http'+r.status))
+    .then(d => {
+      const el2 = document.getElementById('viewCount');
+      if(el2) el2.textContent = d.value != null ? d.value.toLocaleString() : '*';
     })
-    .catch(()=>{
-      const el=document.getElementById('viewCount');
-      if(el) el.textContent = '*';
+    .catch(() => {
+      // fallback: use localStorage session counter
+      const key = 'cati_views';
+      let c = parseInt(localStorage.getItem(key)||'0') + 1;
+      localStorage.setItem(key, c);
+      const el2 = document.getElementById('viewCount');
+      if(el2) el2.textContent = c.toLocaleString() + '*';
     });
 }
 
@@ -388,7 +396,7 @@ function setLang(l){
   document.getElementById('langZh').classList.toggle('active',l==='zh');
   document.getElementById('langEn').classList.toggle('active',l==='en');
   document.documentElement.lang = l==='zh'?'zh-CN':'en';
-  document.title = l==='zh'?'CATI 猫格测试 — 发现你的猫咪人格原型':'CATI — Discover Your Cat Persona';
+  document.title = 'Cat Persona 喵星人格';
   refreshI18n();
   localStorage.setItem('cati_lang',l);
 }
@@ -807,11 +815,11 @@ function renderTop3Carousel(top3){
   _carouselTop3=top3;
   _carouselIndex=0;
   const track=document.getElementById('top3Track');
-  const dots=document.getElementById('top3Dots');
+  const paws=document.getElementById('top3Paws');
   track.innerHTML=top3.map((r,i)=>{
     const src=getImage(r.type.code);
     const breed=LANG==='zh'?r.type.breed:r.type.breedEn;
-    return `<div class=top3-slide>
+    return `<div class=top3-slide${i===0?' active-slide':''}>
       <div class=top3-avatar-wrap onclick="showModal('${r.type.code}')">
         ${src?`<img class=top3-avatar src="${src}" alt="${breed}" loading=lazy>`:`<div class=top3-avatar-fallback>🐾</div>`}
         <span class=top3-pct-badge>${r.pct}%</span>
@@ -820,11 +828,11 @@ function renderTop3Carousel(top3){
         <div class=top3-slide-code style=color:${r.type.color}>${r.type.code}</div>
         <div class=top3-slide-name>${r.type.name} · ${r.type.en}</div>
         <div class=top3-slide-breed>${breed}</div>
-        <button class=top3-slide-btn onclick="showModal('${r.type.code}')">${LANG==='zh'?'查看详情':'View Details'}</button>
+        <span class=top3-slide-link onclick="showModal('${r.type.code}')">${LANG==='zh'?'查看详情':'View Details'}</span>
       </div>
     </div>`;
   }).join('');
-  dots.innerHTML=top3.map((_,i)=>`<button class=top3-dot${i===0?' active':''} onclick="goToSlide(${i})"></button>`).join('');
+  paws.innerHTML=top3.map((_,i)=>`<span class=paw-step${i===0?' paw-active':''} onclick="goToSlide(${i})">${i===0?'😼':'🐾'}</span>`).join('');
   updateCarouselPosition();
 
   // Touch events
@@ -833,7 +841,7 @@ function renderTop3Carousel(top3){
   // Mouse drag
   let mouseDown=false, mouseStartX=0;
   track.onmousedown=function(e){mouseDown=true;mouseStartX=e.clientX;track.style.transition='none'};
-  track.onmousemove=function(e){if(!mouseDown)return;e.preventDefault();const diff=e.clientX-mouseStartX;track.style.transform=`translateX(calc(${-_carouselIndex*100}%-${diff}px))`};
+  track.onmousemove=function(e){if(!mouseDown)return;e.preventDefault();const diff=e.clientX-mouseStartX;track.style.transform=`translateX(calc(${-_carouselIndex*80}%-${diff}px))`};
   track.onmouseup=function(e){if(!mouseDown)return;mouseDown=false;track.style.transition='transform 0.45s cubic-bezier(.4,0,.2,1)';const diff=e.clientX-mouseStartX;if(Math.abs(diff)>50){if(diff>0&&_carouselIndex>0)goToSlide(_carouselIndex-1);else if(diff<0&&_carouselIndex<_carouselTop3.length-1)goToSlide(_carouselIndex+1);else updateCarouselPosition()}else updateCarouselPosition()};
   track.onmouseleave=function(){if(mouseDown){mouseDown=false;track.style.transition='transform 0.45s cubic-bezier(.4,0,.2,1)';updateCarouselPosition()}};
 }
@@ -850,13 +858,20 @@ function handleSwipe(){
 function goToSlide(i){
   _carouselIndex=Math.max(0,Math.min(i,_carouselTop3.length-1));
   updateCarouselPosition();
-  // Update dots
-  document.querySelectorAll('.top3-dot').forEach((d,idx)=>{d.classList.toggle('active',idx===_carouselIndex)});
+  // Update paw trail
+  document.querySelectorAll('.paw-step').forEach(function(d,idx){
+    d.classList.toggle('paw-active',idx===_carouselIndex);
+    d.textContent=idx===_carouselIndex?'😼':'🐾';
+  });
+  // Update active slide
+  document.querySelectorAll('.top3-slide').forEach(function(s,idx){
+    s.classList.toggle('active-slide',idx===_carouselIndex);
+  });
 }
 
 function updateCarouselPosition(){
   const track=document.getElementById('top3Track');
-  if(track)track.style.transform=`translateX(-${_carouselIndex*100}%)`;
+  if(track)track.style.transform=`translateX(-${_carouselIndex*80}%)`;
 }
 
 // ===== OVERVIEW =====
