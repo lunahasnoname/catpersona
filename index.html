@@ -6,7 +6,7 @@
 <title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://api.countapi.xyz">
     <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%98%BC%3C%2Ftext%3E%3C%2Fsvg%3E" type="image/svg+xml">
     <style>
@@ -128,51 +128,51 @@ body::before{
 }
 [data-theme="es"] body{font-family:'Playfair Display','Noto Sans',system-ui,serif}
 
-/* Hong Kong — neon cityscape, Mongkok aesthetic, East-meets-West density */
+/* Cantonese — luxury purple light mode, ink-wash elegance, calligraphic artistry */
 [data-theme="hk"]{
-  --cream:#0D111F;--warm:#1A1F35;--ink:#F0EEEA;
-  --accent:#FF2D95;--accent2:#00E5FF;--gold:#FFB800;
-  --card-bg:rgba(26,31,53,0.85);--border:#2A2F45;
-  --shadow:0 2px 24px rgba(255,45,149,0.12),0 0 60px rgba(0,229,255,0.05);
-  --muted:#8A8FA5;
-  --green:#00E5A0;--orange:#FF6B6B;--red:#FF2D95;
+  --cream:#FCF9F5;--warm:#F0E8F0;--ink:#2A1A3A;--muted:#8B7B9A;
+  --accent:#7B3FA3;--accent2:#B99CD9;--gold:#C5A44E;
+  --card-bg:#FFFFFF;--border:#E5D8F0;
+  --shadow:0 2px 20px rgba(123,63,163,0.07);
+  --green:#5B8D6A;--orange:#D4906C;--red:#9B4A6A;
 }
 [data-theme="hk"] body::before{
   background:
-    linear-gradient(90deg,rgba(255,45,149,0.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,229,255,0.015) 1px,transparent 1px),
-    linear-gradient(rgba(255,184,0,0.02) 1px,transparent 1px);
-  background-size:80px 100%,120px 100%,40px 40px;
+    radial-gradient(ellipse at 20% 50%,rgba(123,63,163,0.03) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 50%,rgba(185,156,217,0.03) 0%,transparent 50%),
+    repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(123,63,163,0.012) 60px,rgba(123,63,163,0.012) 61px);
+  background-size:100% 100%,100% 100%,100% 120px;
 }
 [data-theme="hk"] body{
   font-family:'Noto Sans TC','Noto Sans SC','Noto Sans',system-ui,sans-serif;
-  backdrop-filter: blur(0);
 }
-[data-theme="hk"] .btn-primary{
-  background:linear-gradient(135deg,#FF2D95,#FF6B6B);
+[data-theme="hk"] #intro h1,
+[data-theme="hk"] #intro .intro-eyebrow,
+[data-theme="hk"] #overview h2{
+  font-family:'Ma Shan Zheng','Noto Sans TC',cursive;
 }
-[data-theme="hk"] .btn-primary:hover{
-  box-shadow:0 0 30px rgba(255,45,149,0.4),0 4px 20px rgba(255,45,149,0.2);
-}
-[data-theme="hk"] .card{
-  border:1px solid var(--border);
-  background:var(--card-bg);
-  box-shadow:0 2px 20px rgba(0,229,255,0.06);
-}
-[data-theme="hk"] .card:hover{
-  box-shadow:0 0 30px rgba(255,45,149,0.15),0 0 50px rgba(0,229,255,0.08);
-  border-color:var(--accent);
-}
-[data-theme="hk"] .topbar{
-  background:rgba(13,17,31,0.9);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+[data-theme="hk"] #intro h1{
+  letter-spacing:0.03em;
 }
 [data-theme="hk"] #intro h1 span{
-  background:linear-gradient(135deg,#FF2D95,#FFB800);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
+  color:var(--accent);
+  font-weight:700;
+  font-size:1.05em;
+}
+[data-theme="hk"] .btn-primary{
+  background:linear-gradient(135deg,#7B3FA3,#5C2D7A);
+}
+[data-theme="hk"] .btn-primary:hover{
+  box-shadow:0 4px 24px rgba(123,63,163,0.35);
+}
+[data-theme="hk"] .card:hover{
+  border-color:var(--accent);
+  box-shadow:0 4px 24px rgba(123,63,163,0.12);
+}
+[data-theme="hk"] .topbar{
+  background:rgba(252,249,245,0.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
 [data-theme="hk"] .type-badge{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
@@ -254,27 +254,6 @@ body::before{
 .topbar .lang-toggle{
   display:flex;gap:0;position:relative;z-index:60
 }
-/* Flag icons — miniature flag rectangles */
-.flag{
-  display:inline-block;width:20px;height:14px;border-radius:2px;
-  vertical-align:middle;margin-right:6px;flex-shrink:0;
-  box-shadow:0 1px 2px rgba(0,0,0,0.12);
-  background-size:cover;background-position:center;
-}
-.flag-zh{background:linear-gradient(180deg,#DE2910 0%,#DE2910 100%)}
-.flag-zh::after{content:'';display:block;width:6px;height:6px;background:#FFDE00;border-radius:50%;position:relative;top:3px;left:7px;box-shadow:-3px -2px 0 0px #FFDE00,3px -2px 0 0px #FFDE00,-2px -4px 0 0px #FFDE00,2px -4px 0 0px #FFDE00}
-.flag-us{background:linear-gradient(180deg,transparent 0%,transparent 7%,#B22234 7%,#B22234 15%,transparent 15%,transparent 23%,#B22234 23%,#B22234 31%,transparent 31%,transparent 38%,#B22234 38%,#B22234 46%,transparent 46%,transparent 54%,#B22234 54%,#B22234 62%,transparent 62%,transparent 69%,#B22234 69%,#B22234 77%,transparent 77%,transparent 85%,#B22234 85%,#B22234 92%,transparent 92%,transparent 100%),linear-gradient(90deg,#3C3B6E 0%,#3C3B6E 40%,transparent 40%)}
-.flag-hk{background:linear-gradient(180deg,#DE2910 0%,#DE2910 100%)}
-.flag-hk::after{content:'';display:block;width:10px;height:8px;background:radial-gradient(circle at center,transparent 2px,#FFF 2px,#FFF 3px,transparent 3px);border-radius:50%;position:relative;top:3px;left:5px;border:0.5px solid #fff}
-.flag-kr{background:linear-gradient(180deg,#FFF 0%,#FFF 100%)}
-.flag-kr::after{content:'';display:block;width:7px;height:7px;background:conic-gradient(#CD2E3A 0% 50%,#0047A0 50% 100%);border-radius:50%;position:relative;top:3.5px;left:6.5px}
-.flag-jp{background:linear-gradient(180deg,#FFF 0%,#FFF 100%)}
-.flag-jp::after{content:'';display:block;width:7px;height:7px;background:#BC002D;border-radius:50%;position:relative;top:3.5px;left:6.5px}
-.flag-fr{background:linear-gradient(90deg,#002654 0%,#002654 33%,#FFF 33%,#FFF 66%,#CE1126 66%,#CE1126 100%)}
-.flag-es{background:linear-gradient(180deg,#AA151B 0%,#AA151B 30%,#F1BF00 30%,#F1BF00 70%,#AA151B 70%,#AA151B 100%)}
-.flag-ru{background:linear-gradient(180deg,#FFF 0%,#FFF 33%,#0039A6 33%,#0039A6 66%,#D52B1E 66%,#D52B1E 100%)}
-.flag-sa{background:linear-gradient(180deg,#006C35 0%,#006C35 100%)}
-.flag-sa::after{content:'';display:block;width:3px;height:8px;background:#FFF;position:relative;top:3px;left:8px;border-radius:0 0 1px 1px}
 /* Custom dropdown */
 .lang-dropdown{position:relative;font-size:0.78rem}
 .lang-selected{
@@ -298,16 +277,24 @@ body::before{
 }
 .lang-dropdown.open .lang-menu{display:block}
 .lang-option{
-  display:flex;align-items:center;gap:6px;
-  padding:8px 14px;font-size:0.78rem;
+  display:block;padding:8px 14px;font-size:0.78rem;
   cursor:pointer;font-family:inherit;color:var(--ink);
   transition:background 0.15s;white-space:nowrap
 }
 .lang-option:hover{background:var(--warm);color:var(--accent)}
-.lang-option .flag{margin-right:8px}
-[dir="rtl"] .lang-option .flag{margin-right:0;margin-left:8px}
+/* Locale hint tooltip */
+.locale-hint{
+  position:absolute;top:100%;right:0;margin-top:8px;
+  background:var(--ink);color:var(--cream);font-size:0.72rem;
+  padding:6px 12px;border-radius:8px;white-space:nowrap;
+  pointer-events:none;opacity:0;transform:translateY(-4px);
+  transition:opacity 0.4s,transform 0.4s;z-index:99
+}
+.locale-hint::after{content:'';position:absolute;bottom:100%;right:24px;border:6px solid transparent;border-bottom-color:var(--ink)}
+.locale-hint.show{opacity:0.92;transform:translateY(0)}
+[dir="rtl"] .locale-hint{right:auto;left:0}
+[dir="rtl"] .locale-hint::after{right:auto;left:24px}
 [dir="rtl"] .lang-menu{right:auto;left:0}
-[dir="rtl"] .lang-selected .flag{margin-right:0;margin-left:6px}
 
 /* ===== LOADING ===== */
 #loading .loader{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -563,22 +550,22 @@ body::before{
   <div class="lang-toggle">
     <div class="lang-dropdown" id="langDropdown">
       <button class="lang-selected" onclick="toggleLangDropdown()">
-        <span class="flag flag-zh"></span>
         <span class="lang-selected-text">中文</span>
         <span class="lang-arrow">▾</span>
       </button>
       <div class="lang-menu" id="langMenu">
-        <div class="lang-option" onclick="setLang('zh');closeLangDropdown()"><span class="flag flag-zh"></span>中文</div>
-        <div class="lang-option" onclick="setLang('en');closeLangDropdown()"><span class="flag flag-us"></span>English</div>
-        <div class="lang-option" onclick="setLang('hk');closeLangDropdown()"><span class="flag flag-hk"></span>粵語</div>
-        <div class="lang-option" onclick="setLang('ko');closeLangDropdown()"><span class="flag flag-kr"></span>한국어</div>
-        <div class="lang-option" onclick="setLang('ja');closeLangDropdown()"><span class="flag flag-jp"></span>日本語</div>
-        <div class="lang-option" onclick="setLang('fr');closeLangDropdown()"><span class="flag flag-fr"></span>Français</div>
-        <div class="lang-option" onclick="setLang('es');closeLangDropdown()"><span class="flag flag-es"></span>Español</div>
-        <div class="lang-option" onclick="setLang('ru');closeLangDropdown()"><span class="flag flag-ru"></span>Русский</div>
-        <div class="lang-option" onclick="setLang('ar');closeLangDropdown()"><span class="flag flag-sa"></span>العربية</div>
+        <div class="lang-option" onclick="setLang('zh');closeLangDropdown()">中文</div>
+        <div class="lang-option" onclick="setLang('en');closeLangDropdown()">English</div>
+        <div class="lang-option" onclick="setLang('hk');closeLangDropdown()">粵語</div>
+        <div class="lang-option" onclick="setLang('ko');closeLangDropdown()">한국어</div>
+        <div class="lang-option" onclick="setLang('ja');closeLangDropdown()">日本語</div>
+        <div class="lang-option" onclick="setLang('fr');closeLangDropdown()">Français</div>
+        <div class="lang-option" onclick="setLang('es');closeLangDropdown()">Español</div>
+        <div class="lang-option" onclick="setLang('ru');closeLangDropdown()">Русский</div>
+        <div class="lang-option" onclick="setLang('ar');closeLangDropdown()">العربية</div>
       </div>
     </div>
+    <div class="locale-hint" id="localeHint"></div>
   </div>
 </div>
 
@@ -725,11 +712,8 @@ function setLang(l){
     for(var i=0;i<opts.length;i++){
       var onclick=opts[i].getAttribute('onclick')||'';
       if(onclick.indexOf('setLang('+"'"+l+"'"+')')>-1){
-        var flag=opts[i].querySelector('.flag');
         var txt=opts[i].textContent.trim();
-        var sFlag=dd.querySelector('.lang-selected .flag');
         var sTxt=dd.querySelector('.lang-selected-text');
-        if(sFlag&&flag){sFlag.className=flag.className;}
         if(sTxt)sTxt.textContent=txt;
         break;
       }
@@ -749,6 +733,16 @@ function toggleLangDropdown(){
 }
 function closeLangDropdown(){
   document.getElementById('langDropdown').classList.remove('open');
+}
+// Locale hint tooltip
+var _hintTimer=null;
+function showLocaleHint(){
+  if(_hintTimer)clearTimeout(_hintTimer);
+  var hint=document.getElementById('localeHint');
+  var d=I18N[LANG];
+  hint.textContent=d.localeHint||'Psst! Switch language for a surprise ✨';
+  hint.classList.add('show');
+  _hintTimer=setTimeout(function(){hint.classList.remove('show')},5000);
 }
 document.addEventListener('click',function(e){
   var dd=document.getElementById('langDropdown');
@@ -1425,7 +1419,9 @@ function s(id){
   if(id!=='intro') stopShuffle();
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('topbar').style.display = (id==='intro'||id==='result'||id==='overview')?'flex':'none';
+  document.getElementById('topbar').style.display = (id==='intro'||id==='quiz'||id==='result'||id==='overview')?'flex':'none';
+  // Show locale hint when entering quiz
+  if(id==='quiz') showLocaleHint();
   if(id==='intro'){
     initIntro();
     setTimeout(typeEyebrow,100);
