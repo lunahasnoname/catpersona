@@ -354,7 +354,7 @@ body{
 
 <!-- ===== OVERVIEW ===== -->
 <div id="overview" class="screen">
-  <h2 id="ovTitle">全部 20 种 CATI 猫格类型</h2>
+  <h2 id="ovTitle">全部 23 种 CATI 猫格类型</h2>
   <p class="overview-sub" id="ovSub">点击卡片查看详情</p>
   <div class="overview-filters" id="ovFilters"></div>
   <div class="overview-grid" id="ovGrid"></div>
@@ -383,42 +383,59 @@ body{
 </div>
 
 <script>
-// ===== PAGE VIEW COUNTER (unique visitors via countapi.xyz) =====
+// ===== PAGE VIEW COUNTER (unique visitors) =====
+// Uses api.counterapi.dev — free, no CORS issues, unique per key
+let _viewsFetched = false; // only fetch once per session
+let _viewsCache = null;    // cached display value
+
 function initPageViews(){
-  const el = document.getElementById('viewCount');
-  if(el) el.textContent = '...';
+  // Update the DOM element (always call this after introMeta is rendered)
+  function _setEl(val){
+    const el = document.getElementById('viewCount');
+    if(el) el.textContent = val;
+  }
+
+  // If we have a cached value, just set it immediately
+  if(_viewsCache !== null){ _setEl(_viewsCache); return; }
+  _setEl('...');
+
   const visited = localStorage.getItem('cati_visited');
+  const apiBase = 'https://api.counterapi.dev/v1/catpersona-views/';
+
   if(visited){
-    // Return visitor — just read the count, don't increment
-    fetch('https://api.countapi.xyz/get/catpersona/pageviews', { mode:'cors', cache:'no-store' })
-      .then(r => r.ok ? r.json() : Promise.reject('err'))
+    // Return visitor — read only
+    fetch(apiBase + 'get', { cache:'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject())
       .then(d => {
-        const el2 = document.getElementById('viewCount');
-        if(el2) el2.textContent = d.value != null ? 'x' + d.value.toLocaleString() : 'x*';
+        const val = d.count != null ? 'x' + Number(d.count).toLocaleString() : ('x' + (localStorage.getItem('cati_views_total')||'*'));
+        _viewsCache = val;
+        _setEl(val);
       })
       .catch(() => {
-        const el2 = document.getElementById('viewCount');
-        const c = localStorage.getItem('cati_views_total') || '*';
-        if(el2) el2.textContent = 'x' + c;
+        const val = 'x' + (localStorage.getItem('cati_views_total')||'*');
+        _viewsCache = val;
+        _setEl(val);
       });
   } else {
-    // First visit — increment the counter
-    fetch('https://api.countapi.xyz/hit/catpersona/pageviews', { mode:'cors', cache:'no-store' })
-      .then(r => r.ok ? r.json() : Promise.reject('err'))
+    // First visit — increment
+    fetch(apiBase + 'up', { cache:'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject())
       .then(d => {
         localStorage.setItem('cati_visited', '1');
-        if(d.value != null) localStorage.setItem('cati_views_total', d.value.toLocaleString());
-        const el2 = document.getElementById('viewCount');
-        if(el2) el2.textContent = d.value != null ? 'x' + d.value.toLocaleString() : 'x*';
+        const n = d.count != null ? Number(d.count) : null;
+        if(n != null) localStorage.setItem('cati_views_total', n.toLocaleString());
+        const val = n != null ? 'x' + n.toLocaleString() : 'x*';
+        _viewsCache = val;
+        _setEl(val);
       })
       .catch(() => {
-        // Fallback: use localStorage counter (still only increments once)
         localStorage.setItem('cati_visited', '1');
-        let c = parseInt(localStorage.getItem('cati_views_fallback')||'0') + 1;
-        localStorage.setItem('cati_views_fallback', c);
-        localStorage.setItem('cati_views_total', c.toLocaleString());
-        const el2 = document.getElementById('viewCount');
-        if(el2) el2.textContent = 'x' + c.toLocaleString();
+        const fallback = parseInt(localStorage.getItem('cati_views_fallback')||'0') + 1;
+        localStorage.setItem('cati_views_fallback', fallback);
+        localStorage.setItem('cati_views_total', fallback.toLocaleString());
+        const val = 'x' + fallback.toLocaleString();
+        _viewsCache = val;
+        _setEl(val);
       });
   }
 }
@@ -441,9 +458,9 @@ const I18N = {
   zh:{
     loading:'正在召唤猫咪能量…',
     introTitle:'你是哪种<span>喵星人</span>？',
-    introDesc:'20 种猫咪原型，5 个核心维度。<br>从暹罗到波斯，从街头浪猫到皇室知己——<br>哪一种才是藏在人类外表下的你？',
+    introDesc:'23 种猫咪原型，5 个核心维度。<br>从暹罗到波斯，从街头浪猫到皇室知己——<br>哪一种才是藏在人类外表下的你？',
     btnStart:'开始测试',
-    btnOverview:'浏览 20 种类型',
+    btnOverview:'浏览 23 种类型',
     introMeta:'12 道趣味测试 · 看过😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">基于猫咪行为学</span>',
     dimLabel:'五维人格分析',
     foLabel:'最佳猫友 & 宿命对手',
@@ -452,7 +469,7 @@ const I18N = {
     friends:'最佳猫友',
     opponents:'宿命对手',
     matchPct:'匹配度',
-    ovTitle:'全部 20 种 CATI 猫格类型',
+    ovTitle:'全部 23 种 CATI 猫格类型',
     ovSub:'点击卡片查看详情',
     ovAll:'全部',
     ovGroup1:'混乱创造者',
@@ -495,9 +512,9 @@ const I18N = {
   en:{
     loading:'Summoning feline energy…',
     introTitle:'What Kind of <span>Cat Persona</span> Are You?',
-    introDesc:'20 feline archetypes, 5 core dimensions.<br>From Siamese to Persian, from street legend to royal confidant —<br>which one hides beneath your human exterior?',
+    introDesc:'23 feline archetypes, 5 core dimensions.<br>From Siamese to Persian, from street legend to royal confidant —<br>which one hides beneath your human exterior?',
     btnStart:'Start the Test',
-    btnOverview:'Browse All 20 Types',
+    btnOverview:'Browse All 23 Types',
     introMeta:'12 fun questions · Seen 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">Based on feline behavior</span>',
     dimLabel:'Five-Dimensional Analysis',
     foLabel:'Best Cat Friends & Arch Rivals',
@@ -506,7 +523,7 @@ const I18N = {
     friends:'Best Cat Friends',
     opponents:'Arch Rivals',
     matchPct:'Match',
-    ovTitle:'All 20 CATI Persona Types',
+    ovTitle:'All 23 CATI Persona Types',
     ovSub:'Click a card for details',
     ovAll:'All',
     ovGroup1:'Chaos Creators',
@@ -556,9 +573,12 @@ function refreshI18n(){
   document.getElementById('btnStart').textContent=d.btnStart;
   document.getElementById('btnOverview').textContent=d.btnOverview;
   document.getElementById('introMeta').innerHTML=d.introMeta;
-  initPageViews();
+  initPageViews(); // must be called after introMeta is rendered (viewCount element now exists)
   document.getElementById('btnRetake').textContent=d.btnRetake;
   document.getElementById('btnShare').textContent=d.btnShare;
+  // Re-render overview if currently on overview screen
+  if(document.getElementById('overview').classList.contains('active')) showOverview();
+  // Re-render result screen if active
   if(document.getElementById('result').classList.contains('active')) updateResultText();
   // Update dim popup if open
   if(document.getElementById('dimPopup').classList.contains('active')){
@@ -625,10 +645,13 @@ const IMG_MAP = {
   SMVGK:'A_sleek_all_black_cat_with_shi_2026-06-08T16-11-56.png',
   SMQAK:'A_charming_British_Shorthair_c_2026-06-08T15-09-00.png',
   SMQGK:'A_gorgeous_fluffy_Persian_cat__2026-06-08T15-08-30.png',
-  LCVAW:'A_majestic_Maine_Coon_cat_with_2026-06-08T15-13-44.png',
+  LCVAW:'A_beautiful_Devon_Rex_cat_with_2026-06-09T12-34-18.png',
   LMVGW:'A_charming_Scottish_Fold_cat_w_2026-06-08T15-38-35.png',
-  SCVAW:'A_raccoon_with_distinctive_bla_2026-06-08T15-32-21.png',
-  SMQGW:'A_giant_panda_sitting_calmly___2026-06-08T15-32-21.png'
+  SCVAW:'A_sleek_black_and_white_tuxedo_2026-06-09T12-34-18.png',
+  SMQGW:'A_giant_panda_sitting_calmly___2026-06-08T15-32-21.png',
+  SCQAW:'A_majestic_Leopard_with_golden_2026-06-09T12-34-18.png',
+  SMQAW:'A_stunning_Snow_Leopard_with_w_2026-06-09T12-34-18.png',
+  SMVAW:'A_magnificent_Caracal_with_dis_2026-06-09T12-34-18.png'
 };
 
 function getImage(code){
@@ -663,10 +686,13 @@ const TYPES = [
   {code:"SMVGK",name:"优雅暗影",en:"The Elegant Shadow",breed:"黑猫",breedEn:"Black Cat",color:"#1A1A2E",desc:"神秘、私密、规律。黑影般准时出现又消失，只为一个特定的人类展现轻柔的颤音。对陌生人和噪音零容忍。",descEn:"Mysterious, private, routine-driven. Appears and vanishes like a shadow on schedule. Soft trills reserved for one specific human. Zero tolerance for strangers.",mbti:"INFJ",mbtiName:"私密神秘主义者",mbtiNameEn:"The Private Mystic",traits:["神秘","私密","敏锐","规律"],traitsEn:["Mysterious","Private","Sharp","Routine"],f:["LMVGK","SCVGK","SMQGK"],o:["LCVAK","SCVAK","LMVAK"],d:{S:"S",E:"M",V:"V",A:"G",C:"K"}},
   {code:"SMQAK",name:"淡定哲学家",en:"The Chill Philosopher",breed:"英国短毛猫",breedEn:"British Shorthair",color:"#7A7A8A",desc:"淡定、独立、规律。每天同一地点准时发呆，是终极「保持冷静继续前进」的猫。低维护，完全满足于静静陪伴。",descEn:"Chill, independent, routine-driven. Zens out at the same spot daily — the ultimate 'keep calm and carry on' cat. Low maintenance, pure contentment.",mbti:"INTP / ISTJ",mbtiName:"坚忍思考者",mbtiNameEn:"The Stoic Thinker",traits:["淡定","独立","低维护","规律"],traitsEn:["Chill","Independent","Low-maintenance","Routine"],f:["SCQAK","LMQAK","SMQGK"],o:["LCVAK","LCQAK","SCVAW"],d:{S:"S",E:"M",V:"Q",A:"A",C:"K"}},
   {code:"SMQGK",name:"终极宅猫",en:"The Supreme Couch Potato",breed:"波斯猫",breedEn:"Persian",color:"#9B7A4A",desc:"放松、宅、规律。每天同一时间换一个睡姿，是放松的绝对巅峰。讨厌变化，除了毛绒枕头和安静别无他求。",descEn:"Relaxed, homebody, routine-driven. Changes sleeping position at the same time daily — the pinnacle of relaxation. Hates change, loves pillows.",mbti:"ISFP",mbtiName:"宁静舒适寻求者",mbtiNameEn:"The Serene Comfort-Seeker",traits:["放松","宅","安静","规律"],traitsEn:["Relaxed","Homebody","Quiet","Routine"],f:["LMQGK","SMVGK","SMQAK"],o:["LCVAK","SCVAK","LCQAK"],d:{S:"S",E:"M",V:"Q",A:"G",C:"K"}},
-  {code:"LCVAW",name:"情绪炸弹",en:"The Drama Bomb",breed:"缅因猫",breedEn:"Maine Coon",color:"#A8483A",desc:"外向、吵闹、不可预测。像演艺巨星但情绪完全不稳定。前一秒呼噜下一秒暴涨。完全无规律。",descEn:"Extraverted, loud, unpredictable. Like The Showstopper but emotionally unstable. Purring one second, raging the next. Zero consistency.",mbti:"ENFP",mbtiName:"混沌探险家",mbtiNameEn:"The Chaotic Adventurer",traits:["外向","情绪化","不可预测","吵闹"],traitsEn:["Extraverted","Moody","Unpredictable","Loud"],f:["LCVAK","SCVAW","LMVAK"],o:["SMQGK","SMQAK","LMVGK"],d:{S:"L",E:"C",V:"V",A:"A",C:"W"}},
+  {code:"LCVAW",name:"毛卷情绪精灵",en:"The Curly Drama Pixie",breed:"德文猫",breedEn:"Devon Rex",color:"#A8483A",desc:"卷毛小精灵，感情充沛却情绪起伏。对主人无限依赖，分分钟戏剧感爆棚。今天深情依偎，明天无缘无故大哭。完全没有规律可言。",descEn:"Curly-furred emotional pixie — infinitely attached to their human. Full of drama every hour. Deep cuddles today, random meltdown tomorrow. Zero routine.",mbti:"ENFP",mbtiName:"混沌探险家",mbtiNameEn:"The Chaotic Adventurer",traits:["外向","情绪化","不可预测","吵闹"],traitsEn:["Extraverted","Moody","Unpredictable","Loud"],f:["LCVAK","SCVAW","LMVAK"],o:["SMQGK","SMQAK","LMVGK"],d:{S:"L",E:"C",V:"V",A:"A",C:"W"}},
   {code:"LMVGW",name:"丝绒陷阱",en:"The Velvet Trap",breed:"苏格兰折耳猫",breedEn:"Scottish Fold",color:"#B8A89C",desc:"甜美、操纵、不可预测。用可爱骗你打开罐头，然后因为你用叉子而不是勺子就把罐头扔到地上。情绪说变就变。",descEn:"Sweet, manipulative, unpredictable. Uses cuteness to get what they want, then punishes you for using a fork instead of a spoon. Mood swings on a dime.",mbti:"ENFJ",mbtiName:"魅力操纵者",mbtiNameEn:"The Charming Manipulator",traits:["甜美","操纵","情绪化","不可预测"],traitsEn:["Sweet","Manipulative","Moody","Unpredictable"],f:["LCVGK","SCVAW","SCVGK"],o:["SCQAK","LMQAK","SMQAK"],d:{S:"L",E:"M",V:"V",A:"G",C:"W"}},
-  {code:"SCVAW",name:"野牌浪子",en:"The Wildcard Renegade",breed:"浣熊",breedEn:"Raccoon",color:"#6B6058",desc:"独立、大胆、不可预测。今天他们是你的至尊领袖，明天可能完全无视你去追一片树叶。没有任何规律可言。",descEn:"Independent, bold, unpredictable. Your supreme leader today, chasing a leaf tomorrow. Absolutely no pattern whatsoever.",mbti:"ENTP",mbtiName:"混沌创新者",mbtiNameEn:"The Chaotic Innovator",traits:["独立","大胆","不可预测","混乱"],traitsEn:["Independent","Bold","Unpredictable","Chaotic"],f:["SCVAK","LCVAW","SMVAK"],o:["SMQGK","LMQGK","LMVGK"],d:{S:"S",E:"C",V:"V",A:"A",C:"W"}},
-  {code:"SMQGW",name:"沉睡恶龙",en:"The Sleeping Dragon",breed:"大熊猫",breedEn:"Giant Panda",color:"#4A4A4A",desc:"宅、安静、偶尔爆发。每三周凌晨 3 点突然全速冲刺然后倒头继续睡，仿佛什么都没发生。完全不可预测。",descEn:"Homebody, quiet, occasionally explosive. Every three weeks, full sprint at 3 AM then back to sleep like nothing happened. Utterly unpredictable.",mbti:"ISFP",mbtiName:"间歇性火山",mbtiNameEn:"The Intermittent Volcano",traits:["宅","安静","间歇性爆发","不可预测"],traitsEn:["Homebody","Quiet","Explosive","Unpredictable"],f:["SMQGK","SCQGK","SMQAK"],o:["LCVAK","LCQAK","LMVAK"],d:{S:"S",E:"M",V:"Q",A:"G",C:"W"}}
+  {code:"SCVAW",name:"万花筒探险家",en:"The Kaleidoscope Explorer",breed:"菽猫",breedEn:"Shu Mao",color:"#6B6058",desc:"独立、大胆、随心所欲。今天喜欢你，明天爱上那片树叶，后天不见了。对全世界都充满好奇，但绝不会对任何人或任何事忠诚太久。精力充沛，计划从来赶不上变化。",descEn:"Independent, bold, completely random. Loves you today, loves a leaf tomorrow, gone the day after. Curious about everything, loyal to nothing for long.",mbti:"ENTP",mbtiName:"混沌创新者",mbtiNameEn:"The Chaotic Innovator",traits:["独立","大胆","不可预测","混乱"],traitsEn:["Independent","Bold","Unpredictable","Chaotic"],f:["SCVAK","LCVAW","SMVAK"],o:["SMQGK","LMQGK","LMVGK"],d:{S:"S",E:"C",V:"V",A:"A",C:"W"}},
+  {code:"SMQGW",name:"沉睡恶龙",en:"The Sleeping Dragon",breed:"大熊猫",breedEn:"Giant Panda",color:"#4A4A4A",desc:"宅、安静、偶尔爆发。每三周凌晨 3 点突然全速冲刺然后倒头继续睡，仿佛什么都没发生。完全不可预测。",descEn:"Homebody, quiet, occasionally explosive. Every three weeks, full sprint at 3 AM then back to sleep like nothing happened. Utterly unpredictable.",mbti:"ISFP",mbtiName:"间歇性火山",mbtiNameEn:"The Intermittent Volcano",traits:["宅","安静","间歇性爆发","不可预测"],traitsEn:["Homebody","Quiet","Explosive","Unpredictable"],f:["SMQGK","SCQGK","SMQAK"],o:["LCVAK","LCQAK","LMVAK"],d:{S:"S",E:"M",V:"Q",A:"G",C:"W"}},
+  {code:"SCQAW",name:"暗夜金钱豹",en:"The Midnight Leopard",breed:"金钱豹",breedEn:"Leopard",color:"#B8860B",desc:"独立、沉默、随心所欲。金钱豹般安静伏击，没有任何人能预判它的行踪。今天消失三天，明天突然出现在你床上，然后假装什么都没发生。神出鬼没的猎手。",descEn:"Independent, silent, unpredictable. Vanishes for three days, reappears on your bed like nothing happened. The ultimate ghost hunter — no warning, no pattern.",mbti:"ISTP",mbtiName:"幽灵战士",mbtiNameEn:"The Ghost Warrior",traits:["沉默","独立","神秘","不可预测"],traitsEn:["Silent","Independent","Mysterious","Unpredictable"],f:["SCQGK","SMVGK","SCVAK"],o:["LCVAK","LMVAK","LCVAW"],d:{S:"S",E:"C",V:"Q",A:"A",C:"W"}},
+  {code:"SMQAW",name:"雪山王者",en:"The Snow Mountain Sovereign",breed:"雪豹",breedEn:"Snow Leopard",color:"#7A8A9A",desc:"安静、高冷、随心所欲。如雪豹般独自守护山顶，只在心情好的时候出现，来去无踪。低调的存在感极强，沉默中透着不可撼动的威严。",descEn:"Quiet, aloof, unpredictable. Guards the mountaintop alone like a snow leopard — appears only when the mood strikes. Silent but commanding. Presence felt without a sound.",mbti:"INTJ",mbtiName:"雪域隐者",mbtiNameEn:"The Alpine Hermit",traits:["安静","高冷","独立","不可预测"],traitsEn:["Quiet","Aloof","Independent","Unpredictable"],f:["SMQGK","SMVGK","LMQAK"],o:["LCVAK","SCVAK","LCVAW"],d:{S:"S",E:"M",V:"Q",A:"A",C:"W"}},
+  {code:"SMVAW",name:"荒野狞猫",en:"The Wild Caracal",breed:"狞猫",breedEn:"Caracal",color:"#C4834A",desc:"独立、爱说话、随心所欲。耳朵尖上的黑色毛簇是它的标志——就像随时在听，随时准备惊讶地挑眉。说话就说，不说就消失，绝不解释为什么。",descEn:"Independent, vocal, unpredictable. Those iconic black ear tufts are always perked — always listening, always ready to disappear without explanation. Speaks its mind, then vanishes.",mbti:"INFP",mbtiName:"游荡哲人",mbtiNameEn:"The Wandering Philosopher",traits:["独立","表达","直觉","不可预测"],traitsEn:["Independent","Vocal","Intuitive","Unpredictable"],f:["SCVAW","SMVAK","SCVGK"],o:["LMQGK","SMQGK","LMVGK"],d:{S:"S",E:"M",V:"V",A:"A",C:"W"}}
 ];
 
 window.TYPES=TYPES;window.IMG_MAP=IMG_MAP;window.IMG_BASE=IMG_BASE;window.getImage=getImage;window.LANG=LANG;
