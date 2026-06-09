@@ -16,6 +16,31 @@
   --card-bg:#FFFFFF;--border:#EBE3D6;--green:#5B8C5A;--orange:#D4785C;
   --red:#B8453A;--shadow:0 2px 16px rgba(44,36,22,0.06);
 }
+
+/* English — Barbie pink, cute & elegant, no childish frills */
+[data-theme="en"]{
+  --cream:#FFF5F9;--warm:#FFE4F0;--ink:#3D1A2E;--muted:#B08BA0;
+  --accent:#E91E8C;--accent2:#D4789A;--gold:#F0A0C0;
+  --card-bg:#FFFFFF;--border:#F0D5E3;--green:#8BB391;--orange:#F4908B;
+  --red:#D4556A;--shadow:0 2px 20px rgba(233,30,140,0.08);
+}
+[data-theme="en"] body::before{
+  background:
+    radial-gradient(circle at 30% 70%,rgba(233,30,140,0.02) 1px,transparent 1px),
+    radial-gradient(circle at 70% 30%,rgba(240,160,192,0.025) 1px,transparent 1px);
+  background-size:56px 56px,56px 56px;
+}
+[data-theme="en"] body{font-family:'Noto Sans','system-ui',sans-serif}
+[data-theme="en"] .btn-primary{
+  background:linear-gradient(135deg,#E91E8C,#C7156A);
+}
+[data-theme="en"] .btn-primary:hover{
+  box-shadow:0 4px 24px rgba(233,30,140,0.35);
+}
+[data-theme="en"] #intro h1 span{
+  background:linear-gradient(135deg,#E91E8C,#F0A0C0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -47,8 +72,8 @@ body::before{
   background-size:48px 48px;background-position:0 0,0 24px,24px -24px,-24px 0;
 }
 [data-theme="ko"] body{font-family:'Noto Sans KR','Noto Sans',system-ui,sans-serif}
-[data-theme="ko"] .lang-select{background:var(--card-bg);border-color:var(--border)}
-[data-theme="ko"] .lang-select:focus{border-color:var(--accent)}
+[data-theme="ko"] body{font-family:'Noto Sans KR','Noto Sans',system-ui,sans-serif}
+[data-theme="ko"] #intro h1 span{color:var(--accent)}
 
 /* Japanese — wabi-sabi, indigo blues, warm wood, washi grain */
 [data-theme="ja"]{
@@ -63,8 +88,8 @@ body::before{
     repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(45,90,107,0.018) 2px,rgba(45,90,107,0.018) 3px);
 }
 [data-theme="ja"] body{font-family:'Noto Sans JP','Noto Sans',system-ui,sans-serif}
-[data-theme="ja"] .lang-select{background:var(--card-bg);border-color:var(--border)}
-[data-theme="ja"] .lang-select:focus{border-color:var(--accent)}
+[data-theme="ja"] body{font-family:'Noto Sans JP','Noto Sans',system-ui,sans-serif}
+[data-theme="ja"] #intro h1 span{color:var(--accent)}
 
 /* French — Parisian elegance, navy/cream/gold, subtle damask */
 [data-theme="fr"]{
@@ -82,8 +107,6 @@ body::before{
   background-size:64px 64px,64px 64px,32px 32px;
 }
 [data-theme="fr"] body{font-family:'Cormorant Garamond','Noto Sans',system-ui,serif}
-[data-theme="fr"] .lang-select{background:var(--card-bg);border-color:var(--border)}
-[data-theme="fr"] .lang-select:focus{border-color:var(--accent)}
 [data-theme="fr"] #intro h1{font-family:'Cormorant Garamond',serif}
 [data-theme="fr"] #overview h2{font-family:'Cormorant Garamond',serif}
 
@@ -104,8 +127,6 @@ body::before{
   background-size:36px 36px,36px 36px,72px 72px,72px 72px;
 }
 [data-theme="es"] body{font-family:'Playfair Display','Noto Sans',system-ui,serif}
-[data-theme="es"] .lang-select{background:var(--card-bg);border-color:var(--border)}
-[data-theme="es"] .lang-select:focus{border-color:var(--accent)}
 
 /* Hong Kong — neon cityscape, Mongkok aesthetic, East-meets-West density */
 [data-theme="hk"]{
@@ -127,8 +148,6 @@ body::before{
   font-family:'Noto Sans TC','Noto Sans SC','Noto Sans',system-ui,sans-serif;
   backdrop-filter: blur(0);
 }
-[data-theme="hk"] .lang-select{background:var(--card-bg);border-color:var(--border)}
-[data-theme="hk"] .lang-select:focus{border-color:var(--accent)}
 [data-theme="hk"] .btn-primary{
   background:linear-gradient(135deg,#FF2D95,#FF6B6B);
 }
@@ -175,8 +194,6 @@ body::before{
   background-size:24px 24px,24px 24px;
 }
 [data-theme="ru"] body{font-family:'Noto Sans','system-ui',sans-serif}
-[data-theme="ru"] .lang-select{background:var(--card-bg);border-color:var(--border)}
-[data-theme="ru"] .lang-select:focus{border-color:var(--accent)}
 [data-theme="ru"] .btn-primary{
   background:linear-gradient(135deg,#CC0000,#990000);
 }
@@ -207,8 +224,6 @@ body::before{
   background-size:48px 48px,48px 48px,24px 24px;
 }
 [data-theme="ar"] body{font-family:'Noto Sans Arabic','Noto Sans',system-ui,sans-serif}
-[data-theme="ar"] .lang-select{background:var(--card-bg);border-color:var(--border)}
-[data-theme="ar"] .lang-select:focus{border-color:var(--accent)}
 [data-theme="ar"] .btn-primary{
   background:linear-gradient(135deg,#006C51,#004D3A);
 }
@@ -219,10 +234,6 @@ body::before{
   color:var(--accent);
 }
 /* RTL fixes for Arabic */
-[dir="rtl"] .lang-select{
-  background-position:left 10px center;
-  padding:8px 14px 8px 32px;
-}
 [dir="rtl"] .topbar{flex-direction:row-reverse}
 .screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
 .screen.active{display:flex}
@@ -241,21 +252,62 @@ body::before{
 }
 .topbar .home-btn:hover{background:var(--warm);color:var(--ink)}
 .topbar .lang-toggle{
-  display:flex;gap:0;background:var(--card-bg);border:1px solid var(--border);
-  border-radius:10px;overflow:hidden;box-shadow:var(--shadow);position:relative
+  display:flex;gap:0;position:relative;z-index:60
 }
-.lang-select{
-  appearance:none;-webkit-appearance:none;
-  border:none;background:transparent;
-  padding:8px 32px 8px 14px;font-size:0.78rem;
+/* Flag icons — miniature flag rectangles */
+.flag{
+  display:inline-block;width:20px;height:14px;border-radius:2px;
+  vertical-align:middle;margin-right:6px;flex-shrink:0;
+  box-shadow:0 1px 2px rgba(0,0,0,0.12);
+  background-size:cover;background-position:center;
+}
+.flag-zh{background:linear-gradient(180deg,#DE2910 0%,#DE2910 100%)}
+.flag-zh::after{content:'';display:block;width:6px;height:6px;background:#FFDE00;border-radius:50%;position:relative;top:3px;left:7px;box-shadow:-3px -2px 0 0px #FFDE00,3px -2px 0 0px #FFDE00,-2px -4px 0 0px #FFDE00,2px -4px 0 0px #FFDE00}
+.flag-us{background:linear-gradient(180deg,transparent 0%,transparent 7%,#B22234 7%,#B22234 15%,transparent 15%,transparent 23%,#B22234 23%,#B22234 31%,transparent 31%,transparent 38%,#B22234 38%,#B22234 46%,transparent 46%,transparent 54%,#B22234 54%,#B22234 62%,transparent 62%,transparent 69%,#B22234 69%,#B22234 77%,transparent 77%,transparent 85%,#B22234 85%,#B22234 92%,transparent 92%,transparent 100%),linear-gradient(90deg,#3C3B6E 0%,#3C3B6E 40%,transparent 40%)}
+.flag-hk{background:linear-gradient(180deg,#DE2910 0%,#DE2910 100%)}
+.flag-hk::after{content:'';display:block;width:10px;height:8px;background:radial-gradient(circle at center,transparent 2px,#FFF 2px,#FFF 3px,transparent 3px);border-radius:50%;position:relative;top:3px;left:5px;border:0.5px solid #fff}
+.flag-kr{background:linear-gradient(180deg,#FFF 0%,#FFF 100%)}
+.flag-kr::after{content:'';display:block;width:7px;height:7px;background:conic-gradient(#CD2E3A 0% 50%,#0047A0 50% 100%);border-radius:50%;position:relative;top:3.5px;left:6.5px}
+.flag-jp{background:linear-gradient(180deg,#FFF 0%,#FFF 100%)}
+.flag-jp::after{content:'';display:block;width:7px;height:7px;background:#BC002D;border-radius:50%;position:relative;top:3.5px;left:6.5px}
+.flag-fr{background:linear-gradient(90deg,#002654 0%,#002654 33%,#FFF 33%,#FFF 66%,#CE1126 66%,#CE1126 100%)}
+.flag-es{background:linear-gradient(180deg,#AA151B 0%,#AA151B 30%,#F1BF00 30%,#F1BF00 70%,#AA151B 70%,#AA151B 100%)}
+.flag-ru{background:linear-gradient(180deg,#FFF 0%,#FFF 33%,#0039A6 33%,#0039A6 66%,#D52B1E 66%,#D52B1E 100%)}
+.flag-sa{background:linear-gradient(180deg,#006C35 0%,#006C35 100%)}
+.flag-sa::after{content:'';display:block;width:3px;height:8px;background:#FFF;position:relative;top:3px;left:8px;border-radius:0 0 1px 1px}
+/* Custom dropdown */
+.lang-dropdown{position:relative;font-size:0.78rem}
+.lang-selected{
+  display:flex;align-items:center;gap:4px;
+  padding:7px 12px;font-size:0.78rem;
   cursor:pointer;font-family:inherit;color:var(--ink);
-  transition:all 0.2s;outline:none;text-align:center;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B5E4A'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 10px center;
-  border-radius:10px
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:10px;transition:all 0.2s;
+  box-shadow:var(--shadow);white-space:nowrap
 }
-.lang-select:hover{background-color:var(--warm)}
-.lang-select:focus{outline:none;box-shadow:0 0 0 2px var(--accent)}
+.lang-selected:hover{background:var(--warm)}
+.lang-selected:focus{outline:none;box-shadow:0 0 0 2px var(--accent)}
+.lang-selected-text{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.lang-arrow{font-size:0.65rem;color:var(--muted);transition:transform 0.2s;margin-left:2px}
+.lang-dropdown.open .lang-arrow{transform:rotate(180deg)}
+.lang-menu{
+  display:none;position:absolute;top:100%;right:0;margin-top:4px;
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.12);
+  min-width:160px;z-index:100;overflow:hidden;padding:4px 0
+}
+.lang-dropdown.open .lang-menu{display:block}
+.lang-option{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;font-size:0.78rem;
+  cursor:pointer;font-family:inherit;color:var(--ink);
+  transition:background 0.15s;white-space:nowrap
+}
+.lang-option:hover{background:var(--warm);color:var(--accent)}
+.lang-option .flag{margin-right:8px}
+[dir="rtl"] .lang-option .flag{margin-right:0;margin-left:8px}
+[dir="rtl"] .lang-menu{right:auto;left:0}
+[dir="rtl"] .lang-selected .flag{margin-right:0;margin-left:6px}
 
 /* ===== LOADING ===== */
 #loading .loader{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -489,7 +541,6 @@ body::before{
   .result-actions{gap:8px}
   .result-actions .btn{padding:12px 24px;font-size:0.85rem}
   .overview-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-  .lang-select{padding:6px 28px 6px 12px;font-size:0.72rem}
   .dim-popup-box,.modal-box{max-width:95vw}
   .modal-body{padding:16px 18px 20px}
   .home-btn{padding:6px 12px;font-size:0.75rem}
@@ -510,17 +561,24 @@ body::before{
 <div class="topbar" id="topbar" style="display:none">
   <button class="home-btn" onclick="s('intro')" id="homeBtn">🐾 CATI</button>
   <div class="lang-toggle">
-    <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
-      <option value="zh">🇨🇳 中文</option>
-      <option value="en">🇺🇸 English</option>
-      <option value="hk">🇭🇰 粵語</option>
-      <option value="ko">🇰🇷 한국어</option>
-      <option value="ja">🇯🇵 日本語</option>
-      <option value="fr">🇫🇷 Français</option>
-      <option value="es">🇪🇸 Español</option>
-      <option value="ru">🇷🇺 Русский</option>
-      <option value="ar">🇸🇦 العربية</option>
-    </select>
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-selected" onclick="toggleLangDropdown()">
+        <span class="flag flag-zh"></span>
+        <span class="lang-selected-text">中文</span>
+        <span class="lang-arrow">▾</span>
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <div class="lang-option" onclick="setLang('zh');closeLangDropdown()"><span class="flag flag-zh"></span>中文</div>
+        <div class="lang-option" onclick="setLang('en');closeLangDropdown()"><span class="flag flag-us"></span>English</div>
+        <div class="lang-option" onclick="setLang('hk');closeLangDropdown()"><span class="flag flag-hk"></span>粵語</div>
+        <div class="lang-option" onclick="setLang('ko');closeLangDropdown()"><span class="flag flag-kr"></span>한국어</div>
+        <div class="lang-option" onclick="setLang('ja');closeLangDropdown()"><span class="flag flag-jp"></span>日本語</div>
+        <div class="lang-option" onclick="setLang('fr');closeLangDropdown()"><span class="flag flag-fr"></span>Français</div>
+        <div class="lang-option" onclick="setLang('es');closeLangDropdown()"><span class="flag flag-es"></span>Español</div>
+        <div class="lang-option" onclick="setLang('ru');closeLangDropdown()"><span class="flag flag-ru"></span>Русский</div>
+        <div class="lang-option" onclick="setLang('ar');closeLangDropdown()"><span class="flag flag-sa"></span>العربية</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -660,8 +718,23 @@ let LANG = 'zh';
 
 function setLang(l){
   LANG=l;
-  const sel=document.getElementById('langSelect');
-  if(sel)sel.value=l;
+  // Update custom dropdown display
+  var dd=document.getElementById('langDropdown');
+  if(dd){
+    var opts=dd.querySelectorAll('.lang-option');
+    for(var i=0;i<opts.length;i++){
+      var onclick=opts[i].getAttribute('onclick')||'';
+      if(onclick.indexOf('setLang('+"'"+l+"'"+')')>-1){
+        var flag=opts[i].querySelector('.flag');
+        var txt=opts[i].textContent.trim();
+        var sFlag=dd.querySelector('.lang-selected .flag');
+        var sTxt=dd.querySelector('.lang-selected-text');
+        if(sFlag&&flag){sFlag.className=flag.className;}
+        if(sTxt)sTxt.textContent=txt;
+        break;
+      }
+    }
+  }
   document.documentElement.setAttribute('data-theme',l);
   document.documentElement.lang = l==='zh'?'zh-CN':l==='hk'?'zh-HK':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':l==='ru'?'ru-RU':l==='ar'?'ar-SA':'en';
   document.documentElement.dir = l==='ar'?'rtl':'ltr';
@@ -669,6 +742,18 @@ function setLang(l){
   refreshI18n();
   localStorage.setItem('cati_lang',l);
 }
+
+// ===== CUSTOM DROPDOWN =====
+function toggleLangDropdown(){
+  document.getElementById('langDropdown').classList.toggle('open');
+}
+function closeLangDropdown(){
+  document.getElementById('langDropdown').classList.remove('open');
+}
+document.addEventListener('click',function(e){
+  var dd=document.getElementById('langDropdown');
+  if(dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
 
 // ===== I18N =====
 const I18N = {
@@ -1193,7 +1278,9 @@ function refreshI18n(){
   // Re-render overview if currently on overview screen
   if(document.getElementById('overview').classList.contains('active')) showOverview();
   // Re-render result screen if active
-  if(document.getElementById('result').classList.contains('active')) updateResultText();
+  if(document.getElementById('result').classList.contains('active') && window._lastTop3){
+    showResult(window._lastTop3[0], window._lastTop3, window._lastUD);
+  }
   // Update dim popup if open
   if(document.getElementById('dimPopup').classList.contains('active')){
     document.getElementById('dimPopupTitle').textContent=d.dimPopupTitle;
@@ -1493,6 +1580,7 @@ let _touchEndX=0;
 function renderTop3Carousel(top3){
   _carouselTop3=top3;
   _carouselIndex=0;
+  const d=I18N[LANG];
   const track=document.getElementById('top3Track');
   const paws=document.getElementById('top3Paws');
   track.innerHTML=top3.map((r,i)=>{
