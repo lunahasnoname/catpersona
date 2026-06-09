@@ -354,7 +354,7 @@ body{
 
 <!-- ===== OVERVIEW ===== -->
 <div id="overview" class="screen">
-  <h2 id="ovTitle">全部 23 种 CATI 猫格类型</h2>
+  <h2 id="ovTitle">全部 24 种 CATI 猫格类型</h2>
   <p class="overview-sub" id="ovSub">点击卡片查看详情</p>
   <div class="overview-filters" id="ovFilters"></div>
   <div class="overview-grid" id="ovGrid"></div>
@@ -407,7 +407,7 @@ function initPageViews(){
   el.textContent='x...';
 
   const visited=localStorage.getItem('cati_visited');
-  const API='https://api.counterapi.dev/v1/catpersona/views';
+  const API='https://api.counterapi.dev/v1/catpersona/views/';
 
   function handleCount(n){
     if(n==null||isNaN(n))n=0;
@@ -421,7 +421,7 @@ function initPageViews(){
       .then(d=>handleCount(d.count))
       .catch(()=>handleCount(parseInt(localStorage.getItem('cati_views_total')||'0')));
   }else{
-    fetch(API+'/up',{cache:'no-store'})
+    fetch(API+'up',{cache:'no-store'})
       .then(r=>r.ok?r.json():Promise.reject())
       .then(d=>{
         localStorage.setItem('cati_visited','1');
@@ -468,7 +468,7 @@ const I18N = {
     friends:'最佳猫友',
     opponents:'宿命对手',
     matchPct:'匹配度',
-    ovTitle:'全部 23 种 CATI 猫格类型',
+    ovTitle:'全部 24 种 CATI 猫格类型',
     ovSub:'点击卡片查看详情',
     ovAll:'全部',
     ovGroup1:'混乱创造者',
@@ -522,7 +522,7 @@ const I18N = {
     friends:'Best Cat Friends',
     opponents:'Arch Rivals',
     matchPct:'Match',
-    ovTitle:'All 23 CATI Persona Types',
+    ovTitle:'All 24 CATI Persona Types',
     ovSub:'Click a card for details',
     ovAll:'All',
     ovGroup1:'Chaos Creators',
