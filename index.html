@@ -6,7 +6,7 @@
 <title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://api.countapi.xyz">
     <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%98%BC%3C%2Ftext%3E%3C%2Fsvg%3E" type="image/svg+xml">
     <style>
@@ -179,7 +179,7 @@ body::before{
 [data-theme="hk"] #intro h1,
 [data-theme="hk"] #intro .intro-eyebrow,
 [data-theme="hk"] #overview h2{
-  font-family:'Ma Shan Zheng','Noto Sans TC',cursive;
+  font-family:'Noto Sans TC','Noto Sans SC','Noto Sans',system-ui,sans-serif;
 }
 [data-theme="hk"] #intro h1{
   letter-spacing:0.03em;
@@ -868,6 +868,7 @@ const I18N = {
     shareTitle:'扫码分享你的猫格',
     shareDesc:'扫描二维码，<br>发现你的猫咪人格原型',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'切换语言有惊喜~ ✨',
     modalDetail:'查看详情',
     alertNoResult:'请先完成测试',
     modalFriends:'猫友',
@@ -924,6 +925,7 @@ const I18N = {
     shareTitle:'Scan to Share Your Cat Persona',
     shareDesc:'Scan the QR code to<br>discover your cat archetype',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'Psst! Switch language for a surprise ✨',
     modalDetail:'View Details',
     alertNoResult:'Please complete the test first',
     modalFriends:'Friends',
@@ -980,6 +982,7 @@ const I18N = {
     shareTitle:'QR코드로 고양이 성격 공유하기',
     shareDesc:'QR코드를 스캔하여<br>당신의 고양이 성격 원형을 발견하세요',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'轉下語言有驚喜㗎~ ✨',
     modalDetail:'상세 보기',
     alertNoResult:'먼저 테스트를 완료해주세요',
     modalFriends:'캣프렌드',
@@ -1036,6 +1039,7 @@ const I18N = {
     shareTitle:'QRコードで猫性格を共有',
     shareDesc:'QRコードをスキャンして<br>あなたの猫の原型を発見しよう',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'언어를 바꾸면 깜짝 놀랄 거예요 ✨',
     modalDetail:'詳細を見る',
     alertNoResult:'先にテストを完了してください',
     modalFriends:'猫友',
@@ -1092,6 +1096,7 @@ const I18N = {
     shareTitle:'Scannez pour Partager votre Personnalité Féline',
     shareDesc:'Scannez le QR code pour<br>découvrir votre archétype félin',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'言語を切り替えるとサプライズが… ✨',
     modalDetail:'Voir Détails',
     alertNoResult:'Veuillez d\'abord terminer le test',
     modalFriends:'Amis',
@@ -1148,6 +1153,7 @@ const I18N = {
     shareTitle:'Escanea para Compartir tu Personalidad Felina',
     shareDesc:'Escanea el código QR para<br>descubrir tu arquetipo felino',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'Changez de langue pour une surprise ✨',
     modalDetail:'Ver Detalles',
     alertNoResult:'Por favor, completa primero el test',
     modalFriends:'Amigos',
@@ -1204,6 +1210,7 @@ const I18N = {
     shareTitle:'掃碼分享你嘅貓格',
     shareDesc:'掃描QR碼，<br>發現你嘅貓咪人格原型',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'¡Cambia de idioma para una sorpresa! ✨',
     modalDetail:'睇詳情',
     alertNoResult:'請先完成測試',
     modalFriends:'貓友',
@@ -1260,6 +1267,7 @@ const I18N = {
     shareTitle:'Поделись своим кототипом',
     shareDesc:'Отсканируй QR-код и<br>узнай свой кошачий архетип',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'Переключи язык — будет сюрприз ✨',
     modalDetail:'Подробнее',
     alertNoResult:'Сначала пройди тест',
     modalFriends:'Друзья',
@@ -1316,6 +1324,7 @@ const I18N = {
     shareTitle:'امسح الرمز لمشاركة شخصيتك القططية',
     shareDesc:'امسح رمز QR<br>واكتشف نموذجك القططي الأصيل',
     shareUrl:'catpersona.pages.dev',
+    localeHint:'غيّر اللغة… عندك مفاجأة ✨',
     modalDetail:'تفاصيل',
     alertNoResult:'الرجاء إكمال الاختبار أولاً',
     modalFriends:'أصدقاء',
@@ -1511,8 +1520,8 @@ function s(id){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.getElementById('topbar').style.display = (id==='intro'||id==='quiz'||id==='result'||id==='overview')?'flex':'none';
-  // Show locale hint when entering quiz
-  if(id==='quiz') showLocaleHint();
+  // Show locale hint on first entry to intro or quiz
+  if(id==='intro'||id==='quiz') showLocaleHint();
   if(id==='intro'){
     initIntro();
     setTimeout(typeEyebrow,100);
