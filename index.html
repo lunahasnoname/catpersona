@@ -130,7 +130,7 @@ body{
 .top3-carousel{width:100%;max-width:400px;margin:20px auto 0;overflow:hidden;position:relative}
 .top3-track{display:flex;transition:transform 0.5s cubic-bezier(.4,0,.2,1);will-change:transform}
 .top3-slide{min-width:80%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 20px;box-sizing:border-box;transition:opacity 0.35s,transform 0.35s}
-.top3-slide:not(.active-slide){opacity:0.35;transform:scale(0.92)}
+.top3-slide:not(.active-slide){transform:scale(0.92)}
 .top3-slide.active-slide{opacity:1;transform:scale(1)}
 .top3-avatar-wrap{position:relative;margin-bottom:16px;cursor:pointer;flex-shrink:0}
 .top3-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--accent);box-shadow:0 4px 24px rgba(44,36,22,0.15);transition:transform 0.3s}
@@ -376,7 +376,7 @@ function initPageViews(){
     .then(r => r.ok ? r.json() : Promise.reject('http'+r.status))
     .then(d => {
       const el2 = document.getElementById('viewCount');
-      if(el2) el2.textContent = d.value != null ? d.value.toLocaleString() : '*';
+      if(el2) el2.textContent = d.value != null ? 'x' + d.value.toLocaleString() : 'x*';
     })
     .catch(() => {
       // fallback: use localStorage session counter
@@ -384,7 +384,7 @@ function initPageViews(){
       let c = parseInt(localStorage.getItem(key)||'0') + 1;
       localStorage.setItem(key, c);
       const el2 = document.getElementById('viewCount');
-      if(el2) el2.textContent = c.toLocaleString() + '*';
+      if(el2) el2.textContent = 'x' + c.toLocaleString();
     });
 }
 
@@ -487,7 +487,7 @@ const I18N = {
     shareUrl:'catpersona.pages.dev',
     modalFriends:'Friends',
     modalOpponents:'Rivals',
-    dimPopupTitle:'CATI 5-Dimension Model',
+    dimPopupTitle:'CATI 5-Dimensional Model',
     dimPopupSub:'Based on feline behaviorism, 5 core dimensions define your cat persona',
     dimCards:[
       {icon:'🤝',title:'Sociability',sub:'L vs S',desc:'L (Lap-cat): Craves closeness and attention; S (Solitary): Enjoys alone time, keeps distance.',tags:['L Lap-cat','S Solitary']},
@@ -521,6 +521,7 @@ function refreshI18n(){
   document.getElementById('btnStart').textContent=d.btnStart;
   document.getElementById('btnOverview').textContent=d.btnOverview;
   document.getElementById('introMeta').innerHTML=d.introMeta;
+  initPageViews();
   document.getElementById('btnRetake').textContent=d.btnRetake;
   document.getElementById('btnShare').textContent=d.btnShare;
   if(document.getElementById('result').classList.contains('active')) updateResultText();
@@ -832,7 +833,7 @@ function renderTop3Carousel(top3){
       </div>
     </div>`;
   }).join('');
-  paws.innerHTML=top3.map((_,i)=>`<span class=paw-step${i===0?' paw-active':''} onclick="goToSlide(${i})">${i===0?'😼':'🐾'}</span>`).join('');
+  paws.innerHTML=top3.map((_,i)=>`<span class=paw-step${i===0?' paw-active':''} onclick="goToSlide(${i})">${i===0?'🐈‍⬛':'🐾'}</span>`).join('');
   updateCarouselPosition();
 
   // Touch events
@@ -861,7 +862,7 @@ function goToSlide(i){
   // Update paw trail
   document.querySelectorAll('.paw-step').forEach(function(d,idx){
     d.classList.toggle('paw-active',idx===_carouselIndex);
-    d.textContent=idx===_carouselIndex?'😼':'🐾';
+    d.textContent=idx===_carouselIndex?'🐈‍⬛':'🐾';
   });
   // Update active slide
   document.querySelectorAll('.top3-slide').forEach(function(s,idx){
@@ -901,7 +902,7 @@ function renderOverview(group){
     const breed=LANG==='zh'?t.breed:t.breedEn;
     return `<div class=ov-card onclick="showModal('${t.code}')">
       ${src?`<img class=ov-card-img src="${src}" alt="${breed}" loading=lazy onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class=cat-fallback style=display:none;aspect-ratio:4/3;font-size:2rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:4/3;font-size:2rem>🐾</div>`}
-      <div class=ov-card-body><div class=ov-card-code style=color:${t.color}>${t.code}</div><div class=ov-card-name>${t.name}「${t.en}」</div><div class=ov-card-breed>${breed}</div><div class=ov-card-group>${g}</div></div></div>`;
+      <div class=ov-card-body><div class=ov-card-code style=color:${t.color}>${t.code}</div><div class=ov-card-name>${LANG==='zh'?t.name+'「'+t.en+'」':t.en+'『'+t.name+'』'}</div><div class=ov-card-breed>${breed}</div><div class=ov-card-group>${g}</div></div></div>`;
   }).join('');
 }
 
@@ -921,14 +922,14 @@ function showModal(code){
     ${src?`<img class=modal-img src="${src}" alt="${breed}" onerror="this.style.display='none';document.getElementById('mfallback').style.display='flex'"><div id=mfallback class=cat-fallback style=display:none;aspect-ratio:16/9;font-size:4rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:16/9;font-size:4rem>🐾</div>`}
     <div class=modal-body>
       <div class=modal-code style=color:${t.color}>${t.code}</div>
-      <div class=modal-name>${t.name}「${t.en}」</div>
+      <div class=modal-name>${LANG==='zh'?t.name+'「'+t.en+'」':t.en+'『'+t.name+'』'}</div>
       <div class=modal-breed>${breed} / ${breedEn}</div>
       <div class=modal-desc>${desc}</div>
       <div class=modal-mbti>${t.mbti} — ${mbtiName}</div>
       <div class=modal-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
       <div class=modal-fo>
-        <h4>${d.modalFriends}：${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
-        <h4 style=margin-top:6px>${d.modalOpponents}：${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4>${d.modalFriends}${LANG==='zh'?'：':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'?'：':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
       </div>
     </div>`;
   modal.classList.add('active');
