@@ -6,7 +6,7 @@
 <title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://api.countapi.xyz">
     <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%98%BC%3C%2Ftext%3E%3C%2Fsvg%3E" type="image/svg+xml">
     <style>
@@ -106,6 +106,58 @@ body::before{
 [data-theme="es"] body{font-family:'Playfair Display','Noto Sans',system-ui,serif}
 [data-theme="es"] .lang-select{background:var(--card-bg);border-color:var(--border)}
 [data-theme="es"] .lang-select:focus{border-color:var(--accent)}
+
+/* Hong Kong — neon cityscape, Mongkok aesthetic, East-meets-West density */
+[data-theme="hk"]{
+  --cream:#0D111F;--warm:#1A1F35;--ink:#F0EEEA;
+  --accent:#FF2D95;--accent2:#00E5FF;--gold:#FFB800;
+  --card-bg:rgba(26,31,53,0.85);--border:#2A2F45;
+  --shadow:0 2px 24px rgba(255,45,149,0.12),0 0 60px rgba(0,229,255,0.05);
+  --muted:#8A8FA5;
+  --green:#00E5A0;--orange:#FF6B6B;--red:#FF2D95;
+}
+[data-theme="hk"] body::before{
+  background:
+    linear-gradient(90deg,rgba(255,45,149,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,0.015) 1px,transparent 1px),
+    linear-gradient(rgba(255,184,0,0.02) 1px,transparent 1px);
+  background-size:80px 100%,120px 100%,40px 40px;
+}
+[data-theme="hk"] body{
+  font-family:'Noto Sans TC','Noto Sans SC','Noto Sans',system-ui,sans-serif;
+  backdrop-filter: blur(0);
+}
+[data-theme="hk"] .lang-select{background:var(--card-bg);border-color:var(--border)}
+[data-theme="hk"] .lang-select:focus{border-color:var(--accent)}
+[data-theme="hk"] .btn-primary{
+  background:linear-gradient(135deg,#FF2D95,#FF6B6B);
+}
+[data-theme="hk"] .btn-primary:hover{
+  box-shadow:0 0 30px rgba(255,45,149,0.4),0 4px 20px rgba(255,45,149,0.2);
+}
+[data-theme="hk"] .card{
+  border:1px solid var(--border);
+  background:var(--card-bg);
+  box-shadow:0 2px 20px rgba(0,229,255,0.06);
+}
+[data-theme="hk"] .card:hover{
+  box-shadow:0 0 30px rgba(255,45,149,0.15),0 0 50px rgba(0,229,255,0.08);
+  border-color:var(--accent);
+}
+[data-theme="hk"] .topbar{
+  background:rgba(13,17,31,0.9);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+[data-theme="hk"] #intro h1 span{
+  background:linear-gradient(135deg,#FF2D95,#FFB800);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+[data-theme="hk"] .type-badge{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+}
 .screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
 .screen.active{display:flex}
 
@@ -395,6 +447,7 @@ body::before{
     <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
       <option value="zh">🇨🇳 中文</option>
       <option value="en">🇺🇸 English</option>
+      <option value="hk">🇭🇰 粵語</option>
       <option value="ko">🇰🇷 한국어</option>
       <option value="ja">🇯🇵 日本語</option>
       <option value="fr">🇫🇷 Français</option>
@@ -542,8 +595,8 @@ function setLang(l){
   const sel=document.getElementById('langSelect');
   if(sel)sel.value=l;
   document.documentElement.setAttribute('data-theme',l);
-  document.documentElement.lang = l==='zh'?'zh-CN':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':'en';
-  document.title = l==='zh'?'Cat Persona 喵星人格':'Cat Persona — Discover Your Feline Self';
+  document.documentElement.lang = l==='zh'?'zh-CN':l==='hk'?'zh-HK':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':'en';
+  document.title = l==='zh'||l==='hk'?'Cat Persona 喵星人格':'Cat Persona — Discover Your Feline Self';
   refreshI18n();
   localStorage.setItem('cati_lang',l);
 }
@@ -885,6 +938,62 @@ const I18N = {
       {e:'🪶',t:'Te dan una caña de plumas. ¿Qué pasa después?',o:['¡Voltereta! ¡Salto! ¡Mordisco! ¡Esto es cazar! ¡Esto es vivir!','Dar un golpecito suave con la pata y alejarte — demasiado infantil','Mirar fijamente en silencio, calcular el ángulo de ataque óptimo y golpear con precisión','Fingir no estar interesado, pero tocarla en secreto cuando el humano no mira']},
       {e:'🏠',t:'Tu relación con tu humano es…',o:['Yo soy el jefe, ellos son mis sirvientes. Nuestra relación es saludable (para ellos)','Somos almas gemelas — yo los necesito, ellos me necesitan','Somos compañeros de piso. Ocasionalmente les permito acariciarme después del control de seguridad','¿Humano? ¿Qué es un humano? Solo conozco a la criatura bípeda que me da de comer']}
     ]
+  },
+  hk:{
+    loading:'正在召喚貓咪能量…',
+    introTitle:'你係邊種<span>喵星人</span>？',
+    introDesc:'24種貓咪原型，5個核心維度。<br>由暹羅到波斯，由街頭傳說到皇室知己——<br>邊種先係匿藏喺人類外表下嘅真正嘅你？',
+    btnStart:'開始測試',
+    btnOverview:'睇晒24種類型',
+    introMeta:'12條有趣問題 · 睇過 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">基於貓咪行為學</span>',
+    dimLabel:'5維度性格分析',
+    foLabel:'最佳貓友 & 宿命對手',
+    btnRetake:'再玩一次',
+    btnShare:'分享結果',
+    friends:'最佳貓友',
+    opponents:'宿命對手',
+    matchPct:'匹配度',
+    ovTitle:'全部 24 種 CATI 貓格類型',
+    ovSub:'點擊卡片查看詳情',
+    ovAll:'全部',
+    ovGroup1:'混沌創造者',
+    ovGroup2:'君主',
+    ovGroup3:'暗影追蹤者',
+    ovGroup4:'禪意大師',
+    dimS:'社交性',dimE:'能量',dimV:'表達力',dimA:'冒險心',dimC:'規律性',
+    dimSVals:{L:'L 撒嬌型',S:'S 獨立型'},dimEVals:{C:'C 混沌型',M:'M 沉穩型'},
+    dimVVals:{V:'V 表達型',Q:'Q 安靜型'},dimAVals:{A:'A 冒險型',G:'G 謹慎型'},
+    dimCVals:{K:'K 規律型',W:'W 自由型'},
+    shareTitle:'掃碼分享你嘅貓格',
+    shareDesc:'掃描QR碼，<br>發現你嘅貓咪人格原型',
+    shareUrl:'catpersona.pages.dev',
+    modalDetail:'睇詳情',
+    alertNoResult:'請先完成測試',
+    modalFriends:'貓友',
+    modalOpponents:'對手',
+    dimPopupTitle:'CATI 5維度性格模型',
+    dimPopupSub:'基於貓咪行為學，5個核心維度定義你嘅貓咪性格',
+    dimCards:[
+      {icon:'🤝',title:'社交性 Social',sub:'L vs S',desc:'L (Lap-cat/撒嬌型): 鍾意痴住人，渴望關注；S (Solitary/獨立型): 享受獨處，保持距離。',tags:['L 撒嬌型','S 獨立型']},
+      {icon:'⚡',title:'能量 Energy',sub:'C vs M',desc:'C (Chaotic/混沌型): 精力充沛、難以預測、戲劇化；M (Mellow/沉穩型): 淡定從容、穩定可靠。',tags:['C 混沌型','M 沉穩型']},
+      {icon:'🗣️',title:'表達力 Voice',sub:'V vs Q',desc:'V (Vocal/表達型): 用聲音同叫聲溝通；Q (Quiet/安靜型): 沉默寡言，用行動表達。',tags:['V 表達型','Q 安靜型']},
+      {icon:'🗺️',title:'冒險心 Adventure',sub:'A vs G',desc:'A (Adventurous/冒險型): 鍾意探索新地方；G (Guarded/謹慎型): 偏好熟悉安全嘅空間。',tags:['A 冒險型','G 謹慎型']},
+      {icon:'📅',title:'規律性 Consistency',sub:'K vs W',desc:'K (Keeps Routine/規律型): 嚴格遵守日常作息，抗拒變化；W (Whimsical/自由型): 隨心所欲，擁抱變化。',tags:['K 規律型','W 自由型']}
+    ],
+    questions:[
+      {e:'🛋️',t:'主人坐咗喺梳化度。你會點做？',o:['即刻跳上佢心口，大聲咕嚕咕嚕，遮住晒個螢幕','喺房嘅另一邊望住佢——享受保持適當距離嘅陪伴','行過去坐喺佢腳邊——唔會太近，唔會太遠','完全無視佢，繼續瞓覺，但尾尖輕輕一郁表示你知佢喺度']},
+      {e:'🐭',t:'有隻玩具老鼠碌過地下。你嘅反應係？',o:['向牆壁做後空翻，喺地毯上面滑行，將佢撕到粉碎！','望住佢碌過，慢慢眨下眼，然後返去繼續午睡','靜靜雞跟蹤，伏低身，無聲無息撲上去——獵殺模式啟動','扮睇唔到，但耳仔已經轉向佢，尾巴開始微微郁動']},
+      {e:'🍽️',t:'你個糧兜得返15%。你會點樣通報呢個危機？',o:['企喺糧兜隔籬，用最大音量喵喵叫，直到有人嚟為止','靜靜坐喺糧兜旁邊，用眼神望穿主人嘅靈魂，令佢內疚','行去主人度，輕輕掂下佢隻腳，然後帶佢去糧兜前面','冇所謂啦，反正你都唔係好肚餓。主人餵就餵，唔餵就算']},
+      {e:'🚪',t:'大門唔小心開咗。你下一步會點？',o:['大膽行出去探索走廊，順便拜訪下隔籬鄰舍','即刻匿入梳化底——出邊個世界全部係唔知幾時會出現嘅吸塵機','坐喺門口，用充滿懷疑嘅眼神望住打開咗嘅門——邊個咁大膽想闖入嚟？','伸個頭出去聞下，然後快快脆脆出去望一望，再快快脆脆返入嚟']},
+      {e:'🧹',t:'主人拎咗個吸塵機出嚟。你嘅反應係？',o:['匿入床下底，直到呢個嘈嘈閉嘅怪獸消失為止——可能要幾個鐘','好奇心打贏咗恐懼——喺安全距離觀察呢個物體','完全無視佢，繼續瞓覺。吸塵機係咩嚟㗎？','對住吸塵機發出嘶嘶聲，嘗試嚇退佢']},
+      {e:'⏰',t:'凌晨三點。你嘅能量狀態係？',o:['ZOOMIES！！！全速奔跑，跳上櫃頂，撞跌水杯——呢啲先係生活！','攣喺暖笠笠嘅主人隔籬，輕輕咕嚕咕嚕','醒一醒，伸個懶腰，去廚房檢查下個糧兜（然後返去再瞓）','打開一隻眼望下咩事，覺得太嘈，繼續瞓覺']},
+      {e:'📦',t:'主人帶咗個新紙皮箱返屋企。你會點做？',o:['0.5秒之內佔領個箱，對任何想埋嚟嘅生物發出嘶嘶聲','先觀察下——安唔安全㗎？有冇其他貓嘅味道？等一日先入去','即刻跳入去，卡住咗，然後用無辜嘅眼神望住主人','好無聊。呢個箱冇之前嗰個咁好。完全冇興趣']},
+      {e:'👥',t:'有陌生人嚟咗屋企。你第一反應係？',o:['即刻衝過去大聲喵喵叫打招呼，要求摸摸','消失。到我覺得安全先會出嚟——可能幾個鐘，可能幾日','喺傢俬後面偷望，評估呢個人嘅威脅等級','繼續做自己嘅嘢，但會一直用一隻眼𥄫住佢']},
+      {e:'💻',t:'主人用緊手提電腦做嘢。你決定…',o:['坐喺鍵盤上面。你個屁股比佢嘅工作更加重要','坐喺佢大髀上面，咕嚕咕嚕咕嚕咕嚕','喺隔籬張凳度望住，間中畀個「你應該唞下」嘅眼神佢','完全無視佢——搵個曬到太陽嘅位，瞓個靚覺']},
+      {e:'🐟',t:'邊句說話最能夠描述你嘅日常生活？',o:['我每日同一時間做同一樣嘢——規律就係我嘅代名詞','我完全冇規律——主人永遠估唔到我下一秒會做咩','我有規律嘅，不過會根據心情間中改下個計劃','咩叫規律？我只係跟住自己嘅心去做嘢']},
+      {e:'🪶',t:'你得到一條羽毛釣竿玩具。跟住會發生咩事？',o:['後空翻！撲上去！咬咬咬！呢啲先係狩獵！呢啲先係生活！','用爪輕輕拍一下就行開——太低B喇','靜靜雞望實佢，計算最佳攻擊角度，然後精準出擊','扮晒冇興趣，但主人唔望住嗰陣偷偷摸下佢']},
+      {e:'🏠',t:'你同主人嘅關係係…',o:['我先係大佬，佢哋係我嘅奴才。我哋嘅關係好健康㗎（對佢哋嚟講）','我哋係靈魂伴侶——我需要佢哋，佢哋都需要我','我哋係室友。間中通過安全檢查之後，我會容許佢哋摸下我','主人？咩係主人？我只係認識嗰個識得餵我嘅兩腳生物']}
+    ]
   }
 
 };
@@ -1059,7 +1168,7 @@ function s(id){
 // ===== INIT =====
 (function(){
   const saved=localStorage.getItem('cati_lang');
-  if(saved==='zh'||saved==='en'||saved==='ko'||saved==='ja'||saved==='fr'||saved==='es')LANG=saved;
+  if(saved==='zh'||saved==='en'||saved==='hk'||saved==='ko'||saved==='ja'||saved==='fr'||saved==='es')LANG=saved;
   setLang(LANG);
   initPageViews();
   setTimeout(()=>s('intro'),600);
@@ -1316,8 +1425,8 @@ function showModal(code){
       <div class=modal-mbti>${t.mbti} — ${mbtiName}</div>
       <div class=modal-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
       <div class=modal-fo>
-        <h4>${d.modalFriends}${LANG==='zh'||LANG==='ko'||LANG==='ja'?'：':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
-        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'||LANG==='ko'||LANG==='ja'?'：':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4>${d.modalFriends}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
       </div>
     </div>`;
   modal.classList.add('active');
