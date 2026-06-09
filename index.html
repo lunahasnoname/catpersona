@@ -6,7 +6,7 @@
 <title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://api.countapi.xyz">
     <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%98%BC%3C%2Ftext%3E%3C%2Fsvg%3E" type="image/svg+xml">
     <style>
@@ -158,6 +158,72 @@ body::before{
 [data-theme="hk"] .type-badge{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
 }
+
+/* Russian — Constructivist minimalism, bold geometry, Red Square reverence */
+[data-theme="ru"]{
+  --cream:#FDF8F2;--warm:#F0E8DC;--ink:#1A1A1C;
+  --accent:#CC0000;--accent2:#4A4A50;--gold:#D4A843;
+  --card-bg:#FFFFFF;--border:#E0D8CC;
+  --shadow:0 2px 16px rgba(26,26,28,0.06);
+  --muted:#6E6E72;
+  --green:#3A7D3A;--orange:#CC5500;--red:#CC0000;
+}
+[data-theme="ru"] body::before{
+  background:
+    linear-gradient(45deg,rgba(204,0,0,0.025) 1px,transparent 1px),
+    linear-gradient(-45deg,rgba(204,0,0,0.015) 1px,transparent 1px);
+  background-size:24px 24px,24px 24px;
+}
+[data-theme="ru"] body{font-family:'Noto Sans','system-ui',sans-serif}
+[data-theme="ru"] .lang-select{background:var(--card-bg);border-color:var(--border)}
+[data-theme="ru"] .lang-select:focus{border-color:var(--accent)}
+[data-theme="ru"] .btn-primary{
+  background:linear-gradient(135deg,#CC0000,#990000);
+}
+[data-theme="ru"] .btn-primary:hover{
+  box-shadow:0 4px 20px rgba(204,0,0,0.3);
+}
+[data-theme="ru"] #intro h1 span{
+  color:var(--accent);
+  border-bottom:3px solid var(--accent);
+  display:inline-block;line-height:1.1;
+}
+
+/* Arabic — geometric elegance, warm desert emerald, mashrabiya intricacy */
+[data-theme="ar"]{
+  --cream:#FDFBF5;--warm:#F3ECDE;--ink:#1A1510;
+  --accent:#006C51;--accent2:#8B6914;--gold:#C6A34D;
+  --card-bg:#FFFFFF;--border:#E3D9C4;
+  --shadow:0 2px 16px rgba(26,21,16,0.05);
+  --muted:#8A7E6B;
+  --green:#006C51;--orange:#C47A3A;--red:#B83A2A;
+  direction:rtl;
+}
+[data-theme="ar"] body::before{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(0,108,81,0.02) 1px,transparent 1px),
+    radial-gradient(circle at 80% 80%,rgba(198,163,77,0.02) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(0,108,81,0.015) 0.5px,transparent 0.5px);
+  background-size:48px 48px,48px 48px,24px 24px;
+}
+[data-theme="ar"] body{font-family:'Noto Sans Arabic','Noto Sans',system-ui,sans-serif}
+[data-theme="ar"] .lang-select{background:var(--card-bg);border-color:var(--border)}
+[data-theme="ar"] .lang-select:focus{border-color:var(--accent)}
+[data-theme="ar"] .btn-primary{
+  background:linear-gradient(135deg,#006C51,#004D3A);
+}
+[data-theme="ar"] .btn-primary:hover{
+  box-shadow:0 4px 20px rgba(0,108,81,0.3);
+}
+[data-theme="ar"] #intro h1 span{
+  color:var(--accent);
+}
+/* RTL fixes for Arabic */
+[dir="rtl"] .lang-select{
+  background-position:left 10px center;
+  padding:8px 14px 8px 32px;
+}
+[dir="rtl"] .topbar{flex-direction:row-reverse}
 .screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
 .screen.active{display:flex}
 
@@ -452,6 +518,8 @@ body::before{
       <option value="ja">🇯🇵 日本語</option>
       <option value="fr">🇫🇷 Français</option>
       <option value="es">🇪🇸 Español</option>
+      <option value="ru">🇷🇺 Русский</option>
+      <option value="ar">🇸🇦 العربية</option>
     </select>
   </div>
 </div>
@@ -595,7 +663,8 @@ function setLang(l){
   const sel=document.getElementById('langSelect');
   if(sel)sel.value=l;
   document.documentElement.setAttribute('data-theme',l);
-  document.documentElement.lang = l==='zh'?'zh-CN':l==='hk'?'zh-HK':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':'en';
+  document.documentElement.lang = l==='zh'?'zh-CN':l==='hk'?'zh-HK':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':l==='ru'?'ru-RU':l==='ar'?'ar-SA':'en';
+  document.documentElement.dir = l==='ar'?'rtl':'ltr';
   document.title = l==='zh'||l==='hk'?'Cat Persona 喵星人格':'Cat Persona — Discover Your Feline Self';
   refreshI18n();
   localStorage.setItem('cati_lang',l);
@@ -636,13 +705,13 @@ const I18N = {
     modalFriends:'猫友',
     modalOpponents:'对手',
     dimPopupTitle:'CATI 五维人格模型',
-    dimPopupSub:'基于猫咪行为学，从 5 个核心维度解构人格原型',
+    dimPopupSub:'正经猫咪行为学。对，科学家真的研究这个。',
     dimCards:[
-      {icon:'🤝',title:'社交性 Social',sub:'L vs S',desc:'L（Lapcat/粘人型）：喜欢亲近人类，渴望关注和陪伴；S（Solitary/独立型）：享受独处，保持距离感，不轻易依赖。',tags:['L 粘人','S 独立']},
-      {icon:'⚡',title:'能量 Energy',sub:'C vs M',desc:'C（Chaotic/混乱型）：情绪高涨、行为不可预测、充满戏剧性；M（Mellow/淡定型）：情绪稳定、做事有条不紊、波澜不惊。',tags:['C 混乱','M 淡定']},
-      {icon:'🗣️',title:'表达 Voice',sub:'V vs Q',desc:'V（Vocal/表达型）：善于用声音和语言沟通，喜欢"说话"；Q（Quiet/沉默型）：安静内敛，用行动而非语言表达自己。',tags:['V 表达','Q 沉默']},
-      {icon:'🗺️',title:'冒险 Adventure',sub:'A vs G',desc:'A（Adventurous/冒险型）：喜欢探索新环境、接受挑战；G（Guarded/谨慎型）：偏好熟悉安全的环境，对新事物保持警惕。',tags:['A 冒险','G 谨慎']},
-      {icon:'📅',title:'规律 Consistency',sub:'K vs W',desc:'K（Keeps Routine/规律型）：生活高度规律，习惯固定，讨厌变化；W（Whimsical/随性型）：随心所欲，行为难以预测，拥抱变化。',tags:['K 规律','W 随性']}
+      {icon:'🤝',title:'社交性 Social',sub:'L vs S',desc:'L（粘人型）：你吃饭它坐你腿上，你上厕所它蹲门口。S（独立型）：个人空间是信仰，靠近请先预约。',tags:['L 粘人','S 独立']},
+      {icon:'⚡',title:'能量 Energy',sub:'C vs M',desc:'C（混乱型）：凌晨三点是奥运时间，家里每个角落都是赛道。M（淡定型）：泰山崩于前而色不变，也可能是懒得动。',tags:['C 混乱','M 淡定']},
+      {icon:'🗣️',title:'表达 Voice',sub:'V vs Q',desc:'V（表达型）：有一说一，有零说零，你不理它它就理你。Q（沉默型）：用眼神交流，靠意念沟通，沉默是金。',tags:['V 表达','Q 沉默']},
+      {icon:'🗺️',title:'冒险 Adventure',sub:'A vs G',desc:'A（冒险型）：门一开就是冒险的开始，隔壁老王家的沙发也要去躺躺。G（谨慎型）：门开了？先观察三分钟，可能有埋伏。',tags:['A 冒险','G 谨慎']},
+      {icon:'📅',title:'规律 Consistency',sub:'K vs W',desc:'K（规律型）：吃饭六点整，晚了就绝食抗议。W（随性型）：饿了就吃，困了就睡，规矩？那是什么？',tags:['K 规律','W 随性']}
     ],
     questions:[
       {e:'🛋️',t:'你的主人坐到沙发上了。你怎么做？',o:['立刻跳到他们胸口，大声打呼噜，挡住屏幕的视线','在房间另一头看着他们。享受陪伴，但保持尊重距离','走过去，但只坐在他们脚边——不算太近也不算太远','完全无视，继续睡觉，但尾巴尖微微抽动表示你注意到了']},
@@ -692,13 +761,13 @@ const I18N = {
     modalFriends:'Friends',
     modalOpponents:'Rivals',
     dimPopupTitle:'CATI 5-Dimensional Model',
-    dimPopupSub:'Based on feline behaviorism, 5 core dimensions define your cat persona',
+    dimPopupSub:'Real cat science. Yes, researchers actually study this stuff.',
     dimCards:[
-      {icon:'🤝',title:'Sociability',sub:'L vs S',desc:'L (Lap-cat): Craves closeness and attention; S (Solitary): Enjoys alone time, keeps distance.',tags:['L Lap-cat','S Solitary']},
-      {icon:'⚡',title:'Energy',sub:'C vs M',desc:'C (Chaotic): High-energy, unpredictable, dramatic; M (Mellow): Steady, calm, goes with the flow.',tags:['C Chaotic','M Mellow']},
-      {icon:'🗣️',title:'Expression',sub:'V vs Q',desc:'V (Vocal): Communicates with voice and sound; Q (Quiet): Silent, expresses through actions.',tags:['V Vocal','Q Quiet']},
-      {icon:'🗺️',title:'Adventure',sub:'A vs G',desc:'A (Adventurous): Loves exploring new places; G (Guarded): Prefers familiar safe spaces.',tags:['A Adventurous','G Guarded']},
-      {icon:'📅',title:'Consistency',sub:'K vs W',desc:'K (Keeps Routine): Highly routine-driven, hates change; W (Whimsical): Goes with the mood, embraces chaos.',tags:['K Routine','W Whimsical']}
+      {icon:'🤝',title:'Sociability',sub:'L vs S',desc:'L (Lap-cat): Will sit on you even while you eat soup. S (Solitary): Personal space is a lifestyle choice.',tags:['L Lap-cat','S Solitary']},
+      {icon:'⚡',title:'Energy',sub:'C vs M',desc:'C (Chaotic): 3 AM zoomies are a way of life. M (Mellow): Zen master. Or just lazy. We\'ll never know.',tags:['C Chaotic','M Mellow']},
+      {icon:'🗣️',title:'Expression',sub:'V vs Q',desc:'V (Vocal): You\'ll hear every single thought this cat has. Q (Quiet): Communicates exclusively through glances and hints.',tags:['V Vocal','Q Quiet']},
+      {icon:'🗺️',title:'Adventure',sub:'A vs G',desc:'A (Adventurous): An open door is an invitation. G (Guarded): An open door is a national security threat.',tags:['A Adventurous','G Guarded']},
+      {icon:'📅',title:'Consistency',sub:'K vs W',desc:'K (Keeps Routine): Dinner at 6:00 sharp. Or else. W (Whimsical): Eats when hungry. Sleeps where comfortable. Chaos, but make it fashion.',tags:['K Routine','W Whimsical']}
     ],
     questions:[
       {e:'🛋️',t:'Your human sits down on the sofa. What do you do?',o:['Immediately jump onto their chest, purr loudly, and block the screen','Watch them from across the room — enjoy their company from a respectful distance','Walk over and sit at their feet — not too close, not too far','Completely ignore them, keep sleeping, but twitch your tail tip to show you noticed']},
@@ -748,7 +817,7 @@ const I18N = {
     modalFriends:'캣프렌드',
     modalOpponents:'라이벌',
     dimPopupTitle:'CATI 5차원 성격 모델',
-    dimPopupSub:'고양이 행동학을 기반으로, 5가지 핵심 차원이 당신의 고양이 성격을 정의합니다',
+    dimPopupSub:'진짜 고양이 행동학입니다. 네, 과학자들이 실제로 이걸 연구해요.',
     dimCards:[
       {icon:'🤝',title:'사회성 Social',sub:'L vs S',desc:'L (Lap-cat/애교형): 가까이 있고 싶어하고 관심을 갈망합니다; S (Solitary/독립형): 혼자 있는 시간을 즐기고 거리를 둡니다.',tags:['L 애교형','S 독립형']},
       {icon:'⚡',title:'에너지 Energy',sub:'C vs M',desc:'C (Chaotic/혼돈형): 에너지가 넘치고 예측 불가능하며 드라마틱합니다; M (Mellow/차분형): 차분하고 안정적이며 흐름에 맡깁니다.',tags:['C 혼돈형','M 차분형']},
@@ -804,7 +873,7 @@ const I18N = {
     modalFriends:'猫友',
     modalOpponents:'ライバル',
     dimPopupTitle:'CATI 5次元パーソナリティモデル',
-    dimPopupSub:'猫行動学に基づき、5つの核心次元があなたの猫性格を定義します',
+    dimPopupSub:'本物の猫行動学です。そう、科学者は本当にこれを研究してるんです。',
     dimCards:[
       {icon:'🤝',title:'社会性 Social',sub:'L vs S',desc:'L (Lap-cat/甘えん坊): 親密さと注目を求めます; S (Solitary/独立型): 一人の時間を楽しみ、距離を保ちます。',tags:['L 甘えん坊','S 独立型']},
       {icon:'⚡',title:'エネルギー Energy',sub:'C vs M',desc:'C (Chaotic/混沌型): 高エネルギーで予測不能、ドラマチック; M (Mellow/穏やか型): 落ち着いていて安定しています。',tags:['C 混沌型','M 穏やか型']},
@@ -860,7 +929,7 @@ const I18N = {
     modalFriends:'Amis',
     modalOpponents:'Rivaux',
     dimPopupTitle:'Modèle de Personnalité CATI en 5 Dimensions',
-    dimPopupSub:'Basé sur le comportementalisme félin, 5 dimensions définissent votre personnalité féline',
+    dimPopupSub:'De la vraie science féline. Si, si, des chercheurs étudient vraiment ça.',
     dimCards:[
       {icon:'🤝',title:'Sociabilité',sub:'L vs S',desc:'L (Câlin): Recherche la proximité et l\'attention; S (Solitaire): Apprécie la solitude et garde ses distances.',tags:['L Câlin','S Solitaire']},
       {icon:'⚡',title:'Énergie',sub:'C vs M',desc:'C (Chaotique): Plein d\'énergie, imprévisible, dramatique; M (Paisible): Calme, stable, suit le courant.',tags:['C Chaotique','M Paisible']},
@@ -916,7 +985,7 @@ const I18N = {
     modalFriends:'Amigos',
     modalOpponents:'Rivales',
     dimPopupTitle:'Modelo de Personalidad CATI en 5 Dimensiones',
-    dimPopupSub:'Basado en el comportamentalismo felino, 5 dimensiones definen tu personalidad felina',
+    dimPopupSub:'Ciencia felina de verdad. Sí, hay investigadores que estudian esto en serio.',
     dimCards:[
       {icon:'🤝',title:'Sociabilidad',sub:'L vs S',desc:'L (Mimoso): Busca cercanía y atención; S (Solitario): Disfruta el tiempo a solas y mantiene distancia.',tags:['L Mimoso','S Solitario']},
       {icon:'⚡',title:'Energía',sub:'C vs M',desc:'C (Caótico): Alta energía, impredecible, dramático; M (Tranquilo): Estable, calmado, va con la corriente.',tags:['C Caótico','M Tranquilo']},
@@ -972,7 +1041,7 @@ const I18N = {
     modalFriends:'貓友',
     modalOpponents:'對手',
     dimPopupTitle:'CATI 5維度性格模型',
-    dimPopupSub:'基於貓咪行為學，5個核心維度定義你嘅貓咪性格',
+    dimPopupSub:'正經貓咪行為學。冇呃你，科學家真係研究緊呢樣嘢。',
     dimCards:[
       {icon:'🤝',title:'社交性 Social',sub:'L vs S',desc:'L (Lap-cat/撒嬌型): 鍾意痴住人，渴望關注；S (Solitary/獨立型): 享受獨處，保持距離。',tags:['L 撒嬌型','S 獨立型']},
       {icon:'⚡',title:'能量 Energy',sub:'C vs M',desc:'C (Chaotic/混沌型): 精力充沛、難以預測、戲劇化；M (Mellow/沉穩型): 淡定從容、穩定可靠。',tags:['C 混沌型','M 沉穩型']},
@@ -993,6 +1062,118 @@ const I18N = {
       {e:'🐟',t:'邊句說話最能夠描述你嘅日常生活？',o:['我每日同一時間做同一樣嘢——規律就係我嘅代名詞','我完全冇規律——主人永遠估唔到我下一秒會做咩','我有規律嘅，不過會根據心情間中改下個計劃','咩叫規律？我只係跟住自己嘅心去做嘢']},
       {e:'🪶',t:'你得到一條羽毛釣竿玩具。跟住會發生咩事？',o:['後空翻！撲上去！咬咬咬！呢啲先係狩獵！呢啲先係生活！','用爪輕輕拍一下就行開——太低B喇','靜靜雞望實佢，計算最佳攻擊角度，然後精準出擊','扮晒冇興趣，但主人唔望住嗰陣偷偷摸下佢']},
       {e:'🏠',t:'你同主人嘅關係係…',o:['我先係大佬，佢哋係我嘅奴才。我哋嘅關係好健康㗎（對佢哋嚟講）','我哋係靈魂伴侶——我需要佢哋，佢哋都需要我','我哋係室友。間中通過安全檢查之後，我會容許佢哋摸下我','主人？咩係主人？我只係認識嗰個識得餵我嘅兩腳生物']}
+    ]
+  },
+  ru:{
+    loading:'Кот запускает систему… уже почти.',
+    introTitle:'Какой ты <span>кот</span> по жизни?',
+    introDesc:'24 кошачьих архетипа, 5 измерений личности.<br>От сиамских до персидских, от дворовых легенд до королевских любимцев —<br>кто прячется за твоим человеческим фасадом?',
+    btnStart:'Пройти тест',
+    btnOverview:'Все 24 типа',
+    introMeta:'12 забавных вопросов · Просмотров 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">Основано на кошачьей психологии</span>',
+    dimLabel:'Анализ по 5 измерениям',
+    foLabel:'Лучшие коты-друзья & Судьбоносные соперники',
+    btnRetake:'Пройти заново',
+    btnShare:'Поделиться',
+    friends:'Коты-друзья',
+    opponents:'Соперники',
+    matchPct:'Совпадение',
+    ovTitle:'Все 24 типа CATI',
+    ovSub:'Нажми на карточку, чтобы узнать подробнее',
+    ovAll:'Все',
+    ovGroup1:'Создатели хаоса',
+    ovGroup2:'Монархи',
+    ovGroup3:'Теневые охотники',
+    ovGroup4:'Мастера дзена',
+    dimS:'Общительность',dimE:'Энергия',dimV:'Голос',dimA:'Любопытство',dimC:'Режим',
+    dimSVals:{L:'L Ласковый',S:'S Независимый'},dimEVals:{C:'C Хаотичный',M:'M Спокойный'},
+    dimVVals:{V:'V Голосистый',Q:'Q Молчаливый'},dimAVals:{A:'A Искатель',G:'G Осторожный'},
+    dimCVals:{K:'K По расписанию',W:'W По настроению'},
+    shareTitle:'Поделись своим кототипом',
+    shareDesc:'Отсканируй QR-код и<br>узнай свой кошачий архетип',
+    shareUrl:'catpersona.pages.dev',
+    modalDetail:'Подробнее',
+    alertNoResult:'Сначала пройди тест',
+    modalFriends:'Друзья',
+    modalOpponents:'Соперники',
+    dimPopupTitle:'5 измерений кошачьей личности',
+    dimPopupSub:'Основано на реальном кошачьем поведении. Да, учёные тоже этим занимаются.',
+    dimCards:[
+      {icon:'🤝',title:'Общительность Social',sub:'L vs S',desc:'L (Ласковый): Готов сидеть на тебе даже когда ты ешь суп. S (Независимый): Ценит личное пространство. Много пространства.',tags:['L Ласковый','S Независимый']},
+      {icon:'⚡',title:'Энергия Energy',sub:'C vs M',desc:'C (Хаотичный): Зум в 3 часа ночи — это образ жизни. M (Спокойный): Дзен-мастер. Или просто ленивый.',tags:['C Хаотичный','M Спокойный']},
+      {icon:'🗣️',title:'Голос Voice',sub:'V vs Q',desc:'V (Голосистый): Ты услышишь каждую мысль этого кота. Q (Молчаливый): Общается исключительно взглядами и намёками.',tags:['V Голосистый','Q Молчаливый']},
+      {icon:'🗺️',title:'Любопытство Adventure',sub:'A vs G',desc:'A (Искатель): Открытая дверь = приключение. G (Осторожный): Открытая дверь = угроза национальной безопасности.',tags:['A Искатель','G Осторожный']},
+      {icon:'📅',title:'Режим Consistency',sub:'K vs W',desc:'K (По расписанию): Обед ровно в 18:00. Или катастрофа. W (По настроению): Ест когда хочет, спит где хочет.',tags:['K По расписанию','W По настроению']}
+    ],
+    questions:[
+      {e:'🛋️',t:'Хозяин сел на диван. Твои действия?',o:['Мгновенно запрыгнуть на грудь, громко мурчать и заблокировать экран','Смотреть с другого конца комнаты — вместе, но на безопасном расстоянии','Подойти и сесть у ног — ни слишком близко, ни слишком далеко','Полный игнор, продолжать спать. Но кончик хвоста чуть дёрнется — я заметил']},
+      {e:'🐭',t:'Игрушечная мышь катится по полу. Твоя реакция?',o:['Сделать сальто назад, проехаться по ковру и разорвать её в клочья!','Посмотреть, как она катится, медленно моргнуть и вернуться ко сну','Тихо подкрасться, замереть и беззвучно напасть — режим охотника','Притвориться, что не заметил, но уши уже развернулись, а хвост начал дёргаться']},
+      {e:'🍽️',t:'В миске осталось 15% корма. Как ты сообщишь об этом кризисе?',o:['Встать рядом с миской и орать на полную громкость, пока не придёт человек','Тихо сидеть у миски, сверля душу хозяина взглядом, пока ему не станет стыдно','Подойти к хозяину, легонько тронуть его за ногу и проводить к миске','Да ладно, я и не голоден. Покормят — поем, нет — ну и ладно']},
+      {e:'🚪',t:'Входная дверь случайно открыта. Что дальше?',o:['Смело выйти исследовать коридор и познакомиться с соседями','Мгновенно спрятаться под диван — внешний мир полон непредсказуемых пылесосов','Сесть у двери, подозрительно глядя на проём — кто посмел вторгнуться?','Высунуть голову, понюхать, быстро выскочить и так же быстро вернуться']},
+      {e:'🧹',t:'Хозяин достал пылесос. Твоя реакция?',o:['Спрятаться под кровать, пока этот шумный монстр не исчезнет — может занять часы','Любопытство сильнее страха — наблюдать за объектом с безопасного расстояния','Полный игнор, продолжать спать. Пылесос? А что это?','Зашипеть на пылесос, пытаясь запугать его и заставить отступить']},
+      {e:'⏰',t:'3 часа ночи. Твой уровень энергии?',o:['ЗУМИИИ!!! Спринт по всей квартире, запрыгнуть на шкаф, опрокинуть стакан — ВОТ ЭТО ЖИЗНЬ!','Свернуться калачиком рядом с тёплым хозяином и тихо мурлыкать','Проснуться, потянуться, проверить миску на кухне (и снова уснуть)','Приоткрыть один глаз, оценить обстановку, решить что слишком шумно, спать дальше']},
+      {e:'📦',t:'Хозяин принёс новую картонную коробку. Твои действия?',o:['Захватить коробку за 0.5 секунды и шипеть на всех, кто попытается приблизиться','Сначала осмотреть — безопасно ли? Пахнет ли другим котом? Подождать денёк, потом зайти','Немедленно запрыгнуть, застрять и смотреть на хозяина невинными глазами','Скучно. Эта коробка хуже предыдущей. Полное безразличие']},
+      {e:'👥',t:'В дом пришёл незнакомец. Твоя первая реакция?',o:['Сразу подбежать и громко мяукать в знак приветствия, требуя ласки','Исчезнуть. Я выйду, когда почувствую себя в безопасности — через часы или дни','Наблюдать из-за мебели, оценивая уровень угрозы этого человека','Продолжать свои дела, но следить одним глазом']},
+      {e:'💻',t:'Хозяин работает за ноутбуком. Ты решаешь…',o:['Сесть на клавиатуру. Твой зад важнее его работы','Устроиться на коленях и мурлыкааааать','Наблюдать с соседнего стула, иногда бросая взгляд «сделай перерыв»','Полный игнор — найти солнечное пятно и вздремнуть']},
+      {e:'🐟',t:'Какая фраза лучше всего описывает твой распорядок дня?',o:['Я делаю одно и то же в одно и то же время каждый день — режим это святое','У меня вообще нет режима — хозяин никогда не угадает, что я сделаю в следующую секунду','Режим есть, но я иногда меняю планы по настроению','Режим? Что это? Я просто следую зову сердца']},
+      {e:'🪶',t:'Тебе дали удочку с перьями. Что происходит дальше?',o:['Сальто! Прыжок! Укус! ВОТ ЭТО ОХОТА! ВОТ ЭТО ЖИЗНЬ!','Легонько ударить лапой и уйти — слишком по-детски','Молча наблюдать, вычислить идеальный угол атаки и нанести точный удар','Притвориться, что не заинтересован, но тайком потрогать, когда хозяин не смотрит']},
+      {e:'🏠',t:'Твои отношения с хозяином — это…',o:['Я здесь главный, они — мой обслуживающий персонал. У нас здоровые отношения (для них)','Мы родственные души — я нуждаюсь в них, они нуждаются во мне','Мы соседи по квартире. Иногда я позволяю им меня погладить, после проверки','Хозяин? Кто это? Я знаю только двуногого, который меня кормит']}
+    ]
+  },
+  ar:{
+    loading:'جاري استدعاء طاقة القطط… اصبر شوي.',
+    introTitle:'أي نوع من <span>القطط</span> أنت؟',
+    introDesc:'٢٤ نموذجاً أصيلاً للقطط، ٥ أبعاد أساسية.<br>من السيامي إلى الفارسي، من أسطورة الشارع إلى رفيق الملوك —<br>أي شخصية تختبئ خلف مظهرك البشري؟',
+    btnStart:'ابدأ الاختبار',
+    btnOverview:'تصفح الـ ٢٤ نوعاً',
+    introMeta:'١٢ سؤالاً ممتعاً · شوهد 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">مبني على سلوك القطط</span>',
+    dimLabel:'تحليل الأبعاد الخمسة',
+    foLabel:'أفضل الأصدقاء & الخصوم المقدرون',
+    btnRetake:'أعد الاختبار',
+    btnShare:'شارك النتيجة',
+    friends:'أفضل الأصدقاء',
+    opponents:'الخصوم',
+    matchPct:'نسبة التوافق',
+    ovTitle:'جميع أنواع شخصيات CATI الـ ٢٤',
+    ovSub:'انقر على البطاقة للتفاصيل',
+    ovAll:'الكل',
+    ovGroup1:'صُنّاع الفوضى',
+    ovGroup2:'الملوك',
+    ovGroup3:'صيادو الظلال',
+    ovGroup4:'أساتذة الزِن',
+    dimS:'الاجتماعية',dimE:'الطاقة',dimV:'الصوت',dimA:'المغامرة',dimC:'الروتين',
+    dimSVals:{L:'L دَلوع',S:'S مستقل'},dimEVals:{C:'C فوضوي',M:'M هادئ'},
+    dimVVals:{V:'V صوته عالي',Q:'Q صامت'},dimAVals:{A:'A مغامر',G:'G حَذِر'},
+    dimCVals:{K:'K منضبط',W:'W مزاجي'},
+    shareTitle:'امسح الرمز لمشاركة شخصيتك القططية',
+    shareDesc:'امسح رمز QR<br>واكتشف نموذجك القططي الأصيل',
+    shareUrl:'catpersona.pages.dev',
+    modalDetail:'تفاصيل',
+    alertNoResult:'الرجاء إكمال الاختبار أولاً',
+    modalFriends:'أصدقاء',
+    modalOpponents:'خصوم',
+    dimPopupTitle:'نموذج CATI للأبعاد الخمسة',
+    dimPopupSub:'مبني على سلوك القطط الحقيقي. نعم، العلماء يدرسون هذا الشيء فعلاً.',
+    dimCards:[
+      {icon:'🤝',title:'الاجتماعية Social',sub:'L vs S',desc:'L (دَلوع): يريد الجلوس عليك حتى وأنت تأكل الشوربة. S (مستقل): مساحته الشخصية مقدسة. جداً مقدسة.',tags:['L دَلوع','S مستقل']},
+      {icon:'⚡',title:'الطاقة Energy',sub:'C vs M',desc:'C (فوضوي): الساعة ٣ فجراً = وقت السباق الأولمبي. M (هادئ): معلم زِن. أو كسول فقط.',tags:['C فوضوي','M هادئ']},
+      {icon:'🗣️',title:'الصوت Voice',sub:'V vs Q',desc:'V (صوته عالي): ستسمع كل فكرة تخطر ببال هذا القط. Q (صامت): يتواصل بالنظرات والتلميحات فقط.',tags:['V صوته عالي','Q صامت']},
+      {icon:'🗺️',title:'المغامرة Adventure',sub:'A vs G',desc:'A (مغامر): باب مفتوح = مغامرة. G (حَذِر): باب مفتوح = تهديد للأمن القومي.',tags:['A مغامر','G حَذِر']},
+      {icon:'📅',title:'الروتين Consistency',sub:'K vs W',desc:'K (منضبط): العشاء في السادسة بالضبط. وإلا كارثة. W (مزاجي): يأكل متى شاء، ينام أينما شاء.',tags:['K منضبط','W مزاجي']}
+    ],
+    questions:[
+      {e:'🛋️',t:'جلس صاحبك على الكنبة. وش تسوي؟',o:['تقفز فوراً على صدره، تخرخر بصوت عالي وتحجب الشاشة','تتفرج عليه من الطرف الثاني من الغرفة — مع بعض، بس على مسافة آمنة','تروح وتجلس عند رجليه — لا قريب مرة ولا بعيد مرة','تتجاهله تماماً وتكمل نوم. بس طرف ذيلك يتحرك شوي — يعني انتبهت']},
+      {e:'🐭',t:'فأر لعبة يتدحرج على الأرض. ردة فعلك؟',o:['تسوي شقلبة خلفية، تنزلق على السجادة وتمزقه إرباً إرباً!','تتفرج عليه وهو يتدحرج، ترمش ببطء وترجع تنام','تتسلل بصمت، تنبطح وتنقض بدون صوت — وضع الصياد','تسوي نفسك ما شفته، بس أذانك التفتت وذيلك بدأ يتحرك']},
+      {e:'🍽️',t:'صحن الأكل فاضي بنسبة ١٥٪. كيف تبلغ عن هالأزمة؟',o:['تقف جنب الصحن وتعوي بأعلى صوت لين يجي أحد','تجلس عند الصحن بصمت وتثقب روح صاحبك بنظراتك لين يحس بالذنب','تروح لصاحبك، تلمس رجله بخفة وتوصله للصحن','مو مشكلة، أصلاً مو جوعان. إذا عطاني أكل زين، ما عطاني بعد زين']},
+      {e:'🚪',t:'باب البيت مفتوح بالغلط. الخطوة الجاية؟',o:['تطلع بجرأة تستكشف الممر وتسلم على الجيران','تختفي فوراً تحت الكنبة — العالم الخارجي مليان مكنسات غير متوقعة','تجلس عند الباب وتطالع الفتحة بريبة — مين تجرأ يدخل؟','تطلع راسك، تشم، تطلع بسرعة تستكشف وترجع بسرعة بعد']},
+      {e:'🧹',t:'صاحبك طلع المكنسة. ردة فعلك؟',o:['تختبئ تحت السرير لين يختفي هالوحش المزعج — يمكن ياخذ ساعات','الفضول يغلب الخوف — تراقب الجسم من مسافة آمنة','تتجاهل تماماً وتكمل نوم. المكنسة؟ إيش هي المكنسة؟','تصدر صوت هسهسة على المكنسة، تحاول تخويفها']},
+      {e:'⏰',t:'الساعة ٣ الفجر. مستوى طاقتك؟',o:['زووووم!!! عدو سريع في البيت كله، تقفز على الدولاب، تطيح كأس المويا — هذه هي الحياة!','متكور جنب صاحبك الدافي وتخرخر بهدوء','تصحى، تتمغط، تتفقد صحن الأكل في المطبخ (وبعدين ترجع تنام)','تفتح عين وحدة تشوف الوضع، تقرر إنه مزعج، تكمل نوم']},
+      {e:'📦',t:'صاحبك جاب كرتون جديد للبيت. وش تسوي؟',o:['تحتل الكرتون في ٠.٥ ثانية وتصدر هسهسة لأي كائن يحاول يقرب','تتفقد أول — آمن؟ فيه ريحة قط ثاني؟ تنتظر يوم وبعدين تدخل','تقفز جوا على طول، تعلق وتطالع صاحبك بعيون بريئة','ممل. هالكرتون مو زي اللي قبله. لا مبالاة تامة']},
+      {e:'👥',t:'شخص غريب جا البيت. أول ردة فعل؟',o:['تجري له على طول وتسلم عليه بمواء عالي، تطلب ملاعبة','تختفي. بطلع لما أحس بالأمان — يمكن ساعات، يمكن أيام','تراقب من ورا الأثاث، تقيّم مستوى تهديد هذا الشخص','تكمل اللي كنت تسويه، بس بعين وحدة عليه']},
+      {e:'💻',t:'صاحبك يشتغل على اللابتوب. تقرر إنك…',o:['تجلس على الكيبورد. مؤخرتك أهم من شغله','تقعد في حجره وتخررررر','تراقب من الكرسي اللي جنبه، وتعطيه بين فترة وفترة نظرة «خذ بريك»','تتجاهل تماماً — تلقى بقعة شمس وتنام']},
+      {e:'🐟',t:'أي جملة توصف روتينك اليومي أفضل وصف؟',o:['أسوي نفس الشيء في نفس الوقت كل يوم — الروتين مقدس عندي','ما عندي روتين أبداً — صاحبي ما يعرف أبداً وش بسوي اللحظة الجاية','عندي روتين بس أحياناً أغيره على حسب المزاج','روتين؟ إيش هو؟ أنا بس أمشي على كيفي']},
+      {e:'🪶',t:'عطوك لعبة ريشة. إيش يصير بعدين؟',o:['شقلبة! قفزة! عضّة! هذا هو الصيد! هذه هي الحياة!','تضربها بمخلبك ضربة وحدة وتمشي — طفولية مرة','تطالع بصمت وتحسب أفضل زاوية هجوم وتضرب بدقة','تسوي نفسك مو مهتم، بس تلمسها بالسر لين صاحبك ما يشوف']},
+      {e:'🏠',t:'علاقتك مع صاحبك هي…',o:['أنا الرئيس، وهم موظفين عندي. علاقتنا صحية (بالنسبة لهم)','أرواح متآلفة — أحتاجهم ويحتاجوني','ساكنين مع بعض. أحيناً أسمح لهم يلعبوني بعد التفتيش الأمني','صاحب؟ مين صاحب؟ أنا بس أعرف الكائن ذا الرجلين اللي يعطيني أكل']}
     ]
   }
 
@@ -1168,7 +1349,7 @@ function s(id){
 // ===== INIT =====
 (function(){
   const saved=localStorage.getItem('cati_lang');
-  if(saved==='zh'||saved==='en'||saved==='hk'||saved==='ko'||saved==='ja'||saved==='fr'||saved==='es')LANG=saved;
+  if(saved==='zh'||saved==='en'||saved==='hk'||saved==='ko'||saved==='ja'||saved==='fr'||saved==='es'||saved==='ru'||saved==='ar')LANG=saved;
   setLang(LANG);
   initPageViews();
   setTimeout(()=>s('intro'),600);
@@ -1425,8 +1606,8 @@ function showModal(code){
       <div class=modal-mbti>${t.mbti} — ${mbtiName}</div>
       <div class=modal-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
       <div class=modal-fo>
-        <h4>${d.modalFriends}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
-        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4>${d.modalFriends}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':LANG==='ar'?' :':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':LANG==='ar'?' :':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
       </div>
     </div>`;
   modal.classList.add('active');
