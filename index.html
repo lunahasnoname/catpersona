@@ -6,7 +6,7 @@
 <title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://api.countapi.xyz">
     <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%98%BC%3C%2Ftext%3E%3C%2Fsvg%3E" type="image/svg+xml">
     <style>
@@ -264,15 +264,31 @@ body{
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
 @media(max-width:600px){
+  #intro h1{font-size:2rem}
+  .intro-cats img{width:44px;height:44px;margin:-3px}
+  .intro-cats{max-width:360px}
+  .intro-eyebrow{font-size:0.7rem}
+  .desc{font-size:0.92rem;line-height:1.6}
+  .btn{padding:14px 32px;font-size:0.92rem}
   .top3-carousel{max-width:340px}
+  .top3-slide{min-width:85%;padding:0 12px}
+  .top3-slide:not(.active-slide){transform:scale(0.9)}
   .top3-avatar{width:100px;height:100px}
   .top3-avatar-fallback{width:100px;height:100px;font-size:2.5rem}
+  .top3-paws{gap:24px}
   .fo-grid{grid-template-columns:1fr}
   .quiz-card{padding:24px 20px}
-  .result-hero{max-height:240px}
+  .result-hero{max-height:240px;aspect-ratio:4/3}
+  .result-actions{gap:8px}
+  .result-actions .btn{padding:12px 24px;font-size:0.85rem}
   .overview-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
   .lang-toggle button{padding:6px 12px;font-size:0.72rem}
-  .dim-popup-box{max-width:100%}
+  .dim-popup-box,.modal-box{max-width:95vw}
+  .modal-body{padding:16px 18px 20px}
+  .home-btn{padding:6px 12px;font-size:0.75rem}
+  .intro-actions{flex-direction:column;width:100%;max-width:280px}
+  .intro-actions .btn{width:100%}
+  footer{font-size:0.8rem;padding:1rem}
 }
 </style>
 </head>
@@ -367,25 +383,44 @@ body{
 </div>
 
 <script>
-// ===== PAGE VIEW COUNTER (using countapi.xyz) =====
+// ===== PAGE VIEW COUNTER (unique visitors via countapi.xyz) =====
 function initPageViews(){
   const el = document.getElementById('viewCount');
   if(el) el.textContent = '...';
-  // Use countapi.xyz — if CORS fails, fallback to localStorage counter
-  fetch('https://api.countapi.xyz/hit/catpersona/pageviews', { mode:'cors', cache:'no-store' })
-    .then(r => r.ok ? r.json() : Promise.reject('http'+r.status))
-    .then(d => {
-      const el2 = document.getElementById('viewCount');
-      if(el2) el2.textContent = d.value != null ? 'x' + d.value.toLocaleString() : 'x*';
-    })
-    .catch(() => {
-      // fallback: use localStorage session counter
-      const key = 'cati_views';
-      let c = parseInt(localStorage.getItem(key)||'0') + 1;
-      localStorage.setItem(key, c);
-      const el2 = document.getElementById('viewCount');
-      if(el2) el2.textContent = 'x' + c.toLocaleString();
-    });
+  const visited = localStorage.getItem('cati_visited');
+  if(visited){
+    // Return visitor — just read the count, don't increment
+    fetch('https://api.countapi.xyz/get/catpersona/pageviews', { mode:'cors', cache:'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject('err'))
+      .then(d => {
+        const el2 = document.getElementById('viewCount');
+        if(el2) el2.textContent = d.value != null ? 'x' + d.value.toLocaleString() : 'x*';
+      })
+      .catch(() => {
+        const el2 = document.getElementById('viewCount');
+        const c = localStorage.getItem('cati_views_total') || '*';
+        if(el2) el2.textContent = 'x' + c;
+      });
+  } else {
+    // First visit — increment the counter
+    fetch('https://api.countapi.xyz/hit/catpersona/pageviews', { mode:'cors', cache:'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject('err'))
+      .then(d => {
+        localStorage.setItem('cati_visited', '1');
+        if(d.value != null) localStorage.setItem('cati_views_total', d.value.toLocaleString());
+        const el2 = document.getElementById('viewCount');
+        if(el2) el2.textContent = d.value != null ? 'x' + d.value.toLocaleString() : 'x*';
+      })
+      .catch(() => {
+        // Fallback: use localStorage counter (still only increments once)
+        localStorage.setItem('cati_visited', '1');
+        let c = parseInt(localStorage.getItem('cati_views_fallback')||'0') + 1;
+        localStorage.setItem('cati_views_fallback', c);
+        localStorage.setItem('cati_views_total', c.toLocaleString());
+        const el2 = document.getElementById('viewCount');
+        if(el2) el2.textContent = 'x' + c.toLocaleString();
+      });
+  }
 }
 
 // ===== LANGUAGE STATE =====
@@ -617,13 +652,13 @@ const TYPES = [
   {code:"LCQAK",name:"精英运动员",en:"The Elite Athlete",breed:"孟加拉豹猫",breedEn:"Bengal",color:"#C49A3C",desc:"运动型、安静、规律。沉默地在墙上爬来爬去，以专注的沉默完成高难度动作。生活极其规律。",descEn:"Athletic, quiet, routine-driven. Scales walls in focused silence. Executes high-difficulty moves with laser precision.",mbti:"ESTP",mbtiName:"高速寻求刺激者",mbtiNameEn:"The High-Octane Thrillseeker",traits:["运动型","安静","大胆","规律"],traitsEn:["Athletic","Quiet","Bold","Routine"],f:["SCQAK","LCQGK","LMQAK"],o:["SMQGK","LMVGK","SMVGK"],d:{S:"L",E:"C",V:"Q",A:"A",C:"K"}},
   {code:"LCQGK",name:"辣味甜心",en:"The Spicy Sweetheart",breed:"三花猫",breedEn:"Calico",color:"#C4786B",desc:"爱意满满但脾气火爆。规律生活中的定时炸弹。对最爱的人极其温柔，转头却可能因为被摸了肚子而咬人。",descEn:"Full of love but with a fiery temper. A ticking time bomb in an otherwise routine life. Sweet one moment, biting the next.",mbti:"INFJ / ESFJ",mbtiName:"复杂的保护者",mbtiNameEn:"The Complex Protector",traits:["爱意","火爆","独立","规律"],traitsEn:["Loving","Fiery","Independent","Routine"],f:["SCQGK","LCQAK","LMQGK"],o:["LMVAK","SCVAK","SMVAK"],d:{S:"L",E:"C",V:"Q",A:"G",C:"K"}},
   {code:"LMVAK",name:"话痨室友",en:"The Chatty Roommate",breed:"狸花猫",breedEn:"Li Hua Cat",color:"#8B7355",desc:"聪明、话多、规律。中国街头最传奇的猫，适应力极强。每天都在同一位置「开会」，用各种叫声讨论今天的菜单、天气和隔壁猫的八卦。",descEn:"Clever, chatty, routine-driven. China's most legendary street cat — incredibly adaptable. Holds daily 'meetings' from the same spot, discussing everything.",mbti:"ENTP",mbtiName:"机智辩手",mbtiNameEn:"The Witty Debater",traits:["聪明","健谈","适应","规律"],traitsEn:["Clever","Chatty","Adaptable","Routine"],f:["LCVAK","SCVAK","LMQAK"],o:["SMQGK","SCQGK","SMVGK"],d:{S:"L",E:"M",V:"V",A:"A",C:"K"}},
-  {code:"LMVGK",name:"皇室知己",en:"The Royal Confidant",breed:"雪鸮",breedEn:"Snowy Owl",color:"#E8E0D0",desc:"安静、睿智、规律。雪鸮般沉默地准时出现，带来平静的气场。重视安静的环境和深夜的沉思。",descEn:"Quiet, wise, routine-driven. Appears silently like a snowy owl at the same time daily, bringing a calming presence. Values quiet environments and midnight contemplation.",mbti:"ISFJ",mbtiName:"温和支持者",mbtiNameEn:"The Gentle Supporter",traits:["安静","睿智","沉稳","规律"],traitsEn:["Quiet","Wise","Composed","Routine"],f:["SMVGK","LCVGK","LMQGK"],o:["LCQAK","SCVAW","LCVAW"],d:{S:"L",E:"M",V:"V",A:"G",C:"K"}},
+  {code:"LMVGK",name:"皇室知己",en:"The Royal Confidant",breed:"雪鸮",breedEn:"Snowy Owl",color:"#5A6B5A",desc:"安静、睿智、规律。雪鸮般沉默地准时出现，带来平静的气场。重视安静的环境和深夜的沉思。",descEn:"Quiet, wise, routine-driven. Appears silently like a snowy owl at the same time daily, bringing a calming presence. Values quiet environments and midnight contemplation.",mbti:"ISFJ",mbtiName:"温和支持者",mbtiNameEn:"The Gentle Supporter",traits:["安静","睿智","沉稳","规律"],traitsEn:["Quiet","Wise","Composed","Routine"],f:["SMVGK","LCVGK","LMQGK"],o:["LCQAK","SCVAW","LCVAW"],d:{S:"L",E:"M",V:"V",A:"G",C:"K"}},
   {code:"LMQAK",name:"金渐层贵族",en:"The Golden Noble",breed:"金渐层",breedEn:"Golden Shaded",color:"#D4A847",desc:"优雅、贵气、规律。每天同一时间在阳光下优雅小憩，金色被毛在光线下闪闪发光。极具贵族气质，对品质生活有极高要求。",descEn:"Elegant, noble, routine-driven. Naps gracefully in the same sunbeam daily — golden coat gleaming. Aristocratic to the core, with the highest standards for quality of life.",mbti:"INTJ",mbtiName:"战略审美家",mbtiNameEn:"The Strategic Aesthetician",traits:["优雅","贵气","规律","高标准"],traitsEn:["Elegant","Noble","Routine","High-standard"],f:["SMQAK","LMVGK","SMVGK"],o:["LCVAW","SCVAW","LMVGW"],d:{S:"L",E:"M",V:"Q",A:"A",C:"K"}},
   {code:"LMQGK",name:"毛绒灵魂伴侣",en:"The Fluffy Soulmate",breed:"布偶猫",breedEn:"Ragdoll",color:"#B88A9C",desc:"甜美、和平、规律。每天准时求抱抱，被抱着时会因爱意完全瘫软。躲避冲突，将和平置于一切之上。",descEn:"Sweet, peaceful, routine-driven. Demands cuddles at the same time every day. Goes completely limp with affection when held.",mbti:"INFP",mbtiName:"梦幻和谐者",mbtiNameEn:"The Dreamy Harmonizer",traits:["甜美","和平","依赖","规律"],traitsEn:["Sweet","Peaceful","Dependent","Routine"],f:["SMQGK","LCVGK","LMVGK"],o:["SCVAK","LCQAK","SCVAW"],d:{S:"L",E:"M",V:"Q",A:"G",C:"K"}},
   {code:"SCVAK",name:"不羁独行侠",en:"The Untamed Maverick",breed:"萨凡纳猫",breedEn:"Savannah",color:"#8B5C3A",desc:"独立、霸道、规律。每天同一时间巡视领地，制定房子的规则。将整个世界视为狩猎丛林。",descEn:"Independent, dominant, routine-driven. Patrols territory at the same time daily, setting the rules of the house. The world is their jungle.",mbti:"ENTJ",mbtiName:"天生领袖",mbtiNameEn:"The Born Leader",traits:["独立","霸道","吵闹","规律"],traitsEn:["Independent","Dominant","Vocal","Routine"],f:["LCVAK","SCQAK","LMVAK"],o:["LMQGK","SMQGK","SMVGK"],d:{S:"S",E:"C",V:"V",A:"A",C:"K"}},
   {code:"SCVGK",name:"街头传奇",en:"The Street Legend",breed:"小熊猫",breedEn:"Red Panda",color:"#C4734F",desc:"敏锐、街头智慧、规律。每天固定时间「检查地盘」，以好奇和算计的混合眼光看待一切。生存能量满格。",descEn:"Sharp, street-smart, routine-driven. Checks territory at the same time daily, eyeing everything with a mix of curiosity and calculation.",mbti:"ISTP",mbtiName:"适应性叛逆者",mbtiNameEn:"The Adaptable Renegade",traits:["敏锐","生存力强","独立","规律"],traitsEn:["Sharp","Survivalist","Independent","Routine"],f:["SCQGK","SCVAW","SMVGK"],o:["LMVGK","LCVGK","LMVAK"],d:{S:"S",E:"C",V:"V",A:"G",C:"K"}},
   {code:"SCQAK",name:"沉默猎手",en:"The Silent Hunter",breed:"挪威森林猫",breedEn:"Norwegian Forest",color:"#4A524A",desc:"威严、独立、规律。每天准时巡视院子，是大自然的沉默守望者。喜欢爬树和探索，从不高声喧哗。",descEn:"Majestic, independent, routine-driven. Patrols the yard at the same time daily — nature's silent guardian. Climbs trees, never brags.",mbti:"ISTJ",mbtiName:"坚韧个人主义者",mbtiNameEn:"The Rugged Individualist",traits:["威严","独立","沉默","规律"],traitsEn:["Majestic","Independent","Silent","Routine"],f:["LCQAK","LMQAK","SCVAK"],o:["LMVAK","LCVAK","LCVAW"],d:{S:"S",E:"C",V:"Q",A:"A",C:"K"}},
-  {code:"SCQGK",name:"幻影恶作剧师",en:"The Phantom Prankster",breed:"异瞳白猫",breedEn:"Odd-eyed White",color:"#F0F0FF",desc:"神秘、淘气、规律。异瞳闪烁，凌晨 4 点准时开始恶作剧，打翻台灯后消失无踪。纯净白毛下藏着最皮的灵魂。",descEn:"Mysterious, mischievous, routine-driven. Heterochromic eyes gleam — pranks start at 4 AM sharp, knock over a lamp, vanish. Pure white fur, chaotic soul.",mbti:"INTP",mbtiName:"混乱学者",mbtiNameEn:"The Chaotic Academic",traits:["神秘","淘气","异瞳","规律"],traitsEn:["Mysterious","Mischievous","Odd-eyed","Routine"],f:["SCVGK","SMQGW","LCQGK"],o:["LMVAK","LMVGK","LCVAK"],d:{S:"S",E:"C",V:"Q",A:"G",C:"K"}},
+  {code:"SCQGK",name:"幻影恶作剧师",en:"The Phantom Prankster",breed:"异瞳白猫",breedEn:"Odd-eyed White",color:"#5C6B7A",desc:"神秘、淘气、规律。异瞳闪烁，凌晨 4 点准时开始恶作剧，打翻台灯后消失无踪。纯净白毛下藏着最皮的灵魂。",descEn:"Mysterious, mischievous, routine-driven. Heterochromic eyes gleam — pranks start at 4 AM sharp, knock over a lamp, vanish. Pure white fur, chaotic soul.",mbti:"INTP",mbtiName:"混乱学者",mbtiNameEn:"The Chaotic Academic",traits:["神秘","淘气","异瞳","规律"],traitsEn:["Mysterious","Mischievous","Odd-eyed","Routine"],f:["SCVGK","SMQGW","LCQGK"],o:["LMVAK","LMVGK","LCVAK"],d:{S:"S",E:"C",V:"Q",A:"G",C:"K"}},
   {code:"SMVAK",name:"古怪艺术家",en:"The Eccentric Artist",breed:"奶牛猫",breedEn:"Cow Cat",color:"#2A2A2A",desc:"俏皮、独立、规律。身着黑白礼服，却干着最淘气的事。每天同一时间进行「艺术行为」——用爪子拍翻水杯、在夜间创作。完全不受社会规则约束。",descEn:"Playful, independent, routine-driven. Wearing a tuxedo suit, causing the naughtiest mayhem. Performs 'artistic behaviors' daily — paw-swipes water glasses, nocturnal creativity. Ignoring social norms.",mbti:"ISFP",mbtiName:"古怪创意者",mbtiNameEn:"The Quirky Creative",traits:["俏皮","创意","独立","规律"],traitsEn:["Playful","Creative","Independent","Routine"],f:["LMVAK","SCVAW","SCVAK"],o:["LMQGK","SMQGK","LCQGK"],d:{S:"S",E:"M",V:"V",A:"A",C:"K"}},
   {code:"SMVGK",name:"优雅暗影",en:"The Elegant Shadow",breed:"黑猫",breedEn:"Black Cat",color:"#1A1A2E",desc:"神秘、私密、规律。黑影般准时出现又消失，只为一个特定的人类展现轻柔的颤音。对陌生人和噪音零容忍。",descEn:"Mysterious, private, routine-driven. Appears and vanishes like a shadow on schedule. Soft trills reserved for one specific human. Zero tolerance for strangers.",mbti:"INFJ",mbtiName:"私密神秘主义者",mbtiNameEn:"The Private Mystic",traits:["神秘","私密","敏锐","规律"],traitsEn:["Mysterious","Private","Sharp","Routine"],f:["LMVGK","SCVGK","SMQGK"],o:["LCVAK","SCVAK","LMVAK"],d:{S:"S",E:"M",V:"V",A:"G",C:"K"}},
   {code:"SMQAK",name:"淡定哲学家",en:"The Chill Philosopher",breed:"英国短毛猫",breedEn:"British Shorthair",color:"#7A7A8A",desc:"淡定、独立、规律。每天同一地点准时发呆，是终极「保持冷静继续前进」的猫。低维护，完全满足于静静陪伴。",descEn:"Chill, independent, routine-driven. Zens out at the same spot daily — the ultimate 'keep calm and carry on' cat. Low maintenance, pure contentment.",mbti:"INTP / ISTJ",mbtiName:"坚忍思考者",mbtiNameEn:"The Stoic Thinker",traits:["淡定","独立","低维护","规律"],traitsEn:["Chill","Independent","Low-maintenance","Routine"],f:["SCQAK","LMQAK","SMQGK"],o:["LCVAK","LCQAK","SCVAW"],d:{S:"S",E:"M",V:"Q",A:"A",C:"K"}},
@@ -737,7 +772,7 @@ function shuffleCats(){
 
 // ===== QUIZ =====
 function startQuiz(){curQ=0;answers=[];s('quiz');rq()}
-function restartQuiz(){s('intro')}
+function restartQuiz(){curQ=0;answers=[];s('quiz');rq()}
 
 function rq(){
   const qd=I18N[LANG].questions[curQ];
@@ -976,6 +1011,6 @@ function shareResult(){
   showQR();
 }
 </script>
-<footer style="text-align:center;padding:1.2rem;font-size:0.85rem;color:#8B7355;background:linear-gradient(135deg,#FFF9F0,#FFF3E0);border-top:1px solid #E8DFD0;">designed by <a href="https://lunazhao.pages.dev/" target="_blank" style="color:#C4734F;text-decoration:none;font-weight:600;">Luna Zhao</a></footer>
+<footer style="text-align:center;padding:1.2rem;font-size:0.9rem;color:#8B7355;background:linear-gradient(135deg,#FFF9F0,#FFF3E0);border-top:1px solid #E8DFD0;font-family:'Caveat',cursive;letter-spacing:0.02em;">Designed by <a href="https://lunazhao.pages.dev/" target="_blank" style="color:#C4734F;text-decoration:none;font-weight:700;">Luna Zhao</a></footer>
 </body>
 </html>
