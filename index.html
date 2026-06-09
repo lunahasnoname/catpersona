@@ -384,58 +384,57 @@ body{
 
 <script>
 // ===== PAGE VIEW COUNTER (unique visitors) =====
-// Uses api.counterapi.dev — free, no CORS issues, unique per key
-let _viewsFetched = false; // only fetch once per session
-let _viewsCache = null;    // cached display value
+// Uses api.counterapi.dev V1 — free, namespace/key URL format
+let _viewsCache = null;    // cached numeric count
+
+function animateCount(el,from,to,duration){
+  if(from===to){el.textContent='x'+to.toLocaleString();return}
+  const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/duration,1);
+    const eased=1-Math.pow(1-p,3); // easeOutCubic
+    const cur=Math.round(from+(to-from)*eased);
+    el.textContent='x'+cur.toLocaleString();
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 
 function initPageViews(){
-  // Update the DOM element (always call this after introMeta is rendered)
-  function _setEl(val){
-    const el = document.getElementById('viewCount');
-    if(el) el.textContent = val;
+  const el=document.getElementById('viewCount');
+  if(!el)return;
+  if(_viewsCache!==null){animateCount(el,0,_viewsCache,1200);return}
+  el.textContent='x...';
+
+  const visited=localStorage.getItem('cati_visited');
+  const API='https://api.counterapi.dev/v1/catpersona/views';
+
+  function handleCount(n){
+    if(n==null||isNaN(n))n=0;
+    _viewsCache=n;
+    animateCount(el,0,n,1200);
   }
 
-  // If we have a cached value, just set it immediately
-  if(_viewsCache !== null){ _setEl(_viewsCache); return; }
-  _setEl('...');
-
-  const visited = localStorage.getItem('cati_visited');
-  const apiBase = 'https://api.counterapi.dev/v1/catpersona-views/';
-
   if(visited){
-    // Return visitor — read only
-    fetch(apiBase + 'get', { cache:'no-store' })
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(d => {
-        const val = d.count != null ? 'x' + Number(d.count).toLocaleString() : ('x' + (localStorage.getItem('cati_views_total')||'*'));
-        _viewsCache = val;
-        _setEl(val);
+    fetch(API,{cache:'no-store'})
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>handleCount(d.count))
+      .catch(()=>handleCount(parseInt(localStorage.getItem('cati_views_total')||'0')));
+  }else{
+    fetch(API+'/up',{cache:'no-store'})
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>{
+        localStorage.setItem('cati_visited','1');
+        const n=d.count!=null?Number(d.count):0;
+        localStorage.setItem('cati_views_total',n);
+        handleCount(n);
       })
-      .catch(() => {
-        const val = 'x' + (localStorage.getItem('cati_views_total')||'*');
-        _viewsCache = val;
-        _setEl(val);
-      });
-  } else {
-    // First visit — increment
-    fetch(apiBase + 'up', { cache:'no-store' })
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(d => {
-        localStorage.setItem('cati_visited', '1');
-        const n = d.count != null ? Number(d.count) : null;
-        if(n != null) localStorage.setItem('cati_views_total', n.toLocaleString());
-        const val = n != null ? 'x' + n.toLocaleString() : 'x*';
-        _viewsCache = val;
-        _setEl(val);
-      })
-      .catch(() => {
-        localStorage.setItem('cati_visited', '1');
-        const fallback = parseInt(localStorage.getItem('cati_views_fallback')||'0') + 1;
-        localStorage.setItem('cati_views_fallback', fallback);
-        localStorage.setItem('cati_views_total', fallback.toLocaleString());
-        const val = 'x' + fallback.toLocaleString();
-        _viewsCache = val;
-        _setEl(val);
+      .catch(()=>{
+        localStorage.setItem('cati_visited','1');
+        const fb=parseInt(localStorage.getItem('cati_views_fallback')||'0')+1;
+        localStorage.setItem('cati_views_fallback',fb);
+        localStorage.setItem('cati_views_total',fb);
+        handleCount(fb);
       });
   }
 }
@@ -645,7 +644,7 @@ const IMG_MAP = {
   SMVGK:'A_sleek_all_black_cat_with_shi_2026-06-08T16-11-56.png',
   SMQAK:'A_charming_British_Shorthair_c_2026-06-08T15-09-00.png',
   SMQGK:'A_gorgeous_fluffy_Persian_cat__2026-06-08T15-08-30.png',
-  LCVAW:'A_beautiful_Devon_Rex_cat_with_2026-06-09T12-34-18.png',
+  LCVAW:'A_majestic_Maine_Coon_cat_with_2026-06-09T13-13-50.png',
   LMVGW:'A_charming_Scottish_Fold_cat_w_2026-06-08T15-38-35.png',
   SCVAW:'A_sleek_black_and_white_tuxedo_2026-06-09T12-34-18.png',
   SMQGW:'A_giant_panda_sitting_calmly___2026-06-08T15-32-21.png',
@@ -671,30 +670,30 @@ const GROUP_NAMES_ZH=['混乱创造者','君主','暗影潜行者','禅修大师
 const GROUP_NAMES_EN=['Chaos Creators','The Monarchs','Shadow Stalkers','Zen Masters'];
 
 const TYPES = [
-  {code:"LCVAK",name:"演艺巨星",en:"The Showstopper",breed:"暹罗猫",breedEn:"Siamese",color:"#C4734F",desc:"外向、吵闹、极度规律。每天同一时间同一地点表演同样的节目。无法容忍被忽视，要求成为绝对焦点。",descEn:"Loud, hyper-social, and relentlessly active. Performs the same show at the same time every day. Cannot tolerate being ignored.",mbti:"ENFP / ESFP",mbtiName:"终极外向者",mbtiNameEn:"The Ultimate Extravert",traits:["外向","吵闹","规律","粘人"],traitsEn:["Extraverted","Loud","Routine","Clingy"],f:["LMVAK","LCVAW","SCVAK"],o:["SMQGK","SMQGW","SCQGK"],d:{S:"L",E:"C",V:"V",A:"A",C:"K"}},
-  {code:"LCVGK",name:"戏剧粘人精",en:"The Dramatic Velcro",breed:"橘猫",breedEn:"Orange Tabby",color:"#D4834A",desc:"贪吃、粘人、规律。像橘色胶水一样粘在主人身上，眼里只有食物和爱。对罐头声音极度敏感，听到开罐声能从睡梦中弹射起床。",descEn:"Food-obsessed, clingy, routine-driven. Sticks like orange glue — only food and love matter. Hearing a can opener sends them flying out of deep sleep.",mbti:"ENFJ",mbtiName:"深情照顾者",mbtiNameEn:"The Deeply Expressive Caregiver",traits:["粘人","贪吃","温暖","规律"],traitsEn:["Clingy","Food-obsessed","Warm","Routine"],f:["LMVGK","LCVAK","LMQGK"],o:["SCVAK","SCVAW","SCQAK"],d:{S:"L",E:"C",V:"V",A:"G",C:"K"}},
   {code:"LCQAK",name:"精英运动员",en:"The Elite Athlete",breed:"孟加拉豹猫",breedEn:"Bengal",color:"#C49A3C",desc:"运动型、安静、规律。沉默地在墙上爬来爬去，以专注的沉默完成高难度动作。生活极其规律。",descEn:"Athletic, quiet, routine-driven. Scales walls in focused silence. Executes high-difficulty moves with laser precision.",mbti:"ESTP",mbtiName:"高速寻求刺激者",mbtiNameEn:"The High-Octane Thrillseeker",traits:["运动型","安静","大胆","规律"],traitsEn:["Athletic","Quiet","Bold","Routine"],f:["SCQAK","LCQGK","LMQAK"],o:["SMQGK","LMVGK","SMVGK"],d:{S:"L",E:"C",V:"Q",A:"A",C:"K"}},
   {code:"LCQGK",name:"辣味甜心",en:"The Spicy Sweetheart",breed:"三花猫",breedEn:"Calico",color:"#C4786B",desc:"爱意满满但脾气火爆。规律生活中的定时炸弹。对最爱的人极其温柔，转头却可能因为被摸了肚子而咬人。",descEn:"Full of love but with a fiery temper. A ticking time bomb in an otherwise routine life. Sweet one moment, biting the next.",mbti:"INFJ / ESFJ",mbtiName:"复杂的保护者",mbtiNameEn:"The Complex Protector",traits:["爱意","火爆","独立","规律"],traitsEn:["Loving","Fiery","Independent","Routine"],f:["SCQGK","LCQAK","LMQGK"],o:["LMVAK","SCVAK","SMVAK"],d:{S:"L",E:"C",V:"Q",A:"G",C:"K"}},
-  {code:"LMVAK",name:"话痨室友",en:"The Chatty Roommate",breed:"狸花猫",breedEn:"Li Hua Cat",color:"#8B7355",desc:"聪明、话多、规律。中国街头最传奇的猫，适应力极强。每天都在同一位置「开会」，用各种叫声讨论今天的菜单、天气和隔壁猫的八卦。",descEn:"Clever, chatty, routine-driven. China's most legendary street cat — incredibly adaptable. Holds daily 'meetings' from the same spot, discussing everything.",mbti:"ENTP",mbtiName:"机智辩手",mbtiNameEn:"The Witty Debater",traits:["聪明","健谈","适应","规律"],traitsEn:["Clever","Chatty","Adaptable","Routine"],f:["LCVAK","SCVAK","LMQAK"],o:["SMQGK","SCQGK","SMVGK"],d:{S:"L",E:"M",V:"V",A:"A",C:"K"}},
-  {code:"LMVGK",name:"皇室知己",en:"The Royal Confidant",breed:"雪鸮",breedEn:"Snowy Owl",color:"#5A6B5A",desc:"安静、睿智、规律。雪鸮般沉默地准时出现，带来平静的气场。重视安静的环境和深夜的沉思。",descEn:"Quiet, wise, routine-driven. Appears silently like a snowy owl at the same time daily, bringing a calming presence. Values quiet environments and midnight contemplation.",mbti:"ISFJ",mbtiName:"温和支持者",mbtiNameEn:"The Gentle Supporter",traits:["安静","睿智","沉稳","规律"],traitsEn:["Quiet","Wise","Composed","Routine"],f:["SMVGK","LCVGK","LMQGK"],o:["LCQAK","SCVAW","LCVAW"],d:{S:"L",E:"M",V:"V",A:"G",C:"K"}},
+  {code:"LCVAK",name:"演艺巨星",en:"The Showstopper",breed:"暹罗猫",breedEn:"Siamese",color:"#C4734F",desc:"外向、吵闹、极度规律。每天同一时间同一地点表演同样的节目。无法容忍被忽视，要求成为绝对焦点。",descEn:"Loud, hyper-social, and relentlessly active. Performs the same show at the same time every day. Cannot tolerate being ignored.",mbti:"ENFP / ESFP",mbtiName:"终极外向者",mbtiNameEn:"The Ultimate Extravert",traits:["外向","吵闹","规律","粘人"],traitsEn:["Extraverted","Loud","Routine","Clingy"],f:["LMVAK","LCVAW","SCVAK"],o:["SMQGK","SMQGW","SCQGK"],d:{S:"L",E:"C",V:"V",A:"A",C:"K"}},
+  {code:"LCVGK",name:"戏剧粘人精",en:"The Dramatic Velcro",breed:"橘猫",breedEn:"Orange Tabby",color:"#D4834A",desc:"贪吃、粘人、规律。像橘色胶水一样粘在主人身上，眼里只有食物和爱。对罐头声音极度敏感，听到开罐声能从睡梦中弹射起床。",descEn:"Food-obsessed, clingy, routine-driven. Sticks like orange glue — only food and love matter. Hearing a can opener sends them flying out of deep sleep.",mbti:"ENFJ",mbtiName:"深情照顾者",mbtiNameEn:"The Deeply Expressive Caregiver",traits:["粘人","贪吃","温暖","规律"],traitsEn:["Clingy","Food-obsessed","Warm","Routine"],f:["LMVGK","LCVAK","LMQGK"],o:["SCVAK","SCVAW","SCQAK"],d:{S:"L",E:"C",V:"V",A:"G",C:"K"}},
+  {code:"LCVAW",name:"巨喵戏精",en:"The Giant Drama Queen",breed:"缅因猫",breedEn:"Maine Coon",color:"#8B6914",desc:"巨大、蓬松、毫无规律。缅因猫般拥有狮子般的围脖和帝王威严，却像小狗一样追随主人。今天深情依偎，明天对着你大声抱怨，后天跳上餐桌宣告主权。情绪来了从不预告。",descEn:"Massive, fluffy, utterly unpredictable. Sports a lion-like ruff and regal presence like the Maine Coon, yet follows their human like a puppy. Deep cuddles today, dramatic yowls tomorrow, claims the dinner table the day after. Emotion always arrives unannounced.",mbti:"ENFP",mbtiName:"巨型戏精",mbtiNameEn:"The Giant Drama Queen",traits:["外向","情绪化","巨大","不可预测"],traitsEn:["Extraverted","Moody","Mammoth","Unpredictable"],f:["LCVAK","SCVAW","LMVAK"],o:["SMQGK","SMQAK","LMVGK"],d:{S:"L",E:"C",V:"V",A:"A",C:"W"}},
   {code:"LMQAK",name:"金渐层贵族",en:"The Golden Noble",breed:"金渐层",breedEn:"Golden Shaded",color:"#D4A847",desc:"优雅、贵气、规律。每天同一时间在阳光下优雅小憩，金色被毛在光线下闪闪发光。极具贵族气质，对品质生活有极高要求。",descEn:"Elegant, noble, routine-driven. Naps gracefully in the same sunbeam daily — golden coat gleaming. Aristocratic to the core, with the highest standards for quality of life.",mbti:"INTJ",mbtiName:"战略审美家",mbtiNameEn:"The Strategic Aesthetician",traits:["优雅","贵气","规律","高标准"],traitsEn:["Elegant","Noble","Routine","High-standard"],f:["SMQAK","LMVGK","SMVGK"],o:["LCVAW","SCVAW","LMVGW"],d:{S:"L",E:"M",V:"Q",A:"A",C:"K"}},
   {code:"LMQGK",name:"毛绒灵魂伴侣",en:"The Fluffy Soulmate",breed:"布偶猫",breedEn:"Ragdoll",color:"#B88A9C",desc:"甜美、和平、规律。每天准时求抱抱，被抱着时会因爱意完全瘫软。躲避冲突，将和平置于一切之上。",descEn:"Sweet, peaceful, routine-driven. Demands cuddles at the same time every day. Goes completely limp with affection when held.",mbti:"INFP",mbtiName:"梦幻和谐者",mbtiNameEn:"The Dreamy Harmonizer",traits:["甜美","和平","依赖","规律"],traitsEn:["Sweet","Peaceful","Dependent","Routine"],f:["SMQGK","LCVGK","LMVGK"],o:["SCVAK","LCQAK","SCVAW"],d:{S:"L",E:"M",V:"Q",A:"G",C:"K"}},
-  {code:"SCVAK",name:"不羁独行侠",en:"The Untamed Maverick",breed:"萨凡纳猫",breedEn:"Savannah",color:"#8B5C3A",desc:"独立、霸道、规律。每天同一时间巡视领地，制定房子的规则。将整个世界视为狩猎丛林。",descEn:"Independent, dominant, routine-driven. Patrols territory at the same time daily, setting the rules of the house. The world is their jungle.",mbti:"ENTJ",mbtiName:"天生领袖",mbtiNameEn:"The Born Leader",traits:["独立","霸道","吵闹","规律"],traitsEn:["Independent","Dominant","Vocal","Routine"],f:["LCVAK","SCQAK","LMVAK"],o:["LMQGK","SMQGK","SMVGK"],d:{S:"S",E:"C",V:"V",A:"A",C:"K"}},
-  {code:"SCVGK",name:"街头传奇",en:"The Street Legend",breed:"小熊猫",breedEn:"Red Panda",color:"#C4734F",desc:"敏锐、街头智慧、规律。每天固定时间「检查地盘」，以好奇和算计的混合眼光看待一切。生存能量满格。",descEn:"Sharp, street-smart, routine-driven. Checks territory at the same time daily, eyeing everything with a mix of curiosity and calculation.",mbti:"ISTP",mbtiName:"适应性叛逆者",mbtiNameEn:"The Adaptable Renegade",traits:["敏锐","生存力强","独立","规律"],traitsEn:["Sharp","Survivalist","Independent","Routine"],f:["SCQGK","SCVAW","SMVGK"],o:["LMVGK","LCVGK","LMVAK"],d:{S:"S",E:"C",V:"V",A:"G",C:"K"}},
+  {code:"LMQAW",name:"银色散漫贵族",en:"The Silver Drifter",breed:"美国短毛猫",breedEn:"American Shorthair",color:"#8898A8",desc:"沉稳、独立、不按套路出牌。美短看起来岁月静好，内心却完全随心。今天窝在沙发一整天，明天凌晨三点爬上书架打翻你的杯子，然后用最无辜的眼神看着你。它的中心永远是它自己。",descEn:"Steady, independent, utterly unpredictable. An American Shorthair looks calm on the surface — but internally, does exactly as it pleases. Loafs all day, then knocks over your glass at 3 AM with the most innocent eyes. Always the main character.",mbti:"ISTP",mbtiName:"静水流深者",mbtiNameEn:"The Still Waters",traits:["沉稳","独立","随性","不可预测"],traitsEn:["Composed","Independent","Casual","Unpredictable"],f:["SMQAK","LMQGK","SMQAW"],o:["LCVAK","LCQAK","LMVAK"],d:{S:"L",E:"M",V:"Q",A:"A",C:"W"}},
+  {code:"LMVAK",name:"话痨室友",en:"The Chatty Roommate",breed:"狸花猫",breedEn:"Li Hua Cat",color:"#8B7355",desc:"聪明、话多、规律。中国街头最传奇的猫，适应力极强。每天都在同一位置「开会」，用各种叫声讨论今天的菜单、天气和隔壁猫的八卦。",descEn:"Clever, chatty, routine-driven. China's most legendary street cat — incredibly adaptable. Holds daily 'meetings' from the same spot, discussing everything.",mbti:"ENTP",mbtiName:"机智辩手",mbtiNameEn:"The Witty Debater",traits:["聪明","健谈","适应","规律"],traitsEn:["Clever","Chatty","Adaptable","Routine"],f:["LCVAK","SCVAK","LMQAK"],o:["SMQGK","SCQGK","SMVGK"],d:{S:"L",E:"M",V:"V",A:"A",C:"K"}},
+  {code:"LMVGK",name:"皇室知己",en:"The Royal Confidant",breed:"雪鸮",breedEn:"Snowy Owl",color:"#5A6B5A",desc:"安静、睿智、规律。雪鸮般沉默地准时出现，带来平静的气场。重视安静的环境和深夜的沉思。",descEn:"Quiet, wise, routine-driven. Appears silently like a snowy owl at the same time daily, bringing a calming presence. Values quiet environments and midnight contemplation.",mbti:"ISFJ",mbtiName:"温和支持者",mbtiNameEn:"The Gentle Supporter",traits:["安静","睿智","沉稳","规律"],traitsEn:["Quiet","Wise","Composed","Routine"],f:["SMVGK","LCVGK","LMQGK"],o:["LCQAK","SCVAW","LCVAW"],d:{S:"L",E:"M",V:"V",A:"G",C:"K"}},
+  {code:"LMVGW",name:"丝绒陷阱",en:"The Velvet Trap",breed:"苏格兰折耳猫",breedEn:"Scottish Fold",color:"#B8A89C",desc:"甜美、操纵、不可预测。用可爱骗你打开罐头，然后因为你用叉子而不是勺子就把罐头扔到地上。情绪说变就变。",descEn:"Sweet, manipulative, unpredictable. Uses cuteness to get what they want, then punishes you for using a fork instead of a spoon. Mood swings on a dime.",mbti:"ENFJ",mbtiName:"魅力操纵者",mbtiNameEn:"The Charming Manipulator",traits:["甜美","操纵","情绪化","不可预测"],traitsEn:["Sweet","Manipulative","Moody","Unpredictable"],f:["LCVGK","SCVAW","SCVGK"],o:["SCQAK","LMQAK","SMQAK"],d:{S:"L",E:"M",V:"V",A:"G",C:"W"}},
   {code:"SCQAK",name:"沉默猎手",en:"The Silent Hunter",breed:"挪威森林猫",breedEn:"Norwegian Forest",color:"#4A524A",desc:"威严、独立、规律。每天准时巡视院子，是大自然的沉默守望者。喜欢爬树和探索，从不高声喧哗。",descEn:"Majestic, independent, routine-driven. Patrols the yard at the same time daily — nature's silent guardian. Climbs trees, never brags.",mbti:"ISTJ",mbtiName:"坚韧个人主义者",mbtiNameEn:"The Rugged Individualist",traits:["威严","独立","沉默","规律"],traitsEn:["Majestic","Independent","Silent","Routine"],f:["LCQAK","LMQAK","SCVAK"],o:["LMVAK","LCVAK","LCVAW"],d:{S:"S",E:"C",V:"Q",A:"A",C:"K"}},
   {code:"SCQGK",name:"幻影恶作剧师",en:"The Phantom Prankster",breed:"异瞳白猫",breedEn:"Odd-eyed White",color:"#5C6B7A",desc:"神秘、淘气、规律。异瞳闪烁，凌晨 4 点准时开始恶作剧，打翻台灯后消失无踪。纯净白毛下藏着最皮的灵魂。",descEn:"Mysterious, mischievous, routine-driven. Heterochromic eyes gleam — pranks start at 4 AM sharp, knock over a lamp, vanish. Pure white fur, chaotic soul.",mbti:"INTP",mbtiName:"混乱学者",mbtiNameEn:"The Chaotic Academic",traits:["神秘","淘气","异瞳","规律"],traitsEn:["Mysterious","Mischievous","Odd-eyed","Routine"],f:["SCVGK","SMQGW","LCQGK"],o:["LMVAK","LMVGK","LCVAK"],d:{S:"S",E:"C",V:"Q",A:"G",C:"K"}},
-  {code:"SMVAK",name:"古怪艺术家",en:"The Eccentric Artist",breed:"奶牛猫",breedEn:"Cow Cat",color:"#2A2A2A",desc:"俏皮、独立、规律。身着黑白礼服，却干着最淘气的事。每天同一时间进行「艺术行为」——用爪子拍翻水杯、在夜间创作。完全不受社会规则约束。",descEn:"Playful, independent, routine-driven. Wearing a tuxedo suit, causing the naughtiest mayhem. Performs 'artistic behaviors' daily — paw-swipes water glasses, nocturnal creativity. Ignoring social norms.",mbti:"ISFP",mbtiName:"古怪创意者",mbtiNameEn:"The Quirky Creative",traits:["俏皮","创意","独立","规律"],traitsEn:["Playful","Creative","Independent","Routine"],f:["LMVAK","SCVAW","SCVAK"],o:["LMQGK","SMQGK","LCQGK"],d:{S:"S",E:"M",V:"V",A:"A",C:"K"}},
-  {code:"SMVGK",name:"优雅暗影",en:"The Elegant Shadow",breed:"黑猫",breedEn:"Black Cat",color:"#1A1A2E",desc:"神秘、私密、规律。黑影般准时出现又消失，只为一个特定的人类展现轻柔的颤音。对陌生人和噪音零容忍。",descEn:"Mysterious, private, routine-driven. Appears and vanishes like a shadow on schedule. Soft trills reserved for one specific human. Zero tolerance for strangers.",mbti:"INFJ",mbtiName:"私密神秘主义者",mbtiNameEn:"The Private Mystic",traits:["神秘","私密","敏锐","规律"],traitsEn:["Mysterious","Private","Sharp","Routine"],f:["LMVGK","SCVGK","SMQGK"],o:["LCVAK","SCVAK","LMVAK"],d:{S:"S",E:"M",V:"V",A:"G",C:"K"}},
+  {code:"SCQAW",name:"荒野孤影",en:"The Lone Ranger",breed:"美洲狮",breedEn:"Mountain Lion",color:"#9B7040",desc:"独立、霸气、随心所欲。美洲狮般无声穿越山林，没有边界能框住它。出现时令人震慑，消失时连脚印都不留。只向自己的内心汇报，永远不需要任何人的许可。",descEn:"Independent, powerful, unpredictable. Moves through the wild like a mountain lion — no territory too vast, no boundary too final. Commands awe when present, leaves no trace when gone. Reports only to itself.",mbti:"INTJ",mbtiName:"荒野主宰",mbtiNameEn:"The Wilderness Sovereign",traits:["独立","霸气","神秘","不可预测"],traitsEn:["Independent","Powerful","Mysterious","Unpredictable"],f:["SCQGK","SCVAK","SMQAW"],o:["LCVAK","LMVAK","LCVGK"],d:{S:"S",E:"C",V:"Q",A:"A",C:"W"}},
+  {code:"SCVAK",name:"不羁独行侠",en:"The Untamed Maverick",breed:"萨凡纳猫",breedEn:"Savannah",color:"#8B5C3A",desc:"独立、霸道、规律。每天同一时间巡视领地，制定房子的规则。将整个世界视为狩猎丛林。",descEn:"Independent, dominant, routine-driven. Patrols territory at the same time daily, setting the rules of the house. The world is their jungle.",mbti:"ENTJ",mbtiName:"天生领袖",mbtiNameEn:"The Born Leader",traits:["独立","霸道","吵闹","规律"],traitsEn:["Independent","Dominant","Vocal","Routine"],f:["LCVAK","SCQAK","LMVAK"],o:["LMQGK","SMQGK","SMVGK"],d:{S:"S",E:"C",V:"V",A:"A",C:"K"}},
+  {code:"SCVGK",name:"街头传奇",en:"The Street Legend",breed:"小熊猫",breedEn:"Red Panda",color:"#C4734F",desc:"敏锐、街头智慧、规律。每天固定时间「检查地盘」，以好奇和算计的混合眼光看待一切。生存能量满格。",descEn:"Sharp, street-smart, routine-driven. Checks territory at the same time daily, eyeing everything with a mix of curiosity and calculation.",mbti:"ISTP",mbtiName:"适应性叛逆者",mbtiNameEn:"The Adaptable Renegade",traits:["敏锐","生存力强","独立","规律"],traitsEn:["Sharp","Survivalist","Independent","Routine"],f:["SCQGK","SCVAW","SMVGK"],o:["LMVGK","LCVGK","LMVAK"],d:{S:"S",E:"C",V:"V",A:"G",C:"K"}},
+  {code:"SCVAW",name:"万花筒探险家",en:"The Kaleidoscope Explorer",breed:"菽猫",breedEn:"Shu Mao",color:"#6B6058",desc:"独立、大胆、随心所欲。今天喜欢你，明天爱上那片树叶，后天不见了。对全世界都充满好奇，但绝不会对任何人或任何事忠诚太久。精力充沛，计划从来赶不上变化。",descEn:"Independent, bold, completely random. Loves you today, loves a leaf tomorrow, gone the day after. Curious about everything, loyal to nothing for long.",mbti:"ENTP",mbtiName:"混沌创新者",mbtiNameEn:"The Chaotic Innovator",traits:["独立","大胆","不可预测","混乱"],traitsEn:["Independent","Bold","Unpredictable","Chaotic"],f:["SCVAK","LCVAW","SMVAK"],o:["SMQGK","LMQGK","LMVGK"],d:{S:"S",E:"C",V:"V",A:"A",C:"W"}},
   {code:"SMQAK",name:"淡定哲学家",en:"The Chill Philosopher",breed:"英国短毛猫",breedEn:"British Shorthair",color:"#7A7A8A",desc:"淡定、独立、规律。每天同一地点准时发呆，是终极「保持冷静继续前进」的猫。低维护，完全满足于静静陪伴。",descEn:"Chill, independent, routine-driven. Zens out at the same spot daily — the ultimate 'keep calm and carry on' cat. Low maintenance, pure contentment.",mbti:"INTP / ISTJ",mbtiName:"坚忍思考者",mbtiNameEn:"The Stoic Thinker",traits:["淡定","独立","低维护","规律"],traitsEn:["Chill","Independent","Low-maintenance","Routine"],f:["SCQAK","LMQAK","SMQGK"],o:["LCVAK","LCQAK","SCVAW"],d:{S:"S",E:"M",V:"Q",A:"A",C:"K"}},
   {code:"SMQGK",name:"终极宅猫",en:"The Supreme Couch Potato",breed:"波斯猫",breedEn:"Persian",color:"#9B7A4A",desc:"放松、宅、规律。每天同一时间换一个睡姿，是放松的绝对巅峰。讨厌变化，除了毛绒枕头和安静别无他求。",descEn:"Relaxed, homebody, routine-driven. Changes sleeping position at the same time daily — the pinnacle of relaxation. Hates change, loves pillows.",mbti:"ISFP",mbtiName:"宁静舒适寻求者",mbtiNameEn:"The Serene Comfort-Seeker",traits:["放松","宅","安静","规律"],traitsEn:["Relaxed","Homebody","Quiet","Routine"],f:["LMQGK","SMVGK","SMQAK"],o:["LCVAK","SCVAK","LCQAK"],d:{S:"S",E:"M",V:"Q",A:"G",C:"K"}},
-  {code:"LCVAW",name:"毛卷情绪精灵",en:"The Curly Drama Pixie",breed:"德文猫",breedEn:"Devon Rex",color:"#A8483A",desc:"卷毛小精灵，感情充沛却情绪起伏。对主人无限依赖，分分钟戏剧感爆棚。今天深情依偎，明天无缘无故大哭。完全没有规律可言。",descEn:"Curly-furred emotional pixie — infinitely attached to their human. Full of drama every hour. Deep cuddles today, random meltdown tomorrow. Zero routine.",mbti:"ENFP",mbtiName:"混沌探险家",mbtiNameEn:"The Chaotic Adventurer",traits:["外向","情绪化","不可预测","吵闹"],traitsEn:["Extraverted","Moody","Unpredictable","Loud"],f:["LCVAK","SCVAW","LMVAK"],o:["SMQGK","SMQAK","LMVGK"],d:{S:"L",E:"C",V:"V",A:"A",C:"W"}},
-  {code:"LMVGW",name:"丝绒陷阱",en:"The Velvet Trap",breed:"苏格兰折耳猫",breedEn:"Scottish Fold",color:"#B8A89C",desc:"甜美、操纵、不可预测。用可爱骗你打开罐头，然后因为你用叉子而不是勺子就把罐头扔到地上。情绪说变就变。",descEn:"Sweet, manipulative, unpredictable. Uses cuteness to get what they want, then punishes you for using a fork instead of a spoon. Mood swings on a dime.",mbti:"ENFJ",mbtiName:"魅力操纵者",mbtiNameEn:"The Charming Manipulator",traits:["甜美","操纵","情绪化","不可预测"],traitsEn:["Sweet","Manipulative","Moody","Unpredictable"],f:["LCVGK","SCVAW","SCVGK"],o:["SCQAK","LMQAK","SMQAK"],d:{S:"L",E:"M",V:"V",A:"G",C:"W"}},
-  {code:"SCVAW",name:"万花筒探险家",en:"The Kaleidoscope Explorer",breed:"菽猫",breedEn:"Shu Mao",color:"#6B6058",desc:"独立、大胆、随心所欲。今天喜欢你，明天爱上那片树叶，后天不见了。对全世界都充满好奇，但绝不会对任何人或任何事忠诚太久。精力充沛，计划从来赶不上变化。",descEn:"Independent, bold, completely random. Loves you today, loves a leaf tomorrow, gone the day after. Curious about everything, loyal to nothing for long.",mbti:"ENTP",mbtiName:"混沌创新者",mbtiNameEn:"The Chaotic Innovator",traits:["独立","大胆","不可预测","混乱"],traitsEn:["Independent","Bold","Unpredictable","Chaotic"],f:["SCVAK","LCVAW","SMVAK"],o:["SMQGK","LMQGK","LMVGK"],d:{S:"S",E:"C",V:"V",A:"A",C:"W"}},
-  {code:"SMQGW",name:"沉睡恶龙",en:"The Sleeping Dragon",breed:"大熊猫",breedEn:"Giant Panda",color:"#4A4A4A",desc:"宅、安静、偶尔爆发。每三周凌晨 3 点突然全速冲刺然后倒头继续睡，仿佛什么都没发生。完全不可预测。",descEn:"Homebody, quiet, occasionally explosive. Every three weeks, full sprint at 3 AM then back to sleep like nothing happened. Utterly unpredictable.",mbti:"ISFP",mbtiName:"间歇性火山",mbtiNameEn:"The Intermittent Volcano",traits:["宅","安静","间歇性爆发","不可预测"],traitsEn:["Homebody","Quiet","Explosive","Unpredictable"],f:["SMQGK","SCQGK","SMQAK"],o:["LCVAK","LCQAK","LMVAK"],d:{S:"S",E:"M",V:"Q",A:"G",C:"W"}},
-  {code:"SCQAW",name:"荒野孤影",en:"The Lone Ranger",breed:"美洲狮",breedEn:"Mountain Lion",color:"#9B7040",desc:"独立、霸气、随心所欲。美洲狮般无声穿越山林，没有边界能框住它。出现时令人震慑，消失时连脚印都不留。只向自己的内心汇报，永远不需要任何人的许可。",descEn:"Independent, powerful, unpredictable. Moves through the wild like a mountain lion — no territory too vast, no boundary too final. Commands awe when present, leaves no trace when gone. Reports only to itself.",mbti:"INTJ",mbtiName:"荒野主宰",mbtiNameEn:"The Wilderness Sovereign",traits:["独立","霸气","神秘","不可预测"],traitsEn:["Independent","Powerful","Mysterious","Unpredictable"],f:["SCQGK","SCVAK","SMQAW"],o:["LCVAK","LMVAK","LCVGK"],d:{S:"S",E:"C",V:"Q",A:"A",C:"W"}},
   {code:"SMQAW",name:"雪峰隐士",en:"The Summit Recluse",breed:"雪豹",breedEn:"Snow Leopard",color:"#8A9AAA",desc:"沉静、高冷、来去随心。雪豹是最难被看见的存在——有人一生也未曾亲眼目睹。它不解释自己的行踪，只在觉得值得的时候才出现。极少发声，却在沉默中散发出无法忽视的气场。",descEn:"Calm, aloof, appearing on their own terms. The snow leopard is the world's most elusive cat — rarely seen, never explained. Shows up only when it decides you're worth it. Speaks little, but commands attention without trying.",mbti:"INTJ",mbtiName:"云端独行者",mbtiNameEn:"The Cloud-high Loner",traits:["沉静","高冷","神秘","来去随心"],traitsEn:["Serene","Aloof","Mysterious","Unpredictable"],f:["SMQGK","SMVGK","SCQAW"],o:["LCVAK","LCVGK","LMVAK"],d:{S:"S",E:"M",V:"Q",A:"A",C:"W"}},
-  {code:"SMVAW",name:"黑耳幽灵",en:"The Black-Tufted Phantom",breed:"狞猫",breedEn:"Caracal",color:"#B07848",desc:"独立、敏感、行踪不定。狞猫标志性的黑色耳簇就像两根天线——随时在接收信号，随时准备消失。情绪来了就会表达，情绪过了就当没事。不需要解释，不需要理解，只需要空间。",descEn:"Independent, sensitive, and impossible to track. Those jet-black ear tufts are antennae — always tuned in, always ready to vanish. Expresses feelings fully, then acts like nothing happened. Needs no explanation, just space.",mbti:"INFP",mbtiName:"自由感应者",mbtiNameEn:"The Free-Frequency Feeler",traits:["独立","感性","敏锐","行踪不定"],traitsEn:["Independent","Sensitive","Perceptive","Unpredictable"],f:["SCVAW","SMVAK","SMQAW"],o:["LMQGK","LCVGK","LMVGK"],d:{S:"S",E:"M",V:"V",A:"A",C:"W"}},
-  {code:"LMQAW",name:"银色散漫贵族",en:"The Silver Drifter",breed:"美国短毛猫",breedEn:"American Shorthair",color:"#8898A8",desc:"沉稳、独立、不按套路出牌。美短看起来岁月静好，内心却完全随心。今天窝在沙发一整天，明天凌晨三点爬上书架打翻你的杯子，然后用最无辜的眼神看着你。它的中心永远是它自己。",descEn:"Steady, independent, utterly unpredictable. An American Shorthair looks calm on the surface — but internally, does exactly as it pleases. Loafs all day, then knocks over your glass at 3 AM with the most innocent eyes. Always the main character.",mbti:"ISTP",mbtiName:"静水流深者",mbtiNameEn:"The Still Waters",traits:["沉稳","独立","随性","不可预测"],traitsEn:["Composed","Independent","Casual","Unpredictable"],f:["SMQAK","LMQGK","SMQAW"],o:["LCVAK","LCQAK","LMVAK"],d:{S:"L",E:"M",V:"Q",A:"A",C:"W"}}
+  {code:"SMQGW",name:"沉睡恶龙",en:"The Sleeping Dragon",breed:"大熊猫",breedEn:"Giant Panda",color:"#4A4A4A",desc:"宅、安静、偶尔爆发。每三周凌晨 3 点突然全速冲刺然后倒头继续睡，仿佛什么都没发生。完全不可预测。",descEn:"Homebody, quiet, occasionally explosive. Every three weeks, full sprint at 3 AM then back to sleep like nothing happened. Utterly unpredictable.",mbti:"ISFP",mbtiName:"间歇性火山",mbtiNameEn:"The Intermittent Volcano",traits:["宅","安静","间歇性爆发","不可预测"],traitsEn:["Homebody","Quiet","Explosive","Unpredictable"],f:["SMQGK","SCQGK","SMQAK"],o:["LCVAK","LCQAK","LMVAK"],d:{S:"S",E:"M",V:"Q",A:"G",C:"W"}},
+  {code:"SMVAK",name:"古怪艺术家",en:"The Eccentric Artist",breed:"奶牛猫",breedEn:"Cow Cat",color:"#2A2A2A",desc:"俏皮、独立、规律。身着黑白礼服，却干着最淘气的事。每天同一时间进行「艺术行为」——用爪子拍翻水杯、在夜间创作。完全不受社会规则约束。",descEn:"Playful, independent, routine-driven. Wearing a tuxedo suit, causing the naughtiest mayhem. Performs 'artistic behaviors' daily — paw-swipes water glasses, nocturnal creativity. Ignoring social norms.",mbti:"ISFP",mbtiName:"古怪创意者",mbtiNameEn:"The Quirky Creative",traits:["俏皮","创意","独立","规律"],traitsEn:["Playful","Creative","Independent","Routine"],f:["LMVAK","SCVAW","SCVAK"],o:["LMQGK","SMQGK","LCQGK"],d:{S:"S",E:"M",V:"V",A:"A",C:"K"}},
+  {code:"SMVGK",name:"优雅暗影",en:"The Elegant Shadow",breed:"黑猫",breedEn:"Black Cat",color:"#1A1A2E",desc:"神秘、私密、规律。黑影般准时出现又消失，只为一个特定的人类展现轻柔的颤音。对陌生人和噪音零容忍。",descEn:"Mysterious, private, routine-driven. Appears and vanishes like a shadow on schedule. Soft trills reserved for one specific human. Zero tolerance for strangers.",mbti:"INFJ",mbtiName:"私密神秘主义者",mbtiNameEn:"The Private Mystic",traits:["神秘","私密","敏锐","规律"],traitsEn:["Mysterious","Private","Sharp","Routine"],f:["LMVGK","SCVGK","SMQGK"],o:["LCVAK","SCVAK","LMVAK"],d:{S:"S",E:"M",V:"V",A:"G",C:"K"}},
+  {code:"SMVAW",name:"黑耳幽灵",en:"The Black-Tufted Phantom",breed:"狞猫",breedEn:"Caracal",color:"#B07848",desc:"独立、敏感、行踪不定。狞猫标志性的黑色耳簇就像两根天线——随时在接收信号，随时准备消失。情绪来了就会表达，情绪过了就当没事。不需要解释，不需要理解，只需要空间。",descEn:"Independent, sensitive, and impossible to track. Those jet-black ear tufts are antennae — always tuned in, always ready to vanish. Expresses feelings fully, then acts like nothing happened. Needs no explanation, just space.",mbti:"INFP",mbtiName:"自由感应者",mbtiNameEn:"The Free-Frequency Feeler",traits:["独立","感性","敏锐","行踪不定"],traitsEn:["Independent","Sensitive","Perceptive","Unpredictable"],f:["SCVAW","SMVAK","SMQAW"],o:["LMQGK","LCVGK","LMVGK"],d:{S:"S",E:"M",V:"V",A:"A",C:"W"}}
 ];
 
 window.TYPES=TYPES;window.IMG_MAP=IMG_MAP;window.IMG_BASE=IMG_BASE;window.getImage=getImage;window.LANG=LANG;
@@ -871,6 +870,7 @@ function showResult(top,top3,uD){
 
 // ===== TOP3 CAROUSEL =====
 let _carouselIndex=0;
+let _ovActiveFilter=-1; // preserve filter state across language switches
 let _carouselTop3=[];
 let _touchStartX=0;
 let _touchEndX=0;
@@ -947,13 +947,13 @@ function showOverview(){
   const groups=LANG==='zh'?GROUP_NAMES_ZH:GROUP_NAMES_EN;
   const filterNames=[d.ovAll,groups[0],groups[1],groups[2],groups[3]];
   const filters=[-1,0,1,2,3];
-  document.getElementById('ovFilters').innerHTML=filterNames.map((n,i)=>`<button class="ov-filter${i===0?' active':''}" onclick="filterOverview(${filters[i]},this)">${n}</button>`).join('');
-  renderOverview(-1);
+  document.getElementById('ovFilters').innerHTML=filterNames.map((n,i)=>`<button class="ov-filter${filters[i]===_ovActiveFilter?' active':''}" onclick="filterOverview(${filters[i]},this)">${n}</button>`).join('');
+  renderOverview(_ovActiveFilter);
 }
 
 function filterOverview(g,btn){
   document.querySelectorAll('.ov-filter').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');renderOverview(g);
+  btn.classList.add('active');_ovActiveFilter=g;renderOverview(g);
 }
 
 function renderOverview(group){
