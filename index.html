@@ -6,7 +6,7 @@
 <title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://api.countapi.xyz">
     <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%98%BC%3C%2Ftext%3E%3C%2Fsvg%3E" type="image/svg+xml">
     <style>
@@ -22,7 +22,90 @@ body{
   font-family:'Noto Sans SC','Noto Sans',system-ui,sans-serif;
   background:var(--cream);color:var(--ink);min-height:100vh;
   -webkit-font-smoothing:antialiased;
+  transition:background 0.5s ease,color 0.5s ease;
+  position:relative;z-index:0;
 }
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  transition:opacity 0.5s ease;
+}
+
+/* ===== CULTURAL THEMES ===== */
+/* Korean — soft pastels, modern K-aesthetic, subtle lattice */
+[data-theme="ko"]{
+  --cream:#F9F6F2;--warm:#EDE8E2;--ink:#1C1C2E;
+  --accent:#D4857B;--accent2:#7A8B8A;--gold:#C4A265;
+  --card-bg:#FFFFFF;--border:#E2DDD6;
+  --shadow:0 2px 16px rgba(28,28,46,0.05);
+}
+[data-theme="ko"] body::before{
+  background:
+    linear-gradient(45deg,rgba(212,133,123,0.025) 25%,transparent 25%),
+    linear-gradient(-45deg,rgba(212,133,123,0.025) 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,rgba(212,133,123,0.025) 75%),
+    linear-gradient(-45deg,transparent 75%,rgba(212,133,123,0.025) 75%);
+  background-size:48px 48px;background-position:0 0,0 24px,24px -24px,-24px 0;
+}
+[data-theme="ko"] body{font-family:'Noto Sans KR','Noto Sans',system-ui,sans-serif}
+[data-theme="ko"] .lang-select{background:var(--card-bg);border-color:var(--border)}
+[data-theme="ko"] .lang-select:focus{border-color:var(--accent)}
+
+/* Japanese — wabi-sabi, indigo blues, warm wood, washi grain */
+[data-theme="ja"]{
+  --cream:#F5F0E6;--warm:#E8DFCC;--ink:#1A1C1A;
+  --accent:#2D5A6B;--accent2:#8B7D6B;--gold:#B8955E;
+  --card-bg:#FFFCF4;--border:#D4C9B0;
+  --shadow:0 2px 16px rgba(26,28,26,0.04);
+  --green:#5A7D5A;--orange:#C4815C;--red:#A84A3A;
+}
+[data-theme="ja"] body::before{
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(45,90,107,0.018) 2px,rgba(45,90,107,0.018) 3px);
+}
+[data-theme="ja"] body{font-family:'Noto Sans JP','Noto Sans',system-ui,sans-serif}
+[data-theme="ja"] .lang-select{background:var(--card-bg);border-color:var(--border)}
+[data-theme="ja"] .lang-select:focus{border-color:var(--accent)}
+
+/* French — Parisian elegance, navy/cream/gold, subtle damask */
+[data-theme="fr"]{
+  --cream:#FAF8F3;--warm:#EFEAE0;--ink:#1B1B38;
+  --accent:#B71C3A;--accent2:#2C2C50;--gold:#C5A03A;
+  --card-bg:#FFFFFF;--border:#D8D1C5;
+  --shadow:0 2px 16px rgba(27,27,56,0.05);
+  --green:#4A7C4A;--orange:#C4684C;--red:#B71C3A;
+}
+[data-theme="fr"] body::before{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(183,28,58,0.03) 1px,transparent 1px),
+    radial-gradient(circle at 80% 80%,rgba(197,160,58,0.03) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(183,28,58,0.02) 0.5px,transparent 0.5px);
+  background-size:64px 64px,64px 64px,32px 32px;
+}
+[data-theme="fr"] body{font-family:'Cormorant Garamond','Noto Sans',system-ui,serif}
+[data-theme="fr"] .lang-select{background:var(--card-bg);border-color:var(--border)}
+[data-theme="fr"] .lang-select:focus{border-color:var(--accent)}
+[data-theme="fr"] #intro h1{font-family:'Cormorant Garamond',serif}
+[data-theme="fr"] #overview h2{font-family:'Cormorant Garamond',serif}
+
+/* Spanish — Mediterranean warmth, terracotta/saffron, tile mosaic */
+[data-theme="es"]{
+  --cream:#FDF7F1;--warm:#F3E4D4;--ink:#2D1B0E;
+  --accent:#C44536;--accent2:#8B5E3C;--gold:#D4A843;
+  --card-bg:#FFFCF8;--border:#E6D3BE;
+  --shadow:0 2px 16px rgba(45,27,14,0.05);
+  --green:#5E8B4A;--orange:#D4785C;--red:#B8453A;
+}
+[data-theme="es"] body::before{
+  background:
+    linear-gradient(rgba(196,68,54,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(196,68,54,0.03) 1px,transparent 1px),
+    linear-gradient(45deg,rgba(212,168,67,0.025) 1px,transparent 1px),
+    linear-gradient(-45deg,rgba(212,168,67,0.025) 1px,transparent 1px);
+  background-size:36px 36px,36px 36px,72px 72px,72px 72px;
+}
+[data-theme="es"] body{font-family:'Playfair Display','Noto Sans',system-ui,serif}
+[data-theme="es"] .lang-select{background:var(--card-bg);border-color:var(--border)}
+[data-theme="es"] .lang-select:focus{border-color:var(--accent)}
 .screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
 .screen.active{display:flex}
 
@@ -40,15 +123,21 @@ body{
 }
 .topbar .home-btn:hover{background:var(--warm);color:var(--ink)}
 .topbar .lang-toggle{
-  display:flex;gap:2px;background:var(--card-bg);border:1px solid var(--border);
-  border-radius:10px;overflow:hidden;box-shadow:var(--shadow)
+  display:flex;gap:0;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;box-shadow:var(--shadow);position:relative
 }
-.lang-toggle button{
-  border:none;background:transparent;padding:8px 14px;font-size:0.78rem;
-  cursor:pointer;font-family:inherit;transition:all 0.2s;color:var(--muted)
+.lang-select{
+  appearance:none;-webkit-appearance:none;
+  border:none;background:transparent;
+  padding:8px 32px 8px 14px;font-size:0.78rem;
+  cursor:pointer;font-family:inherit;color:var(--ink);
+  transition:all 0.2s;outline:none;text-align:center;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B5E4A'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  border-radius:10px
 }
-.lang-toggle button:hover{color:var(--ink)}
-.lang-toggle button.active{background:var(--ink);color:var(--cream)}
+.lang-select:hover{background-color:var(--warm)}
+.lang-select:focus{outline:none;box-shadow:0 0 0 2px var(--accent)}
 
 /* ===== LOADING ===== */
 #loading .loader{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -282,7 +371,7 @@ body{
   .result-actions{gap:8px}
   .result-actions .btn{padding:12px 24px;font-size:0.85rem}
   .overview-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-  .lang-toggle button{padding:6px 12px;font-size:0.72rem}
+  .lang-select{padding:6px 28px 6px 12px;font-size:0.72rem}
   .dim-popup-box,.modal-box{max-width:95vw}
   .modal-body{padding:16px 18px 20px}
   .home-btn{padding:6px 12px;font-size:0.75rem}
@@ -303,8 +392,14 @@ body{
 <div class="topbar" id="topbar" style="display:none">
   <button class="home-btn" onclick="s('intro')" id="homeBtn">🐾 CATI</button>
   <div class="lang-toggle">
-    <button id="langZh" onclick="setLang('zh')">中</button>
-    <button id="langEn" onclick="setLang('en')">EN</button>
+    <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
+      <option value="zh">🇨🇳 中文</option>
+      <option value="en">🇺🇸 English</option>
+      <option value="ko">🇰🇷 한국어</option>
+      <option value="ja">🇯🇵 日本語</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
   </div>
 </div>
 
@@ -444,10 +539,11 @@ let LANG = 'zh';
 
 function setLang(l){
   LANG=l;
-  document.getElementById('langZh').classList.toggle('active',l==='zh');
-  document.getElementById('langEn').classList.toggle('active',l==='en');
-  document.documentElement.lang = l==='zh'?'zh-CN':'en';
-  document.title = 'Cat Persona 喵星人格';
+  const sel=document.getElementById('langSelect');
+  if(sel)sel.value=l;
+  document.documentElement.setAttribute('data-theme',l);
+  document.documentElement.lang = l==='zh'?'zh-CN':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':'en';
+  document.title = l==='zh'?'Cat Persona 喵星人格':'Cat Persona — Discover Your Feline Self';
   refreshI18n();
   localStorage.setItem('cati_lang',l);
 }
@@ -482,6 +578,8 @@ const I18N = {
     shareTitle:'扫码分享你的猫格',
     shareDesc:'扫描二维码，<br>发现你的猫咪人格原型',
     shareUrl:'catpersona.pages.dev',
+    modalDetail:'查看详情',
+    alertNoResult:'请先完成测试',
     modalFriends:'猫友',
     modalOpponents:'对手',
     dimPopupTitle:'CATI 五维人格模型',
@@ -536,6 +634,8 @@ const I18N = {
     shareTitle:'Scan to Share Your Cat Persona',
     shareDesc:'Scan the QR code to<br>discover your cat archetype',
     shareUrl:'catpersona.pages.dev',
+    modalDetail:'View Details',
+    alertNoResult:'Please complete the test first',
     modalFriends:'Friends',
     modalOpponents:'Rivals',
     dimPopupTitle:'CATI 5-Dimensional Model',
@@ -561,7 +661,232 @@ const I18N = {
       {e:'🪶',t:'You get a feather wand toy. What happens next?',o:['Backflip! Pounce! Bite! This is hunting! This is life!','Tap it gently with one paw, then walk away — too childish','Stare silently, calculate the optimal pounce angle, then strike with precision','Pretend not to be interested, but secretly touch it when the human isn\'t looking']},
       {e:'🏠',t:'Your relationship with your human is…',o:['I am the boss, they are my servant. Our relationship is healthy (for them)','We are soulmates — I need them, they need me','We are roommates. I occasionally allow them to pet me after security clearance','Human? What\'s a human? I only know the bipedal creature that gives me food']}
     ]
+  },
+  ko:{
+    loading:'고양이 에너지를 소환하는 중…',
+    introTitle:'당신은 어떤 <span>고양이</span>일까요?',
+    introDesc:'24가지 고양이 원형, 5가지 핵심 차원.<br>샴고양이부터 페르시안까지, 길거리 전설부터 왕실의 친구까지 —<br>인간의 모습 뒤에 숨은 당신의 진짜 모습은?',
+    btnStart:'테스트 시작',
+    btnOverview:'24가지 유형 둘러보기',
+    introMeta:'12가지 재미있는 질문 · 본 사람 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">고양이 행동학 기반</span>',
+    dimLabel:'5차원 성격 분석',
+    foLabel:'베스트 캣프렌드 & 숙명의 라이벌',
+    btnRetake:'다시 테스트',
+    btnShare:'결과 공유',
+    friends:'베스트 캣프렌드',
+    opponents:'숙명의 라이벌',
+    matchPct:'일치도',
+    ovTitle:'24가지 CATI 고양이 성격 유형',
+    ovSub:'카드를 클릭하면 상세 정보를 볼 수 있습니다',
+    ovAll:'전체',
+    ovGroup1:'혼돈의 창조자',
+    ovGroup2:'군주',
+    ovGroup3:'그림자 추적자',
+    ovGroup4:'선 마스터',
+    dimS:'사회성',dimE:'에너지',dimV:'표현력',dimA:'모험심',dimC:'규칙성',
+    dimSVals:{L:'L 애교형',S:'S 독립형'},dimEVals:{C:'C 혼돈형',M:'M 차분형'},
+    dimVVals:{V:'V 표현형',Q:'Q 조용형'},dimAVals:{A:'A 모험형',G:'G 신중형'},
+    dimCVals:{K:'K 규칙형',W:'W 자유형'},
+    shareTitle:'QR코드로 고양이 성격 공유하기',
+    shareDesc:'QR코드를 스캔하여<br>당신의 고양이 성격 원형을 발견하세요',
+    shareUrl:'catpersona.pages.dev',
+    modalDetail:'상세 보기',
+    alertNoResult:'먼저 테스트를 완료해주세요',
+    modalFriends:'캣프렌드',
+    modalOpponents:'라이벌',
+    dimPopupTitle:'CATI 5차원 성격 모델',
+    dimPopupSub:'고양이 행동학을 기반으로, 5가지 핵심 차원이 당신의 고양이 성격을 정의합니다',
+    dimCards:[
+      {icon:'🤝',title:'사회성 Social',sub:'L vs S',desc:'L (Lap-cat/애교형): 가까이 있고 싶어하고 관심을 갈망합니다; S (Solitary/독립형): 혼자 있는 시간을 즐기고 거리를 둡니다.',tags:['L 애교형','S 독립형']},
+      {icon:'⚡',title:'에너지 Energy',sub:'C vs M',desc:'C (Chaotic/혼돈형): 에너지가 넘치고 예측 불가능하며 드라마틱합니다; M (Mellow/차분형): 차분하고 안정적이며 흐름에 맡깁니다.',tags:['C 혼돈형','M 차분형']},
+      {icon:'🗣️',title:'표현력 Voice',sub:'V vs Q',desc:'V (Vocal/표현형): 목소리와 소리로 소통합니다; Q (Quiet/조용형): 조용하며 행동으로 표현합니다.',tags:['V 표현형','Q 조용형']},
+      {icon:'🗺️',title:'모험심 Adventure',sub:'A vs G',desc:'A (Adventurous/모험형): 새로운 장소 탐험을 좋아합니다; G (Guarded/신중형): 익숙하고 안전한 공간을 선호합니다.',tags:['A 모험형','G 신중형']},
+      {icon:'📅',title:'규칙성 Consistency',sub:'K vs W',desc:'K (Keeps Routine/규칙형): 루틴을 철저히 지키고 변화를 싫어합니다; W (Whimsical/자유형): 기분에 따라 행동하고 변화를 즐깁니다.',tags:['K 규칙형','W 자유형']}
+    ],
+    questions:[
+      {e:'🛋️',t:'주인이 소파에 앉았습니다. 어떻게 하시겠어요?',o:['즉시 가슴 위로 뛰어올라 크게 골골거리며 화면을 가립니다','방 건너편에서 바라봅니다 — 적당한 거리에서 함께 있는 걸 즐깁니다','다가가서 발치에 앉습니다 — 너무 가깝지도, 너무 멀지도 않게','완전히 무시하고 계속 자지만, 꼬리 끝을 살짝 움직여 알아챘음을 표시합니다']},
+      {e:'🐭',t:'장난감 쥐가 마룻바닥을 굴러갑니다. 당신의 반응은?',o:['벽에서 백플립하고 카펫 위를 미끄러지며 조각조각 찢어버립니다!','굴러가는 걸 보고 천천히 눈을 깜빡이며 다시 낮잠으로 돌아갑니다','조용히 따라가 숨어서 소리 없이 덮칩니다 — 사냥 모드 발동','못 본 척하지만 귀가 돌아가고 꼬리가 움직이기 시작합니다']},
+      {e:'🍽️',t:'밥그릇이 15% 비었습니다. 이 위기를 어떻게 알리시겠어요?',o:['그릇 옆에 서서 인간이 올 때까지 최대 볼륨으로 울부짖습니다','그릇 옆에 조용히 앉아 인간의 영혼을 뚫어지게 응시합니다','인간에게 다가가 살짝 다리를 건드리고 그릇으로 안내합니다','뭐, 어차피 배고프지도 않아요. 인간이 주면 주는 대로']},
+      {e:'🚪',t:'현관문이 실수로 활짝 열렸습니다. 다음 행동은?',o:['대담하게 밖으로 나가 복도를 탐험하고 이웃을 만납니다','즉시 소파 밑으로 숨습니다 — 바깥 세상은 예측 불가능한 청소기로 가득합니다','문 앞에 앉아 의심스러운 눈빛으로 열린 문을 노려봅니다 — 누가 감히 들어오려는 거지?','고개를 내밀어 냄새를 맡고, 재빨리 나갔다가 다시 들어옵니다']},
+      {e:'🧹',t:'인간이 청소기를 꺼냈습니다. 당신의 반응은?',o:['시끄러운 이 괴물이 사라질 때까지 침대 밑에 숨습니다 — 몇 시간 걸릴 수도 있어요','두려움보다 호기심이 이깁니다 — 안전한 거리에서 이 물체를 관찰합니다','완전히 무시하고 계속 잡니다. 청소기가 뭐죠?','청소기에게 하악질하며 물러나게 만들려고 합니다']},
+      {e:'⏰',t:'새벽 3시입니다. 당신의 에너지 상태는?',o:['ZOOMIES!!! 전속력 질주, 찬장 위로 점프, 물컵 넘어뜨리기 — 이게 바로 인생!','따뜻한 인간 옆에 웅크리고 부드럽게 골골거립니다','일어나서 기지개를 켜고, 부엌 밥그릇을 확인합니다 (그리고 다시 잠듭니다)','한쪽 눈을 떠서 상황을 확인하고, 너무 시끄럽다고 판단해 계속 잡니다']},
+      {e:'📦',t:'인간이 새 골판지 상자를 가져왔습니다. 어떻게 하시겠어요?',o:['0.5초 안에 상자를 점령하고 접근하려는 모든 생명체에게 하악질합니다','먼저 관찰합니다 — 안전한가요? 다른 고양이 냄새가 나나요? 하루 기다렸다가 들어갑니다','즉시 뛰어들어 끼어버리고, 순진한 눈으로 인간을 바라봅니다','지루해요. 이 상자는 예전 상자만 못해요. 완전 무관심']},
+      {e:'👥',t:'낯선 사람이 집에 왔습니다. 첫 반응은?',o:['즉시 달려가 큰 울음소리로 인사하며 쓰다듬어 달라고 요구합니다','사라집니다. 안전하다고 느낄 때 나올게요 — 몇 시간 또는 며칠 걸릴 수 있어요','가구 뒤에서 살짝 엿보며 이 사람의 위협 수준을 평가합니다','하던 일을 계속하지만 한쪽 눈으로 계속 주시합니다']},
+      {e:'💻',t:'인간이 노트북으로 작업 중입니다. 당신은…',o:['키보드 위에 앉습니다. 당신의 엉덩이가 그들의 일보다 중요합니다','무릎 위에 앉아 골골골골골','옆 의자에서 지켜보다가 가끔 "쉬어야 해"라는 눈빛을 보냅니다','완전히 무시하고 햇볕 좋은 곳을 찾아 낮잠을 잡니다']},
+      {e:'🐟',t:'당신의 하루 일과를 가장 잘 설명하는 문장은?',o:['매일 정확히 같은 시간에 같은 일을 합니다 — 루틴이 제 중간 이름이에요','전혀 루틴이 없어요 — 인간은 제가 다음에 뭘 할지 절대 예측 못 해요','루틴은 있지만 기분에 따라 가끔 계획을 바꿉니다','루틴이 뭐죠? 오직 마음이 가는 대로 움직입니다']},
+      {e:'🪶',t:'깃털 낚싯대 장난감을 받았습니다. 다음에 무슨 일이?',o:['백플립! 덮치기! 물어뜯기! 이게 바로 사냥이다! 인생이다!','발로 살짝 한 번 치고는 가버립니다 — 너무 유치해요','조용히 응시하며 최적의 공격 각도를 계산한 후 정밀하게 공격합니다','관심 없는 척하지만 인간이 안 볼 때 몰래 건드려 봅니다']},
+      {e:'🏠',t:'당신과 인간의 관계는…',o:['내가 보스고 그들은 내 하인이에요. 우리 관계는 건강해요 (그들에게)','우리는 소울메이트 — 나는 그들이 필요하고 그들도 나를 필요로 해요','우리는 룸메이트. 가끔 보안 검사를 통과하면 쓰다듬는 걸 허락해요','인간? 인간이 뭐죠? 나는 나에게 밥 주는 두 발 달린 생물만 알고 있어요']}
+    ]
+  },
+  ja:{
+    loading:'猫のエネルギーを召喚中…',
+    introTitle:'あなたはどの<span>猫タイプ</span>？',
+    introDesc:'24の猫の原型、5つの核心次元。<br>シャムからペルシャ、ストリートレジェンドから王室の親友まで —<br>人間の姿の下に隠れたあなたの本当の姿は？',
+    btnStart:'テストを始める',
+    btnOverview:'24タイプを見る',
+    introMeta:'12の楽しい質問 · 閲覧数 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">猫行動学に基づく</span>',
+    dimLabel:'5次元パーソナリティ分析',
+    foLabel:'ベスト猫友 & 宿命のライバル',
+    btnRetake:'もう一度テスト',
+    btnShare:'結果を共有',
+    friends:'ベスト猫友',
+    opponents:'宿命のライバル',
+    matchPct:'マッチ度',
+    ovTitle:'24種類のCATI猫性格タイプ',
+    ovSub:'カードをクリックして詳細を見る',
+    ovAll:'すべて',
+    ovGroup1:'混沌の創造者',
+    ovGroup2:'君主',
+    ovGroup3:'影の追跡者',
+    ovGroup4:'禅マスター',
+    dimS:'社会性',dimE:'エネルギー',dimV:'表現力',dimA:'冒険心',dimC:'規則性',
+    dimSVals:{L:'L 甘えん坊',S:'S 独立型'},dimEVals:{C:'C 混沌型',M:'M 穏やか型'},
+    dimVVals:{V:'V 表現型',Q:'Q 静か型'},dimAVals:{A:'A 冒険型',G:'G 慎重型'},
+    dimCVals:{K:'K 規則型',W:'W 自由型'},
+    shareTitle:'QRコードで猫性格を共有',
+    shareDesc:'QRコードをスキャンして<br>あなたの猫の原型を発見しよう',
+    shareUrl:'catpersona.pages.dev',
+    modalDetail:'詳細を見る',
+    alertNoResult:'先にテストを完了してください',
+    modalFriends:'猫友',
+    modalOpponents:'ライバル',
+    dimPopupTitle:'CATI 5次元パーソナリティモデル',
+    dimPopupSub:'猫行動学に基づき、5つの核心次元があなたの猫性格を定義します',
+    dimCards:[
+      {icon:'🤝',title:'社会性 Social',sub:'L vs S',desc:'L (Lap-cat/甘えん坊): 親密さと注目を求めます; S (Solitary/独立型): 一人の時間を楽しみ、距離を保ちます。',tags:['L 甘えん坊','S 独立型']},
+      {icon:'⚡',title:'エネルギー Energy',sub:'C vs M',desc:'C (Chaotic/混沌型): 高エネルギーで予測不能、ドラマチック; M (Mellow/穏やか型): 落ち着いていて安定しています。',tags:['C 混沌型','M 穏やか型']},
+      {icon:'🗣️',title:'表現力 Voice',sub:'V vs Q',desc:'V (Vocal/表現型): 声と音でコミュニケーション; Q (Quiet/静か型): 静かで行動で表現します。',tags:['V 表現型','Q 静か型']},
+      {icon:'🗺️',title:'冒険心 Adventure',sub:'A vs G',desc:'A (Adventurous/冒険型): 新しい場所の探索が大好き; G (Guarded/慎重型): 慣れ親しんだ安全な空間を好みます。',tags:['A 冒険型','G 慎重型']},
+      {icon:'📅',title:'規則性 Consistency',sub:'K vs W',desc:'K (Keeps Routine/規則型): ルーティンを厳守し変化を嫌います; W (Whimsical/自由型): 気分次第で行動し変化を受け入れます。',tags:['K 規則型','W 自由型']}
+    ],
+    questions:[
+      {e:'🛋️',t:'飼い主がソファに座りました。あなたはどうしますか？',o:['すぐに胸の上に飛び乗り、大きなゴロゴロ音を立てて画面を隠します','部屋の向こう側から見ています — 適度な距離で一緒にいるのを楽しみます','近づいて足元に座ります — 近すぎず遠すぎず','完全に無視して寝続けますが、しっぽの先をピクッと動かして気づいたことを示します']},
+      {e:'🐭',t:'おもちゃのネズミが床を転がっていきます。あなたの反応は？',o:['壁からバク宙してカーペットを滑り、ズタズタに引き裂きます！','転がっていくのを見て、ゆっくりまばたきしてまた昼寝に戻ります','静かに忍び寄り、音もなく飛びかかります — ハントモード発動','見なかったふりをしますが、耳が動き、しっぽがピクピクし始めます']},
+      {e:'🍽️',t:'フードボウルが15%空になりました。この危機をどう伝えますか？',o:['ボウルの横に立って、人間が来るまで最大音量で鳴き叫びます','ボウルの横に静かに座り、人間の魂を見つめて罪悪感を抱かせます','人間に近づいてそっと足に触れ、ボウルまで案内します','まあ、別にお腹空いてないし。人間がくれるならくれるでいい']},
+      {e:'🚪',t:'玄関のドアがうっかり開けっ放しになりました。次の行動は？',o:['大胆に外に出て廊下を探検し、隣人に挨拶します','即座にソファの下に隠れます — 外の世界は予測不能な掃除機でいっぱい','ドアの前に座り、疑わしそうに開いたドアを睨みます — 誰が入ろうとしてるの？','頭を出して匂いを嗅ぎ、さっと出て探検してからさっと戻ります']},
+      {e:'🧹',t:'飼い主が掃除機を出しました。あなたの反応は？',o:['ベッドの下に隠れます — このうるさいモンスターが消えるまで何時間もかかるかも','恐怖より好奇心が勝ちます — 安全な距離からこの物体を観察します','完全に無視して寝続けます。掃除機って何？','掃除機にシャーッと威嚇して追い払おうとします']},
+      {e:'⏰',t:'午前3時です。あなたのエネルギーレベルは？',o:['ZOOMIES!!! 全速力で走り、棚に飛び乗り、水のコップを倒します — これこそ人生！','温かい人間の隣で丸くなって、静かにゴロゴロ','起きて伸びをして、台所のフードボウルをチェック（そしてまた寝ます）','片目を開けて様子を見て、うるさすぎると判断してまた寝ます']},
+      {e:'📦',t:'飼い主が新しい段ボール箱を家に持ち帰りました。どうしますか？',o:['0.5秒以内に箱を占領し、近づこうとする生き物にシャーッと威嚇','まず観察します — 安全？他の猫の匂いがする？1日待ってから入ります','すぐに飛び込んで挟まり、無垢な目で人間を見つめます','つまらない。この箱は前のより良くない。完全に無関心']},
+      {e:'👥',t:'知らない人が家に来ました。最初の反応は？',o:['すぐに駆け寄って大きな鳴き声で挨拶し、撫でてと要求します','姿を消します。安全だと感じたら出てきます — 数時間か数日かかるかも','家具の後ろから覗いて、この人の脅威レベルを評価します','自分のことを続けますが、片目でずっと監視しています']},
+      {e:'💻',t:'飼い主がノートパソコンで仕事をしています。あなたは…',o:['キーボードの上に座ります。あなたのお尻の方が仕事より大事です','膝の上に座ってゴロゴロゴロゴロ','横の椅子から見守り、時々「休憩して」という目線を送ります','完全に無視して、日当たりの良い場所を見つけて昼寝します']},
+      {e:'🐟',t:'あなたの日課を最もよく表す文は？',o:['毎日正確に同じ時間に同じことをします — ルーティンは私の代名詞','全くルーティンがありません — 飼い主は私が次に何をするか全く予測できません','ルーティンはあるけど、気分によってたまに予定を変えます','ルーティンって何？心の赴くままに動くだけ']},
+      {e:'🪶',t:'羽根の釣り竿おもちゃをもらいました。次に何が起きますか？',o:['バク宙！飛びかかる！噛みつく！これこそ狩りだ！人生だ！','前足でそっと一回叩いて立ち去ります — 子供っぽすぎる','静かに見つめて最適な飛びかかり角度を計算し、精密に攻撃','興味ないふりをして、人間が見てない時にこっそり触ってみる']},
+      {e:'🏠',t:'あなたと人間の関係は…',o:['私がボスで彼らは召使い。私たちの関係は健全です（彼らにとっては）','私たちはソウルメイト — 私には彼らが必要で、彼らにも私が必要','私たちはルームメイト。たまにセキュリティチェックをパスしたら撫でるのを許可','人間？人間って何？私はエサをくれる二足歩行の生き物しか知らない']}
+    ]
+  },
+  fr:{
+    loading:'Invocation de l\'énergie féline…',
+    introTitle:'Quel <span>Chat</span> Êtes-Vous ?',
+    introDesc:'24 archétypes félins, 5 dimensions fondamentales.<br>Du Siamois au Persan, de la légende des rues au confident royal —<br>lequel se cache sous votre apparence humaine ?',
+    btnStart:'Commencer le Test',
+    btnOverview:'Voir les 24 Types',
+    introMeta:'12 questions amusantes · Vu 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">Basé sur le comportement félin</span>',
+    dimLabel:'Analyse en 5 Dimensions',
+    foLabel:'Meilleurs Amis & Rivaux Destinés',
+    btnRetake:'Refaire le Test',
+    btnShare:'Partager',
+    friends:'Meilleurs Amis',
+    opponents:'Rivaux',
+    matchPct:'Affinité',
+    ovTitle:'Les 24 Types de Personnalité Féline CATI',
+    ovSub:'Cliquez sur une carte pour les détails',
+    ovAll:'Tous',
+    ovGroup1:'Créateurs de Chaos',
+    ovGroup2:'Les Monarques',
+    ovGroup3:'Traqueurs d\'Ombre',
+    ovGroup4:'Maîtres Zen',
+    dimS:'Sociabilité',dimE:'Énergie',dimV:'Expression',dimA:'Aventure',dimC:'Régularité',
+    dimSVals:{L:'L Câlin',S:'S Solitaire'},dimEVals:{C:'C Chaotique',M:'M Paisible'},
+    dimVVals:{V:'V Expressif',Q:'Q Silencieux'},dimAVals:{A:'A Aventureux',G:'G Prudent'},
+    dimCVals:{K:'K Routinier',W:'W Fantaisiste'},
+    shareTitle:'Scannez pour Partager votre Personnalité Féline',
+    shareDesc:'Scannez le QR code pour<br>découvrir votre archétype félin',
+    shareUrl:'catpersona.pages.dev',
+    modalDetail:'Voir Détails',
+    alertNoResult:'Veuillez d\'abord terminer le test',
+    modalFriends:'Amis',
+    modalOpponents:'Rivaux',
+    dimPopupTitle:'Modèle de Personnalité CATI en 5 Dimensions',
+    dimPopupSub:'Basé sur le comportementalisme félin, 5 dimensions définissent votre personnalité féline',
+    dimCards:[
+      {icon:'🤝',title:'Sociabilité',sub:'L vs S',desc:'L (Câlin): Recherche la proximité et l\'attention; S (Solitaire): Apprécie la solitude et garde ses distances.',tags:['L Câlin','S Solitaire']},
+      {icon:'⚡',title:'Énergie',sub:'C vs M',desc:'C (Chaotique): Plein d\'énergie, imprévisible, dramatique; M (Paisible): Calme, stable, suit le courant.',tags:['C Chaotique','M Paisible']},
+      {icon:'🗣️',title:'Expression',sub:'V vs Q',desc:'V (Expressif): Communique avec la voix et les sons; Q (Silencieux): Silencieux, s\'exprime par les actions.',tags:['V Expressif','Q Silencieux']},
+      {icon:'🗺️',title:'Aventure',sub:'A vs G',desc:'A (Aventureux): Aime explorer de nouveaux lieux; G (Prudent): Préfère les espaces familiers et sécurisés.',tags:['A Aventureux','G Prudent']},
+      {icon:'📅',title:'Régularité',sub:'K vs W',desc:'K (Routinier): Très attaché à la routine, déteste le changement; W (Fantaisiste): Suit son humeur, embrasse le changement.',tags:['K Routinier','W Fantaisiste']}
+    ],
+    questions:[
+      {e:'🛋️',t:'Votre humain s\'assoit sur le canapé. Que faites-vous ?',o:['Sauter immédiatement sur sa poitrine, ronronner fort et bloquer l\'écran','Le regarder depuis l\'autre bout de la pièce — profiter de sa compagnie à distance respectueuse','Marcher jusqu\'à lui et s\'asseoir à ses pieds — ni trop près, ni trop loin','L\'ignorer complètement, continuer à dormir, mais remuer le bout de la queue pour montrer qu\'on a remarqué']},
+      {e:'🐭',t:'Une souris en jouet roule sur le parquet. Votre réaction ?',o:['Faire un salto arrière, déraper sur le tapis et la déchiqueter !','La regarder passer, cligner lentement des yeux et retourner à la sieste','Traquer silencieusement, s\'accroupir, puis bondir sans un bruit — mode chasse activé','Faire semblant de ne pas l\'avoir vue, mais vos oreilles pivotent et votre queue commence à frétiller']},
+      {e:'🍽️',t:'Votre gamelle est vide à 15%. Comment communiquez-vous cette crise ?',o:['Vous tenir à côté et miauler à pleins poumons jusqu\'à ce qu\'un humain arrive','Vous asseoir silencieusement près de la gamelle, fixant l\'âme de l\'humain jusqu\'à ce qu\'il se sente coupable','Aller vers l\'humain, toucher doucement sa jambe et le guider vers la gamelle','Peu importe, vous n\'avez pas faim de toute façon. Si l\'humain vous nourrit, tant mieux']},
+      {e:'🚪',t:'La porte d\'entrée est laissée grande ouverte par accident. Votre prochaine action ?',o:['Sortir hardiment pour explorer le couloir et rencontrer les voisins','Battre en retraite instantanément sous le canapé — le monde extérieur est plein d\'aspirateurs imprévisibles','Vous asseoir à la porte, fixant l\'ouverture d\'un air méfiant — qui ose entrer ?','Passer la tête, renifler, puis sortir explorer rapidement et revenir tout aussi vite']},
+      {e:'🧹',t:'L\'humain sort l\'aspirateur. Votre réaction ?',o:['Vous cacher sous le lit jusqu\'à ce que ce monstre bruyant disparaisse — cela peut prendre des heures','La curiosité l\'emporte sur la peur — observer cet objet à distance sécuritaire','L\'ignorer complètement et continuer à dormir. C\'est quoi un aspirateur ?','Siffler sur l\'aspirateur pour tenter de l\'intimider et le faire reculer']},
+      {e:'⏰',t:'Il est 3h du matin. Quel est votre niveau d\'énergie ?',o:['LES ZOOMIES !!! Sprint complet, sauter sur les meubles, renverser les verres d\'eau — ÇA C\'EST LA VIE !','Blotti contre un humain bien chaud, ronronnant doucement','Se réveiller, s\'étirer, vérifier la gamelle dans la cuisine (puis retourner dormir)','Ouvrir un œil pour voir ce qui se passe, décider que c\'est trop bruyant, continuer à dormir']},
+      {e:'📦',t:'L\'humain ramène un nouveau carton à la maison. Que faites-vous ?',o:['Revendiquer le carton en 0,5 seconde et siffler sur toute créature qui tente de s\'approcher','Observer d\'abord — est-ce sûr ? Est-ce que ça sent un autre chat ? Attendre un jour avant d\'entrer','Sauter immédiatement dedans, rester coincé, et regarder l\'humain avec des yeux innocents','Ennuyeux. Ce carton n\'est pas aussi bien que l\'ancien. Totalement indifférent']},
+      {e:'👥',t:'Un inconnu vient à la maison. Votre première réaction ?',o:['Courir immédiatement vers lui et le saluer avec des miaulements sonores, exigeant des caresses','Disparaître. Je sortirai quand je me sentirai en sécurité — cela peut prendre des heures ou des jours','Observer depuis derrière les meubles, évaluer le niveau de menace de cette personne','Continuer ce que vous faites, mais garder un œil sur lui']},
+      {e:'💻',t:'L\'humain travaille sur son ordinateur portable. Vous décidez de…',o:['Vous asseoir sur le clavier. Votre derrière est plus important que son travail','Vous asseoir sur ses genoux et ronronner, ronronner, ronronner','Observer depuis une chaise voisine, lui jetant parfois le regard « prends une pause »','L\'ignorer complètement — trouver un coin ensoleillé et faire la sieste']},
+      {e:'🐟',t:'Quelle phrase décrit le mieux votre routine quotidienne ?',o:['Je fais la même chose exactement à la même heure chaque jour — la routine est mon deuxième prénom','Je n\'ai absolument aucune routine — l\'humain ne peut jamais deviner ce que je vais faire','J\'ai une routine mais je change parfois de plan selon mon humeur','C\'est quoi une routine ? Je ne suis que l\'appel de mon cœur']},
+      {e:'🪶',t:'On vous donne une canne à plumes. Que se passe-t-il ensuite ?',o:['Salto arrière ! Bond ! Morsure ! C\'est la chasse ! C\'est la vie !','Donner un petit coup de patte, puis s\'en aller — trop enfantin','Fixer silencieusement, calculer l\'angle d\'attaque optimal, puis frapper avec précision','Faire semblant de ne pas être intéressé, mais toucher discrètement quand l\'humain ne regarde pas']},
+      {e:'🏠',t:'Votre relation avec votre humain est…',o:['Je suis le patron, ils sont mes serviteurs. Notre relation est saine (pour eux)','Nous sommes des âmes sœurs — j\'ai besoin d\'eux, ils ont besoin de moi','Nous sommes colocataires. Je leur permets occasionnellement de me caresser après contrôle de sécurité','Humain ? C\'est quoi un humain ? Je ne connais que la créature bipède qui me donne à manger']}
+    ]
+  },
+  es:{
+    loading:'Invocando energía felina…',
+    introTitle:'¿Qué Tipo de <span>Gato</span> Eres?',
+    introDesc:'24 arquetipos felinos, 5 dimensiones fundamentales.<br>Del Siamés al Persa, de la leyenda callejera al confidente real —<br>¿cuál se esconde bajo tu apariencia humana?',
+    btnStart:'Comenzar Test',
+    btnOverview:'Ver los 24 Tipos',
+    introMeta:'12 preguntas divertidas · Visto 😼<span id="viewCount">*</span> · <span class="dim-link" onclick="showDimPopup()">Basado en comportamiento felino</span>',
+    dimLabel:'Análisis en 5 Dimensiones',
+    foLabel:'Mejores Amigos & Rivales Destinados',
+    btnRetake:'Repetir Test',
+    btnShare:'Compartir',
+    friends:'Mejores Amigos',
+    opponents:'Rivales',
+    matchPct:'Afinidad',
+    ovTitle:'Los 24 Tipos de Personalidad Felina CATI',
+    ovSub:'Haz clic en una tarjeta para ver detalles',
+    ovAll:'Todos',
+    ovGroup1:'Creadores de Caos',
+    ovGroup2:'Los Monarcas',
+    ovGroup3:'Acechadores Sombríos',
+    ovGroup4:'Maestros Zen',
+    dimS:'Sociabilidad',dimE:'Energía',dimV:'Expresión',dimA:'Aventura',dimC:'Consistencia',
+    dimSVals:{L:'L Mimoso',S:'S Solitario'},dimEVals:{C:'C Caótico',M:'M Tranquilo'},
+    dimVVals:{V:'V Expresivo',Q:'Q Callado'},dimAVals:{A:'A Aventurero',G:'G Cauteloso'},
+    dimCVals:{K:'K Rutinario',W:'W Caprichoso'},
+    shareTitle:'Escanea para Compartir tu Personalidad Felina',
+    shareDesc:'Escanea el código QR para<br>descubrir tu arquetipo felino',
+    shareUrl:'catpersona.pages.dev',
+    modalDetail:'Ver Detalles',
+    alertNoResult:'Por favor, completa primero el test',
+    modalFriends:'Amigos',
+    modalOpponents:'Rivales',
+    dimPopupTitle:'Modelo de Personalidad CATI en 5 Dimensiones',
+    dimPopupSub:'Basado en el comportamentalismo felino, 5 dimensiones definen tu personalidad felina',
+    dimCards:[
+      {icon:'🤝',title:'Sociabilidad',sub:'L vs S',desc:'L (Mimoso): Busca cercanía y atención; S (Solitario): Disfruta el tiempo a solas y mantiene distancia.',tags:['L Mimoso','S Solitario']},
+      {icon:'⚡',title:'Energía',sub:'C vs M',desc:'C (Caótico): Alta energía, impredecible, dramático; M (Tranquilo): Estable, calmado, va con la corriente.',tags:['C Caótico','M Tranquilo']},
+      {icon:'🗣️',title:'Expresión',sub:'V vs Q',desc:'V (Expresivo): Se comunica con voz y sonidos; Q (Callado): Silencioso, se expresa mediante acciones.',tags:['V Expresivo','Q Callado']},
+      {icon:'🗺️',title:'Aventura',sub:'A vs G',desc:'A (Aventurero): Le encanta explorar lugares nuevos; G (Cauteloso): Prefiere espacios familiares y seguros.',tags:['A Aventurero','G Cauteloso']},
+      {icon:'📅',title:'Consistencia',sub:'K vs W',desc:'K (Rutinario): Muy apegado a la rutina, odia el cambio; W (Caprichoso): Sigue su estado de ánimo, abraza el cambio.',tags:['K Rutinario','W Caprichoso']}
+    ],
+    questions:[
+      {e:'🛋️',t:'Tu humano se sienta en el sofá. ¿Qué haces?',o:['Saltar inmediatamente sobre su pecho, ronronear fuerte y bloquear la pantalla','Observarlo desde el otro lado de la habitación — disfrutar de su compañía a una distancia respetuosa','Caminar hacia él y sentarte a sus pies — ni muy cerca ni muy lejos','Ignorarlo por completo, seguir durmiendo, pero mover la punta de la cola para mostrar que lo notaste']},
+      {e:'🐭',t:'Un ratón de juguete rueda por el suelo. ¿Tu reacción?',o:['¡Dar una voltereta, derrapar en la alfombra y hacerlo pedazos!','Verlo pasar, parpadear lentamente y volver a la siesta','Acechar silenciosamente, agacharte y abalanzarte sin hacer ruido — modo caza activado','Fingir que no lo viste, pero tus orejas giran y tu cola empieza a moverse']},
+      {e:'🍽️',t:'Tu plato de comida está vacío al 15%. ¿Cómo comunicas esta crisis?',o:['Pararte junto a él y maullar a todo pulmón hasta que llegue un humano','Sentarte en silencio junto al plato, mirando fijamente el alma del humano hasta que se sienta culpable','Acercarte al humano, tocar suavemente su pierna y guiarlo hasta el plato','Lo que sea, ni siquiera tienes hambre. Si el humano te da comida, bien']},
+      {e:'🚪',t:'La puerta principal se deja abierta por accidente. ¿Tu siguiente movimiento?',o:['Salir audazmente a explorar el pasillo y conocer a los vecinos','Retirarte instantáneamente debajo del sofá — el mundo exterior está lleno de aspiradoras impredecibles','Sentarte en la puerta, mirando la abertura con sospecha — ¿quién se atreve a entrar?','Asomar la cabeza, olfatear, luego salir rápido a explorar y volver igual de rápido']},
+      {e:'🧹',t:'El humano saca la aspiradora. ¿Tu reacción?',o:['Esconderte debajo de la cama hasta que este monstruo ruidoso desaparezca — puede llevar horas','La curiosidad vence al miedo — observar este objeto desde una distancia segura','Ignorarlo por completo y seguir durmiendo. ¿Qué es una aspiradora?','Bufar a la aspiradora, intentando intimidarla para que se retire']},
+      {e:'⏰',t:'Son las 3 de la mañana. ¿Cuál es tu nivel de energía?',o:['¡¡¡ZOOMIES!!! ¡Sprint total, saltar sobre los muebles, tirar vasos de agua — ESTO ES VIVIR!','Acurrucado junto a un humano calentito, ronroneando suavemente','Despertar, estirarte, revisar el plato de comida en la cocina (y luego volver a dormir)','Abrir un ojo para ver qué pasa, decidir que hay demasiado ruido, seguir durmiendo']},
+      {e:'📦',t:'El humano trae una caja de cartón nueva a casa. ¿Qué haces?',o:['Reclamar la caja en 0,5 segundos y bufar a cualquier criatura que intente acercarse','Observar primero — ¿es segura? ¿Huele a otro gato? Esperar un día antes de entrar','Saltar inmediatamente dentro, quedarte atascado y mirar al humano con ojos inocentes','Aburrido. Esta caja no es tan buena como la anterior. Totalmente indiferente']},
+      {e:'👥',t:'Un desconocido llega a casa. ¿Tu primera reacción?',o:['Correr inmediatamente hacia él y saludarlo con maullidos fuertes, exigiendo caricias','Desaparecer. Saldré cuando me sienta seguro — pueden ser horas o días','Observar desde detrás de los muebles, evaluar el nivel de amenaza de esta persona','Continuar con lo que estabas haciendo, pero mantener un ojo puesto en él']},
+      {e:'💻',t:'El humano está trabajando en su portátil. Decides…',o:['Sentarte en el teclado. Tu trasero es más importante que su trabajo','Sentarte en su regazo y ronronear, ronronear, ronronear','Observar desde una silla cercana, lanzándole de vez en cuando la mirada de «tómate un descanso»','Ignorarlo por completo — encontrar un lugar soleado y echarte una siesta']},
+      {e:'🐟',t:'¿Qué frase describe mejor tu rutina diaria?',o:['Hago lo mismo exactamente a la misma hora cada día — la rutina es mi segundo nombre','No tengo absolutamente ninguna rutina — el humano nunca puede adivinar qué haré después','Tengo una rutina pero a veces cambio de planes según mi estado de ánimo','¿Qué es una rutina? Solo sigo el llamado de mi corazón']},
+      {e:'🪶',t:'Te dan una caña de plumas. ¿Qué pasa después?',o:['¡Voltereta! ¡Salto! ¡Mordisco! ¡Esto es cazar! ¡Esto es vivir!','Dar un golpecito suave con la pata y alejarte — demasiado infantil','Mirar fijamente en silencio, calcular el ángulo de ataque óptimo y golpear con precisión','Fingir no estar interesado, pero tocarla en secreto cuando el humano no mira']},
+      {e:'🏠',t:'Tu relación con tu humano es…',o:['Yo soy el jefe, ellos son mis sirvientes. Nuestra relación es saludable (para ellos)','Somos almas gemelas — yo los necesito, ellos me necesitan','Somos compañeros de piso. Ocasionalmente les permito acariciarme después del control de seguridad','¿Humano? ¿Qué es un humano? Solo conozco a la criatura bípeda que me da de comer']}
+    ]
   }
+
 };
 
 function refreshI18n(){
@@ -734,7 +1059,7 @@ function s(id){
 // ===== INIT =====
 (function(){
   const saved=localStorage.getItem('cati_lang');
-  if(saved==='zh'||saved==='en')LANG=saved;
+  if(saved==='zh'||saved==='en'||saved==='ko'||saved==='ja'||saved==='fr'||saved==='es')LANG=saved;
   setLang(LANG);
   initPageViews();
   setTimeout(()=>s('intro'),600);
@@ -892,7 +1217,7 @@ function renderTop3Carousel(top3){
         <div class=top3-slide-code style=color:${r.type.color}>${r.type.code}</div>
         <div class=top3-slide-name>${r.type.name} · ${r.type.en}</div>
         <div class=top3-slide-breed>${breed}</div>
-        <span class=top3-slide-link onclick="showModal('${r.type.code}')">${LANG==='zh'?'查看详情':'View Details'}</span>
+        <span class=top3-slide-link onclick="showModal('${r.type.code}')">${d.modalDetail}</span>
       </div>
     </div>`;
   }).join('');
@@ -991,8 +1316,8 @@ function showModal(code){
       <div class=modal-mbti>${t.mbti} — ${mbtiName}</div>
       <div class=modal-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
       <div class=modal-fo>
-        <h4>${d.modalFriends}${LANG==='zh'?'：':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
-        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'?'：':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4>${d.modalFriends}${LANG==='zh'||LANG==='ko'||LANG==='ja'?'：':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
+        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'||LANG==='ko'||LANG==='ja'?'：':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);return x?(x.code+' '+x.name):c}).join(' · ')}</h4>
       </div>
     </div>`;
   modal.classList.add('active');
@@ -1001,7 +1326,7 @@ function showModal(code){
 // ===== QR CODE SHARE =====
 function showQR(){
   const top3=window._lastTop3;
-  if(!top3||!top3.length){alert(LANG==='zh'?'请先完成测试':'Please complete the test first');return}
+  if(!top3||!top3.length){alert(d.alertNoResult);return}
   const d=I18N[LANG];
   const top=top3[0];
   const avatarSrc=getImage(top.type.code);
@@ -1039,6 +1364,6 @@ function shareResult(){
   showQR();
 }
 </script>
-<footer style="text-align:center;padding:1.2rem;font-size:0.9rem;color:#8B7355;background:linear-gradient(135deg,#FFF9F0,#FFF3E0);border-top:1px solid #E8DFD0;font-family:'Caveat',cursive;letter-spacing:0.02em;">Designed by <a href="https://lunazhao.pages.dev/" target="_blank" style="color:#C4734F;text-decoration:none;font-weight:700;">Luna Zhao</a></footer>
+<footer style="text-align:center;padding:1.2rem;font-size:0.9rem;color:var(--muted);background:var(--warm);border-top:1px solid var(--border);font-family:'Caveat',cursive;letter-spacing:0.02em;">Designed by <a href="https://lunazhao.pages.dev/" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:700;">Luna Zhao</a></footer>
 </body>
 </html>
