@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Cat Persona 喵星人格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -732,15 +735,16 @@ body::before{
 
 <script>
 // ===== PAGE VIEW COUNTER (unique visitors) =====
-// Uses api.counterapi.dev V1 — free, namespace/key URL format
-let _viewsCache = null;    // cached numeric count
+// Page views counter — api.counterapi.dev
+let _viewsCache = null;
+let _viewsCounted = false; // track if we've already incremented this session
 
 function animateCount(el,from,to,duration){
   if(from===to){el.textContent='x'+to.toLocaleString();return}
   const start=performance.now();
   function tick(now){
     const p=Math.min((now-start)/duration,1);
-    const eased=1-Math.pow(1-p,3); // easeOutCubic
+    const eased=1-Math.pow(1-p,3);
     const cur=Math.round(from+(to-from)*eased);
     el.textContent='x'+cur.toLocaleString();
     if(p<1)requestAnimationFrame(tick);
@@ -753,8 +757,6 @@ function initPageViews(){
   if(!el)return;
   if(_viewsCache!==null){animateCount(el,0,_viewsCache,1200);return}
   el.textContent='x...';
-
-  const visited=localStorage.getItem('cati_visited');
   const API='https://api.counterapi.dev/v1/catpersona/views/';
 
   function handleCount(n){
@@ -763,27 +765,28 @@ function initPageViews(){
     animateCount(el,0,n,1200);
   }
 
-  if(visited){
-    fetch(API,{cache:'no-store'})
-      .then(r=>r.ok?r.json():Promise.reject())
-      .then(d=>handleCount(d.count))
-      .catch(()=>handleCount(parseInt(localStorage.getItem('cati_views_total')||'0')));
-  }else{
+  // First call in this session: increment counter, then fetch total
+  if(!_viewsCounted){
+    _viewsCounted=true;
     fetch(API+'up',{cache:'no-store'})
       .then(r=>r.ok?r.json():Promise.reject())
       .then(d=>{
-        localStorage.setItem('cati_visited','1');
         const n=d.count!=null?Number(d.count):0;
-        localStorage.setItem('cati_views_total',n);
         handleCount(n);
       })
       .catch(()=>{
-        localStorage.setItem('cati_visited','1');
-        const fb=parseInt(localStorage.getItem('cati_views_fallback')||'0')+1;
-        localStorage.setItem('cati_views_fallback',fb);
-        localStorage.setItem('cati_views_total',fb);
-        handleCount(fb);
+        // Fallback: just read without incrementing
+        fetch(API,{cache:'no-store'})
+          .then(r=>r.ok?r.json():Promise.reject())
+          .then(d=>handleCount(d.count))
+          .catch(()=>handleCount(0));
       });
+  }else{
+    // Subsequent calls (language switch): just read
+    fetch(API,{cache:'no-store'})
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>handleCount(d.count))
+      .catch(()=>handleCount(0));
   }
 }
 
