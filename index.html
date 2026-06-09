@@ -41,6 +41,36 @@
   background:linear-gradient(135deg,#E91E8C,#F0A0C0);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
+[data-theme="en"] .btn{
+  border-radius:40px;text-transform:none;font-weight:700;letter-spacing:0.04em;
+}
+[data-theme="en"] .btn-secondary{
+  border:2px solid var(--accent);color:var(--accent);
+}
+[data-theme="en"] .btn-secondary:hover{
+  background:#FFE4F0;color:#D4556A;
+}
+[data-theme="en"] .quiz-card{
+  border-radius:28px;border:2px solid #F0D5E3;box-shadow:0 4px 32px rgba(233,30,140,0.08);
+}
+[data-theme="en"] .quiz-opt:hover{
+  background:#FFF5F9;border-color:var(--accent);box-shadow:0 2px 12px rgba(233,30,140,0.1);
+}
+[data-theme="en"] .quiz-bar{
+  border-radius:4px;height:6px;
+}
+[data-theme="en"] .quiz-fill{
+  background:linear-gradient(90deg,#E91E8C,#F0A0C0);border-radius:4px;
+}
+[data-theme="en"] .modal-box{
+  border:2px solid #F0D5E3;border-radius:20px;box-shadow:0 8px 48px rgba(233,30,140,0.1);
+}
+[data-theme="en"] .ov-card:hover{
+  border-color:var(--accent);box-shadow:0 6px 28px rgba(233,30,140,0.12);
+}
+[data-theme="en"] .type-badge{
+  background:linear-gradient(135deg,#E91E8C,#D4789A);border-radius:8px;padding:3px 10px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -233,6 +263,65 @@ body::before{
 [data-theme="ar"] #intro h1 span{
   color:var(--accent);
 }
+
+/* Theme UI components */
+[data-theme="ko"] .btn{border-radius:12px;font-weight:600}
+[data-theme="ko"] .btn-secondary{border:1.5px solid var(--accent);color:var(--accent)}
+[data-theme="ko"] .btn-secondary:hover{background:var(--warm)}
+[data-theme="ko"] .quiz-card{border-radius:20px}
+[data-theme="ko"] .quiz-opt:hover{background:var(--warm);border-color:var(--accent)}
+[data-theme="ko"] .quiz-fill{border-radius:3px;height:6px}
+[data-theme="ko"] .ov-card:hover{transform:translateY(-3px)}
+
+[data-theme="ja"] .btn{border-radius:8px;font-weight:500;letter-spacing:0.06em}
+[data-theme="ja"] .btn-secondary{border:1.5px solid var(--ink);color:var(--ink)}
+[data-theme="ja"] .btn-secondary:hover{background:var(--warm)}
+[data-theme="ja"] .quiz-card{border-radius:16px;box-shadow:0 1px 12px rgba(0,0,0,0.02)}
+[data-theme="ja"] .quiz-opt{border-radius:0;border-width:0 0 1px 0;background:transparent}
+[data-theme="ja"] .quiz-opt:hover{background:var(--warm);border-color:var(--accent);padding-left:20px}
+[data-theme="ja"] .quiz-fill{height:3px;border-radius:0}
+[data-theme="ja"] .modal-box{border-radius:12px}
+[data-theme="ja"] .ov-card:hover{transform:translateY(-2px)}
+
+[data-theme="fr"] .btn{border-radius:6px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:0.9rem}
+[data-theme="fr"] .btn-secondary{border:2px solid var(--ink);color:var(--ink)}
+[data-theme="fr"] .btn-secondary:hover{background:var(--ink);color:var(--cream)}
+[data-theme="fr"] .quiz-card{border-radius:12px}
+[data-theme="fr"] .quiz-opt{border-radius:8px}
+[data-theme="fr"] .quiz-opt:hover{background:var(--warm);border-color:var(--accent)}
+[data-theme="fr"] .quiz-fill{height:4px;border-radius:4px}
+[data-theme="fr"] .modal-box{border-radius:0;border-width:2px}
+[data-theme="fr"] .ov-card:hover{box-shadow:0 8px 40px rgba(27,27,56,0.1);border-color:var(--gold)}
+
+[data-theme="es"] .btn{border-radius:20px;font-weight:700}
+[data-theme="es"] .btn-secondary{border:2.5px solid var(--accent);color:var(--accent);font-weight:700}
+[data-theme="es"] .btn-secondary:hover{background:var(--accent);color:#FFF;transform:scale(1.03)}
+[data-theme="es"] .quiz-card{border-radius:24px;border-width:2px}
+[data-theme="es"] .quiz-opt:hover{background:var(--warm);border-color:var(--accent);transform:translateX(4px)}
+[data-theme="es"] .quiz-fill{border-radius:6px;height:8px}
+[data-theme="es"] .modal-box{border-radius:24px;border-width:2px}
+[data-theme="es"] .ov-card:hover{transform:translateY(-4px) rotate(1deg)}
+
+[data-theme="ru"] .btn{border-radius:4px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase}
+[data-theme="ru"] .btn-secondary{border:2px solid var(--ink);color:var(--ink)}
+[data-theme="ru"] .btn-secondary:hover{background:var(--ink);color:var(--cream)}
+[data-theme="ru"] .quiz-card{border-radius:4px}
+[data-theme="ru"] .quiz-opt{border-radius:4px;border-width:2px}
+[data-theme="ru"] .quiz-opt:hover{border-color:var(--accent)}
+[data-theme="ru"] .quiz-fill{height:4px;border-radius:0}
+[data-theme="ru"] .modal-box{border-radius:0;border-width:3px}
+[data-theme="ru"] .ov-card:hover{outline:3px solid var(--accent);outline-offset:2px}
+
+[data-theme="ar"] .btn{border-radius:12px;font-weight:700}
+[data-theme="ar"] .btn-secondary{border:2px solid var(--gold);color:var(--gold)}
+[data-theme="ar"] .btn-secondary:hover{background:var(--gold);color:var(--cream)}
+[data-theme="ar"] .quiz-card{border-radius:16px}
+[data-theme="ar"] .quiz-opt{border-radius:10px}
+[data-theme="ar"] .quiz-opt:hover{background:var(--warm);border-color:var(--accent)}
+[data-theme="ar"] .quiz-fill{height:5px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--gold))}
+[data-theme="ar"] .modal-box{border-radius:16px;border:2px solid var(--gold)}
+[data-theme="ar"] .ov-card:hover{box-shadow:0 6px 30px rgba(0,108,81,0.1);border-color:var(--gold)}
+
 /* RTL fixes for Arabic */
 [dir="rtl"] .topbar{flex-direction:row-reverse}
 .screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
@@ -1266,9 +1355,11 @@ function refreshI18n(){
   document.getElementById('btnStart').textContent=d.btnStart;
   document.getElementById('btnOverview').textContent=d.btnOverview;
   document.getElementById('introMeta').innerHTML=d.introMeta;
-  initPageViews(); // must be called after introMeta is rendered (viewCount element now exists)
+  initPageViews();
   document.getElementById('btnRetake').textContent=d.btnRetake;
   document.getElementById('btnShare').textContent=d.btnShare;
+  // Re-render quiz if active
+  if(document.getElementById('quiz').classList.contains('active')) rq();
   // Re-render overview if currently on overview screen
   if(document.getElementById('overview').classList.contains('active')) showOverview();
   // Re-render result screen if active
