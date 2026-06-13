@@ -1637,7 +1637,7 @@ function s(id){
 function initIntro(){
   const grid=document.getElementById('introCats');
   // Cat face outline coordinates (24 positions, x%/y% centered in container)
-  const faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,84],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
+  const faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,80],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
   const all=[...TYPES];
   grid.innerHTML=all.map((t,i)=>{
     const src=getImage(t.code);
@@ -1682,7 +1682,7 @@ function shuffleCats(){
   imgs.forEach(el=>{el.style.opacity='0';el.style.transform='translate(-50%,-50%) scale(0.8)'});
   setTimeout(()=>{
     // Rebuild cat face with randomized type-to-position mapping
-    const faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,84],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
+    const faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,80],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
     const shuffled=[...TYPES].sort(()=>Math.random()-0.5);
     grid.innerHTML=shuffled.map((t,i)=>{
       const src=getImage(t.code);
