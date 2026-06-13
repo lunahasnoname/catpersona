@@ -1679,16 +1679,20 @@ function shuffleCats(){
   const grid=document.getElementById('introCats');
   if(!grid)return;
   const imgs=Array.from(grid.children);
-  imgs.forEach(el=>{el.style.opacity='0';el.style.transform='scale(0.8)'});
+  imgs.forEach(el=>{el.style.opacity='0';el.style.transform='translate(-50%,-50%) scale(0.8)'});
   setTimeout(()=>{
-    const shuffled=[...TYPES].sort(()=>Math.random()-0.5).slice(0,8);
-    grid.innerHTML=shuffled.map(t=>{
+    // Rebuild cat face with randomized type-to-position mapping
+    const faces=[[34,6],[66,6],[20,16],[36,16],[64,16],[80,16],[12,28],[36,28],[64,28],[88,28],[4,42],[18,42],[34,42],[50,42],[66,42],[82,42],[96,42],[22,56],[40,56],[60,56],[78,56],[32,72],[50,72],[68,72]];
+    const shuffled=[...TYPES].sort(()=>Math.random()-0.5);
+    grid.innerHTML=shuffled.map((t,i)=>{
       const src=getImage(t.code);
-      if(src)return `<img src="${src}" alt="${LANG==='zh'?t.breed:t.breedEn}" title="${t.name} · ${LANG==='zh'?t.breed:t.breedEn}" loading="lazy">`;
-      return `<div class="cat-fallback sm" title="${t.name}">🐾</div>`;
+      const p=faces[i];
+      const style=`style="left:${p[0]}%;top:${p[1]}%;animation-delay:${(i*0.1).toFixed(1)}s"`;
+      if(src)return `<img src="${src}" alt="${LANG==='zh'?t.breed:t.breedEn}" title="${t.name}" loading="lazy" ${style}>`;
+      return `<div class="cat-fallback sm cat-item" title="${t.name}" ${style}>🐾</div>`;
     }).join('');
     setTimeout(()=>{
-      Array.from(grid.children).forEach((el,i)=>{setTimeout(()=>{el.style.opacity='1';el.style.transform='scale(1)'},i*60)});
+      Array.from(grid.children).forEach((el,i)=>{setTimeout(()=>{el.style.opacity='1';el.style.transform='translate(-50%,-50%) scale(1)'},i*60)});
     },50);
   },450);
 }
