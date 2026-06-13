@@ -676,14 +676,14 @@ body::before{
 /* ===== FALLBACK ===== */
 .cat-fallback{display:flex;align-items:center;justify-content:center;background:var(--warm);color:var(--accent2);font-size:3rem}
 .cat-fallback.sm{font-size:1.5rem;width:36px;height:36px;border-radius:50%}
-.intro-cats .cat-fallback.sm{font-size:1.8rem;width:56px;height:56px;border-radius:50%;position:absolute}
+.intro-cats .cat-fallback.sm{font-size:1.2rem;width:34px;height:34px;border-radius:50%;position:absolute}
 
 /* ===== TYPING CURSOR ===== */
 .cursor{display:inline-block;width:2px;height:1em;background:var(--accent);margin-left:3px;vertical-align:text-bottom;animation:blink .7s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ===== INTRO CATS PULSE ===== */
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.1)}}
 
 @media(max-width:600px){
   #intro h1{font-size:2rem}
