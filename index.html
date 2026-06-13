@@ -1558,6 +1558,20 @@ function getGroup(code){
   if(d==='LC')return 0; if(d==='LM')return 1;
   if(d==='SC')return 2; return 3;
 }
+function getBreed(code){
+  if(!code)return'';
+  const d=I18N[LANG];
+  const ti=(d.typeInfo&&d.typeInfo[code])||{};
+  if(ti.breed)return ti.breed;
+  const t=TYPES.find(x=>x.code===code);
+  if(!t)return'';
+  return LANG==='zh'?t.breed:t.breedEn;
+}
+function getBreedEn(code){
+  const t=TYPES.find(x=>x.code===code);
+  if(!t)return'';
+  return LANG==='zh'?t.breedEn:t.breed;
+}
 const GROUP_NAMES_ZH=['混乱创造者','红尘统治者','暗影潜行者','禅修大师'];
 const GROUP_NAMES_EN=['Chaos Creators','The Monarchs','Shadow Stalkers','Zen Masters'];
 
@@ -1644,7 +1658,7 @@ function initIntro(){
     const src=getImage(t.code);
     const p=faces[i];
     const style=`style="left:${p[0]}%;top:${p[1]}%;animation-delay:${(i*0.1).toFixed(1)}s"`;
-    if(src)return `<img src="${src}" alt="${LANG==='zh'?t.breed:t.breedEn}" title="${t.name} · ${LANG==='zh'?t.breed:t.breedEn}" loading="lazy" ${style}>`;
+    if(src)return `<img src="${src}" alt="${getBreed(t.code)}" title="${t.name} · ${getBreed(t.code)}" loading="lazy" ${style}>`;
     return `<div class="cat-fallback sm cat-item" title="${t.name}" ${style}>🐾</div>`;
   }).join('');
 }
@@ -1689,7 +1703,7 @@ function shuffleCats(){
       const src=getImage(t.code);
       const p=faces[i];
       const style=`style="left:${p[0]}%;top:${p[1]}%;animation-delay:${(i*0.1).toFixed(1)}s"`;
-      if(src)return `<img src="${src}" alt="${LANG==='zh'?t.breed:t.breedEn}" title="${t.name}" loading="lazy" ${style}>`;
+      if(src)return `<img src="${src}" alt="${getBreed(t.code)}" title="${t.name}" loading="lazy" ${style}>`;
       return `<div class="cat-fallback sm cat-item" title="${t.name}" ${style}>🐾</div>`;
     }).join('');
     setTimeout(()=>{
@@ -1753,8 +1767,8 @@ function showResult(top,top3,uD){
   const imgSrc=getImage(top.type.code);
   const hero=document.getElementById('resultHero');
   hero.innerHTML=imgSrc
-    ?`<img src="${imgSrc}" alt="${LANG==='zh'?top.type.breed:top.type.breedEn}" onerror="this.parentElement.innerHTML='<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div>'"><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.name} · ${top.type.en}</div><div class=result-hero-breed>${LANG==='zh'?top.type.breed:top.type.breedEn} / ${LANG==='zh'?top.type.breedEn:top.type.breed}</div></div>`
-    :`<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.name} · ${top.type.en}</div><div class=result-hero-breed>${LANG==='zh'?top.type.breed:top.type.breedEn} / ${LANG==='zh'?top.type.breedEn:top.type.breed}</div></div>`;
+    ?`<img src="${imgSrc}" alt="${getBreed(top.type.code)}" onerror="this.parentElement.innerHTML='<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div>'"><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.name} · ${top.type.en}</div><div class=result-hero-breed>${getBreed(top.type.code)} / ${getBreedEn(top.type.code)}</div></div>`
+    :`<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.name} · ${top.type.en}</div><div class=result-hero-breed>${getBreed(top.type.code)} / ${getBreedEn(top.type.code)}</div></div>`;
   document.getElementById('resultPct').innerHTML=`${d.matchPct} <strong style=color:${top.type.color}>${top.pct}%</strong>`;
 
   // Top3 Carousel
@@ -1796,7 +1810,7 @@ function renderTop3Carousel(top3){
   const paws=document.getElementById('top3Paws');
   track.innerHTML=top3.map((r,i)=>{
     const src=getImage(r.type.code);
-    const breed=LANG==='zh'?r.type.breed:r.type.breedEn;
+    const breed=getBreed(r.type.code);
     return `<div class=top3-slide${i===0?' active-slide':''}>
       <div class=top3-avatar-wrap onclick="showModal('${r.type.code}')">
         ${src?`<img class=top3-avatar src="${src}" alt="${breed}" loading=lazy>`:`<div class=top3-avatar-fallback>🐾</div>`}
@@ -1876,7 +1890,7 @@ function renderOverview(group){
   grid.innerHTML=filtered.map(t=>{
     const src=getImage(t.code);
     const gi=getGroup(t.code);const gd2=I18N[LANG];const groupMap=[gd2.ovGroup1||GROUP_NAMES_EN[0],gd2.ovGroup2||GROUP_NAMES_EN[1],gd2.ovGroup3||GROUP_NAMES_EN[2],gd2.ovGroup4||GROUP_NAMES_EN[3]];const g=groupMap[gi];
-    const breed=LANG==='zh'?t.breed:t.breedEn;
+    const breed=getBreed(t.code);
     return `<div class=ov-card onclick="showModal('${t.code}')">
       ${src?`<img class=ov-card-img src="${src}" alt="${breed}" loading=lazy onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class=cat-fallback style=display:none;aspect-ratio:4/3;font-size:2rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:4/3;font-size:2rem>🐾</div>`}
       <div class=ov-card-body><div class=ov-card-code style=color:${t.color}>${t.code}</div><div class=ov-card-name>${LANG==='zh'?t.name+'「'+t.en+'」':t.en+'『'+t.name+'』'}</div><div class=ov-card-breed>${breed}</div><div class=ov-card-group>${g}</div></div></div>`;
@@ -1892,8 +1906,8 @@ function showModal(code){
   // Use localized type info if available, fallback to zh/en
   const ti=(d.typeInfo&&d.typeInfo[code])||{};
   const typeName=ti.name?ti.name:(LANG==='zh'?t.name:t.en);
-  const breed=ti.breed?ti.breed:(LANG==='zh'?t.breed:t.breedEn);
-  const breedEn=LANG==='zh'?t.breedEn:t.breed;
+  const breed=getBreed(t.code);
+  const breedEn=getBreedEn(t.code);
   const desc=ti.desc?ti.desc:(LANG==='zh'?t.desc:(t.descEn||t.desc));
   const mbtiName=LANG==='zh'?t.mbtiName:(ti.mbtiName||t.mbtiNameEn||t.mbtiName);
   const traits=LANG==='zh'?t.traits:(ti.traits||t.traitsEn||t.traits);
