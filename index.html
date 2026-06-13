@@ -1724,9 +1724,21 @@ function calc(){
     Object.entries(m).forEach(([d,v])=>{if(dims[v]!==undefined)dims[v]+=w[v]||1})
   });
   const uD={S:dims.L>=dims.S?'L':'S',E:dims.C>=dims.M?'C':'M',V:dims.V>=dims.Q?'V':'Q',A:dims.A>=dims.G?'A':'G',C:dims.K>=dims.W?'K':'W'};
+  // Continuous scoring — match strength based on dimension ratio, not just binary
   const rw={S:2,E:2,V:2,A:2,C:1.5};
-  const mx=Object.values(rw).reduce((a,b)=>a+b,0);
-  const results=TYPES.map(t=>{let sc=0;Object.keys(rw).forEach(d=>{if(uD[d]===t.d[d])sc+=rw[d]});return{type:t,pct:Math.round(sc/mx*100)}});
+  const mx=9.5;
+  const opposites={'L':'S','S':'L','C':'M','M':'C','V':'Q','Q':'V','A':'G','G':'A','K':'W','W':'K'};
+  const results=TYPES.map(t=>{
+    let sc=0;
+    Object.keys(rw).forEach(group=>{
+      const td=t.d[group];
+      const od=opposites[td];
+      const total=(dims[td]||0)+(dims[od]||0);
+      const strength=total>0?dims[td]/total:0.5;
+      sc+=strength*rw[group];
+    });
+    return{type:t,pct:Math.round(sc/mx*100)};
+  });
   results.sort((a,b)=>b.pct-a.pct);
   const top3=results.slice(0,3);
   s('result');
