@@ -635,7 +635,8 @@ body::before{
 .modal-close{position:sticky;top:0;float:right;background:rgba(255,255,255,0.9);border:none;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;margin:12px 12px -36px 0;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center}
 .modal-code{font-size:1.4rem;font-weight:800;color:var(--accent);letter-spacing:0.04em}
 .modal-name{color:var(--muted);font-size:0.95rem;margin:4px 0}
-.modal-breed{color:var(--accent2);font-size:0.85rem;margin-bottom:14px}
+.modal-breed{color:var(--accent2);font-size:0.85rem;margin-bottom:6px}
+.modal-group{font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px}
 .modal-desc{color:#5A4F3F;line-height:1.75;font-size:0.93rem;margin-bottom:16px}
 .modal-mbti{background:var(--warm);padding:8px 14px;border-radius:10px;display:inline-block;font-size:0.85rem;margin-bottom:16px}
 .modal-traits{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
@@ -1857,7 +1858,7 @@ function showOverview(){
   const d=I18N[LANG];
   document.getElementById('ovTitle').textContent=d.ovTitle;
   document.getElementById('ovSub').textContent=d.ovSub;
-  const groups=LANG==='zh'?GROUP_NAMES_ZH:GROUP_NAMES_EN;
+  const gd=I18N[LANG];const groups=[gd.ovGroup1||GROUP_NAMES_EN[0],gd.ovGroup2||GROUP_NAMES_EN[1],gd.ovGroup3||GROUP_NAMES_EN[2],gd.ovGroup4||GROUP_NAMES_EN[3]];
   const filterNames=[d.ovAll,groups[0],groups[1],groups[2],groups[3]];
   const filters=[-1,0,1,2,3];
   document.getElementById('ovFilters').innerHTML=filterNames.map((n,i)=>`<button class="ov-filter${filters[i]===_ovActiveFilter?' active':''}" onclick="filterOverview(${filters[i]},this)">${n}</button>`).join('');
@@ -1874,7 +1875,7 @@ function renderOverview(group){
   const filtered=group===-1?TYPES:TYPES.filter(t=>getGroup(t.code)===group);
   grid.innerHTML=filtered.map(t=>{
     const src=getImage(t.code);
-    const g=LANG==='zh'?GROUP_NAMES_ZH[getGroup(t.code)]:GROUP_NAMES_EN[getGroup(t.code)];
+    const gi=getGroup(t.code);const gd2=I18N[LANG];const groupMap=[gd2.ovGroup1||GROUP_NAMES_EN[0],gd2.ovGroup2||GROUP_NAMES_EN[1],gd2.ovGroup3||GROUP_NAMES_EN[2],gd2.ovGroup4||GROUP_NAMES_EN[3]];const g=groupMap[gi];
     const breed=LANG==='zh'?t.breed:t.breedEn;
     return `<div class=ov-card onclick="showModal('${t.code}')">
       ${src?`<img class=ov-card-img src="${src}" alt="${breed}" loading=lazy onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class=cat-fallback style=display:none;aspect-ratio:4/3;font-size:2rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:4/3;font-size:2rem>🐾</div>`}
@@ -1896,6 +1897,7 @@ function showModal(code){
   const desc=ti.desc?ti.desc:(LANG==='zh'?t.desc:(t.descEn||t.desc));
   const mbtiName=LANG==='zh'?t.mbtiName:(ti.mbtiName||t.mbtiNameEn||t.mbtiName);
   const traits=LANG==='zh'?t.traits:(ti.traits||t.traitsEn||t.traits);
+  const gi=getGroup(t.code);const groupMap=[d.ovGroup1||'Chaos Creators',d.ovGroup2||'The Monarchs',d.ovGroup3||'Shadow Stalkers',d.ovGroup4||'Zen Masters'];const groupName=groupMap[gi];
   document.getElementById('modalBox').innerHTML=`
     <button class=modal-close onclick="document.getElementById('modal').classList.remove('active')">×</button>
     ${src?`<img class=modal-img src="${src}" alt="${breed}" onerror="this.style.display='none';document.getElementById('mfallback').style.display='flex'"><div id=mfallback class=cat-fallback style=display:none;aspect-ratio:16/9;font-size:4rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:16/9;font-size:4rem>🐾</div>`}
@@ -1903,6 +1905,7 @@ function showModal(code){
       <div class=modal-code style=color:${t.color}>${t.code}</div>
       <div class=modal-name>${LANG==='zh'?t.name+'「'+t.en+'」':t.en+'『'+t.name+'』'}</div>
       <div class=modal-breed>${breed} / ${breedEn}</div>
+      <div class=modal-group style=color:${t.color}>${groupName}</div>
       <div class=modal-desc>${desc}</div>
       <div class=modal-mbti>${t.mbti} — ${mbtiName}</div>
       <div class=modal-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
