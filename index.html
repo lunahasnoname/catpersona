@@ -480,30 +480,22 @@ body::before{
 }
 #intro h1 span{color:var(--accent)}
 #intro .desc{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:440px;margin:0 auto 32px;text-wrap:pretty}
-.intro-cats{position:relative;width:280px;height:220px;margin:0 auto 32px}
+.intro-cats{position:relative;width:300px;height:260px;margin:0 auto 32px}
 .intro-cats::before{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 45% 40% at 50% 55%,var(--warm) 0%,transparent 100%);
-  border-radius:50%;opacity:0.5;
+  background:radial-gradient(ellipse 50% 45% at 50% 52%,var(--warm) 0%,transparent 100%);
+  border-radius:50%;opacity:0.4;
 }
 .intro-cats img,.intro-cats .cat-item{
-  position:absolute;width:56px;height:56px;border-radius:50%;
-  object-fit:cover;border:2.5px solid #fff;box-shadow:var(--shadow);
+  position:absolute;width:34px;height:34px;border-radius:50%;
+  object-fit:cover;border:2px solid #fff;box-shadow:var(--shadow);
   transition:transform 0.3s,opacity 0.4s;
   animation:pulse 2.5s ease-in-out infinite;cursor:pointer;z-index:1;
+  transform:translate(-50%,-50%);
 }
-/* Cat face outline — 8 positions */
-.intro-cats img:nth-child(1),.intro-cats .cat-item:nth-child(1){top:8%;left:30%;animation-delay:0s}
-.intro-cats img:nth-child(2),.intro-cats .cat-item:nth-child(2){top:8%;left:70%;animation-delay:.3s}
-.intro-cats img:nth-child(3),.intro-cats .cat-item:nth-child(3){top:28%;left:12%;animation-delay:.6s}
-.intro-cats img:nth-child(4),.intro-cats .cat-item:nth-child(4){top:28%;left:88%;animation-delay:.9s}
-.intro-cats img:nth-child(5),.intro-cats .cat-item:nth-child(5){top:50%;left:20%;animation-delay:1.2s}
-.intro-cats img:nth-child(6),.intro-cats .cat-item:nth-child(6){top:50%;left:50%;transform:translateX(-50%);animation-delay:1.5s}
-.intro-cats img:nth-child(7),.intro-cats .cat-item:nth-child(7){top:50%;left:80%;animation-delay:1.8s}
-.intro-cats img:nth-child(8),.intro-cats .cat-item:nth-child(8){top:70%;left:50%;transform:translateX(-50%);animation-delay:2.1s}
-.intro-cats img:hover,.intro-cats .cat-item:hover{transform:translate(-50%,-4px) scale(1.1)!important;z-index:3}
-.intro-cats img:nth-child(6):hover,.intro-cats .cat-item:nth-child(6):hover{transform:translate(-50%,-4px) scale(1.1)!important}
-.intro-cats img:nth-child(8):hover,.intro-cats .cat-item:nth-child(8):hover{transform:translate(-50%,-4px) scale(1.1)!important}
+.intro-cats img:hover,.intro-cats .cat-item:hover{
+  transform:translate(-50%,-55%) scale(1.25)!important;z-index:3;
+}
 .intro-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .btn{
   padding:14px 48px;border:none;border-radius:var(--br,100px);font-size:1rem;
@@ -695,9 +687,9 @@ body::before{
 
 @media(max-width:600px){
   #intro h1{font-size:2rem}
-  .intro-cats{width:220px;height:180px}
-  .intro-cats img,.intro-cats .cat-item{width:44px;height:44px;border-width:2px}
-  .intro-cats .cat-fallback.sm{width:44px!important;height:44px!important;font-size:1.4rem!important}
+  .intro-cats{width:240px;height:210px}
+  .intro-cats img,.intro-cats .cat-item{width:28px;height:28px;border-width:1.5px}
+  .intro-cats .cat-fallback.sm{width:28px!important;height:28px!important;font-size:1rem!important}
   .intro-eyebrow{font-size:0.7rem}
   .desc{font-size:0.92rem;line-height:1.6}
   .btn{padding:14px 32px;font-size:0.92rem}
@@ -1644,12 +1636,15 @@ function s(id){
 // ===== INTRO =====
 function initIntro(){
   const grid=document.getElementById('introCats');
-  const shuffled=[...TYPES].sort(()=>Math.random()-0.5);
-  const show=shuffled.slice(0,8);
-  grid.innerHTML=show.map(t=>{
+  // Cat face outline coordinates (24 positions, x%/y% centered in container)
+  const faces=[[34,6],[66,6],[20,16],[36,16],[64,16],[80,16],[12,28],[36,28],[64,28],[88,28],[4,42],[18,42],[34,42],[50,42],[66,42],[82,42],[96,42],[22,56],[40,56],[60,56],[78,56],[32,72],[50,72],[68,72]];
+  const all=[...TYPES];
+  grid.innerHTML=all.map((t,i)=>{
     const src=getImage(t.code);
-    if(src)return `<img src="${src}" alt="${LANG==='zh'?t.breed:t.breedEn}" title="${t.name} · ${LANG==='zh'?t.breed:t.breedEn}" loading="lazy">`;
-    return `<div class="cat-fallback sm cat-item" title="${t.name}">🐾</div>`;
+    const p=faces[i];
+    const style=`style="left:${p[0]}%;top:${p[1]}%;animation-delay:${(i*0.1).toFixed(1)}s"`;
+    if(src)return `<img src="${src}" alt="${LANG==='zh'?t.breed:t.breedEn}" title="${t.name} · ${LANG==='zh'?t.breed:t.breedEn}" loading="lazy" ${style}>`;
+    return `<div class="cat-fallback sm cat-item" title="${t.name}" ${style}>🐾</div>`;
   }).join('');
 }
 
