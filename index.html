@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +7,15 @@
 <meta name="googlebot" content="index, follow">
 
 <!-- Primary SEO -->
-<title>Cat Persona 喵星人格 — Free Cat Personality Test | Discover Your Feline Archetype</title>
-<meta name="description" content="Which cat persona hides behind your human facade? Take our free 12-question CATI personality test. 24 feline archetypes, 5 core dimensions. Fun, scientific, and purr-fectly accurate.">
+<title>Cat Persona — Free Cat Personality Test | Discover Your Feline Archetype</title>
+<meta name="description" content="24 cat archetypes, 5 core personality dimensions, 12 fun questions. From Siamese to Persian, street legend to royal confidant — which feline hides behind your human facade? Take the free test now!">
 <meta name="keywords" content="cat personality test, feline archetype quiz, CATI test, cat persona, cat psychology, personality quiz, 喵星人格, 猫咪人格测试">
 
 <!-- Canonical -->
 <link rel="canonical" href="https://catpersona.pages.dev/">
 
 <!-- Hreflang — multilingual signal for search engines -->
-<link rel="alternate" hreflang="x-default" href="https://catpersona.pages.dev/">
+<link rel="alternate" hreflang="x-default" href="https://catpersona.pages.dev/?lang=en">
 <link rel="alternate" hreflang="zh" href="https://catpersona.pages.dev/?lang=zh">
 <link rel="alternate" hreflang="en" href="https://catpersona.pages.dev/?lang=en">
 <link rel="alternate" hreflang="zh-HK" href="https://catpersona.pages.dev/?lang=hk">
@@ -29,11 +29,12 @@
 <!-- Open Graph — Facebook, LinkedIn, WhatsApp -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://catpersona.pages.dev/">
-<meta property="og:title" content="Cat Persona 喵星人格 — Which Feline Archetype Are You?">
-<meta property="og:description" content="24 cat archetypes, 5 personality dimensions, 12 fun questions. Discover your inner feline.">
+<meta property="og:title" content="Cat Persona — Free Cat Personality Test | Discover Your Feline Archetype">
+<meta property="og:description" content="24 cat archetypes, 5 core personality dimensions, 12 fun questions. From Siamese to Persian — which feline hides behind your human facade?">
 <meta property="og:site_name" content="Cat Persona">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:locale:alternate" content="zh_HK">
 <meta property="og:locale:alternate" content="ja_JP">
 <meta property="og:locale:alternate" content="ko_KR">
 <meta property="og:locale:alternate" content="fr_FR">
@@ -44,8 +45,8 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://catpersona.pages.dev/">
-<meta name="twitter:title" content="Cat Persona 喵星人格 — Which Cat Archetype Are You?">
-<meta name="twitter:description" content="24 cat archetypes, 5 dimensions, 12 fun questions. Take the quiz now.">
+<meta name="twitter:title" content="Cat Persona — Free Cat Personality Test">
+<meta name="twitter:description" content="24 cat archetypes, 5 dimensions, 12 fun questions — discover your inner feline.">
 <meta name="twitter:creator" content="@catpersona">
 
 <!-- Structured Data — JSON-LD -->
@@ -923,7 +924,7 @@ function initPageViews(){
 }
 
 // ===== LANGUAGE STATE =====
-let LANG = 'zh';
+let LANG = 'en';
 
 function setLang(l){
   LANG=l;
@@ -944,9 +945,31 @@ function setLang(l){
   document.documentElement.setAttribute('data-theme',l);
   document.documentElement.lang = l==='zh'?'zh-CN':l==='hk'?'zh-HK':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':l==='ru'?'ru-RU':l==='ar'?'ar-SA':'en';
   document.documentElement.dir = l==='ar'?'rtl':'ltr';
-  document.title = l==='zh'||l==='hk'?'Cat Persona 喵星人格':'Cat Persona — Discover Your Feline Self';
+  // Dynamic SEO meta updates per language
+  updateSEOMeta(l);
   refreshI18n();
   localStorage.setItem('cati_lang',l);
+}
+// Per-language SEO title/description
+const SEO_TITLES={zh:'Cat Persona 喵星人格 — 免费猫咪人格测试 | 发现你的猫系原型',hk:'Cat Persona 喵星人格 — 免費貓咪人格測試 | 發現你的貓系原型',en:'Cat Persona — Free Cat Personality Test | Discover Your Feline Archetype',ja:'Cat Persona — 無料の猫性格診断 | あなたの猫タイプを発見',ko:'Cat Persona — 무료 고양이 성격 테스트 | 당신의 고양이 유형을 찾아보세요',fr:'Cat Persona — Test de Personnalité Félin Gratuit | Découvrez Votre Archétype',es:'Cat Persona — Test de Personalidad Felina Gratis | Descubre Tu Arquetipo',ru:'Cat Persona — Бесплатный Тест Характера Кошки | Узнай Свой Кошачий Архетип',ar:'Cat Persona — اختبار شخصية القطط مجاناً | اكتشف نموذجك القططي'};
+const SEO_DESCS={zh:'24种猫咪原型，5个核心维度，12道趣味题目。从暹罗到波斯，从街头浪猫到皇室知己——哪一种才是藏在人类外表下的你？立即开始免费测试！',hk:'24種貓咪原型，5個核心維度，12道趣味題目。從暹羅到波斯，從街頭浪貓到皇室知己——哪一種才是藏在你人類外表下的你？立即開始免費測試！',en:'24 cat archetypes, 5 core personality dimensions, 12 fun questions. From Siamese to Persian, street legend to royal confidant — which feline hides behind your human facade? Take the free test now!',ja:'24の猫の原型、5つの性格次元、12の楽しい質問。シャムからペルシャ、ストリートの伝説から王家の相談役まで——あなたの人間の仮面の下に隠れている猫は？今すぐ無料で診断！',ko:'24가지 고양이 원형, 5가지 성격 차원, 12개의 재미있는 질문. 샴부터 페르시안까지, 거리의 전설부터 왕실의 친구까지 — 당신의 인간 가면 뒤에 숨은 고양이는? 지금 무료로 테스트하세요!',fr:'24 archétypes félins, 5 dimensions de personnalité, 12 questions amusantes. Du Siamois au Persan, légende des rues ou confident royal — quel félin se cache derrière votre façade humaine ? Test gratuit !',es:'24 arquetipos felinos, 5 dimensiones de personalidad, 12 preguntas divertidas. Del Siamés al Persa, leyenda callejera o confidente real — ¿qué felino se esconde tras tu fachada humana? ¡Test gratis!',ru:'24 кошачьих архетипа, 5 измерений личности, 12 забавных вопросов. От сиамской до персидской, от уличной легенды до королевского советника — какой кот скрывается за твоей человеческой внешностью? Пройди тест бесплатно!',ar:'٢٤ نموذجاً أصيلاً للقطط، ٥ أبعاد للشخصية، ١٢ سؤالاً ممتعاً. من السيامي إلى الفارسي، من أسطورة الشارع إلى رفيق الملوك — أي قطة تختبئ خلف مظهرك البشري؟ خذ الاختبار مجاناً!'};
+function updateSEOMeta(l){
+  document.title = SEO_TITLES[l]||SEO_TITLES.en;
+  var desc=document.querySelector('meta[name="description"]');
+  if(desc)desc.setAttribute('content',SEO_DESCS[l]||SEO_DESCS.en);
+  var ogt=document.querySelector('meta[property="og:title"]');
+  if(ogt)ogt.setAttribute('content',SEO_TITLES[l]||SEO_TITLES.en);
+  var ogd=document.querySelector('meta[property="og:description"]');
+  if(ogd)ogd.setAttribute('content',SEO_DESCS[l]||SEO_DESCS.en);
+  var twt=document.querySelector('meta[name="twitter:title"]');
+  if(twt)twt.setAttribute('content',(SEO_TITLES[l]||SEO_TITLES.en).substring(0,70));
+  var twd=document.querySelector('meta[name="twitter:description"]');
+  if(twd)twd.setAttribute('content',(SEO_DESCS[l]||SEO_DESCS.en).substring(0,200));
+  // Update og:locale
+  var ogl=document.querySelector('meta[property="og:locale"]');
+  if(ogl)ogl.setAttribute('content',l==='zh'?'zh_CN':l==='hk'?'zh_HK':l==='ja'?'ja_JP':l==='ko'?'ko_KR':l==='fr'?'fr_FR':l==='es'?'es_ES':l==='ru'?'ru_RU':l==='ar'?'ar_SA':'en_US');
+  // Update URL query param
+  try{var u=new URL(window.location);u.searchParams.set('lang',l);window.history.replaceState({},'',u.toString())}catch(e){}
 }
 
 // ===== CUSTOM DROPDOWN =====
@@ -1683,13 +1706,76 @@ function s(id){
   }
 }
 
+// ===== IP → LANGUAGE MAP =====
+const COUNTRY_LANG = {
+  CN:'zh',TW:'hk',HK:'hk',MO:'hk', // Chinese-speaking regions
+  JP:'ja',KR:'ko', // Japanese, Korean
+  FR:'fr',BE:'fr',CH:'fr',LU:'fr',MC:'fr', // French-speaking
+  ES:'es',MX:'es',AR:'es',CO:'es',CL:'es',PE:'es',VE:'es',EC:'es',GT:'es',CU:'es',BO:'es',DO:'es',HN:'es',PY:'es',SV:'es',NI:'es',CR:'es',PA:'es',UY:'es',GQ:'es', // Spanish-speaking
+  RU:'ru',BY:'ru',KZ:'ru',UA:'ru',KG:'ru', // Russian-speaking
+  SA:'ar',AE:'ar',EG:'ar',MA:'ar',JO:'ar',QA:'ar',KW:'ar',OM:'ar',BH:'ar',IQ:'ar',SY:'ar',LB:'ar',YE:'ar',LY:'ar',TN:'ar',DZ:'ar',SD:'ar',MR:'ar',PS:'ar', // Arabic-speaking
+};
+function detectLangFromCountry(cc){
+  if(COUNTRY_LANG[cc])return COUNTRY_LANG[cc];
+  return 'en';
+}
+
 // ===== INIT =====
 (function(){
-  const saved=localStorage.getItem('cati_lang');
-  if(saved==='zh'||saved==='en'||saved==='hk'||saved==='ko'||saved==='ja'||saved==='fr'||saved==='es'||saved==='ru'||saved==='ar')LANG=saved;
-  setLang(LANG);
-  initPageViews();
-  setTimeout(()=>s('intro'),600);
+  const VP = ['zh','en','hk','ko','ja','fr','es','ru','ar'];
+  // Priority: URL param > localStorage > IP detection > default 'en'
+  var urlLang = new URLSearchParams(window.location.search).get('lang');
+  if(urlLang && VP.includes(urlLang)){
+    LANG = urlLang;
+    setLang(LANG);
+    initPageViews();
+    setTimeout(function(){s('intro');},600);
+  }else{
+    var saved = localStorage.getItem('cati_lang');
+    if(saved && VP.includes(saved)){
+      LANG = saved;
+      setLang(LANG);
+      initPageViews();
+      setTimeout(function(){s('intro');},600);
+    }else{
+      // IP detection with 2s timeout
+      var done = false;
+      var timer = setTimeout(function(){
+        if(!done){done=true;setLang(LANG);initPageViews();setTimeout(function(){s('intro');},600);}
+      },2000);
+      // Try ipapi.co
+      fetch('https://ipapi.co/json/',{cache:'no-store'})
+        .then(function(r){return r.ok?r.json():Promise.reject();})
+        .then(function(d){
+          if(!done && d&&d.country_code){
+            done = true;
+            clearTimeout(timer);
+            LANG = detectLangFromCountry(d.country_code);
+            setLang(LANG);
+            initPageViews();
+            setTimeout(function(){s('intro');},600);
+          }
+        })
+        .catch(function(){
+          // Fallback: try ip-api.com
+          return fetch('https://ip-api.com/json/?fields=countryCode',{cache:'no-store'})
+            .then(function(r){return r.ok?r.json():Promise.reject();})
+            .then(function(d){
+              if(!done && d&&d.countryCode){
+                done = true;
+                clearTimeout(timer);
+                LANG = detectLangFromCountry(d.countryCode);
+                setLang(LANG);
+                initPageViews();
+                setTimeout(function(){s('intro');},600);
+              }
+            })
+            .catch(function(){
+              if(!done){done=true;clearTimeout(timer);setLang(LANG);initPageViews();setTimeout(function(){s('intro');},600);}
+            });
+        });
+    }
+  }
 })();
 
 // ===== INTRO =====
