@@ -693,19 +693,27 @@ body::before{
 }
 .whisker{
   position:absolute;
-  width:0;height:1.5px;
-  background:var(--accent);
+  width:0;height:0;
   opacity:0;
   transform-origin:0% 50%;
-  border-radius:1px;
   animation:whiskerBloom 2.5s ease-out infinite;
   animation-delay:var(--delay,0s);
 }
+.whisker svg{
+  position:absolute;left:0;top:-10px;
+  width:var(--len,90px);height:20px;
+  overflow:visible;
+}
+.whisker path{
+  stroke:var(--accent);
+  fill:none;
+  stroke-linecap:round;
+}
 @keyframes whiskerBloom{
-  0%{opacity:0;width:0;transform:rotate(var(--angle,0deg))}
-  25%{opacity:0.9;width:var(--len,45px);transform:rotate(var(--angle,0deg))}
-  50%{opacity:0.7;width:var(--len,45px);transform:rotate(var(--angle,0deg))}
-  100%{opacity:0;width:0;transform:rotate(var(--angle,0deg))}
+  0%{opacity:0;transform:rotate(var(--angle,0deg))}
+  25%{opacity:0.9;transform:rotate(var(--angle,0deg))}
+  50%{opacity:0.7;transform:rotate(var(--angle,0deg))}
+  100%{opacity:0;transform:rotate(var(--angle,0deg))}
 }
 
 @media(max-width:600px){
@@ -732,7 +740,7 @@ body::before{
   .home-btn{padding:6px 12px;font-size:0.75rem}
   .intro-actions{flex-direction:column;width:100%;max-width:280px}
   .intro-actions .btn{width:100%}
-  .whisker{height:1px}
+  .whisker svg{width:calc(var(--len,90px)*.55)!important}
   footer{font-size:0.8rem;padding:1rem}
 }
 </style>
@@ -779,14 +787,14 @@ body::before{
   <div class="intro-cats-wrapper">
   <div class="intro-cats" id="introCats"></div>
   <div class="whiskers-overlay" id="whiskersOverlay">
-    <!-- Left whiskers: base at ~22% x, 50-58% y, angles 155/175/195 (mirror of right 25/5/-15) -->
-    <div class="whisker" style="left:22%;top:50%;--angle:155deg;--delay:0s;--len:90px"></div>
-    <div class="whisker" style="left:22%;top:54%;--angle:175deg;--delay:0.2s;--len:100px"></div>
-    <div class="whisker" style="left:22%;top:58%;--angle:195deg;--delay:0.4s;--len:96px"></div>
-    <!-- Right whiskers: base at ~78% x, 50-58% y, angles 25/5/-15 -->
-    <div class="whisker" style="left:78%;top:50%;--angle:25deg;--delay:0s;--len:90px"></div>
-    <div class="whisker" style="left:78%;top:54%;--angle:5deg;--delay:0.2s;--len:100px"></div>
-    <div class="whisker" style="left:78%;top:58%;--angle:-15deg;--delay:0.4s;--len:96px"></div>
+    <!-- Left whiskers: base at 25% x, 50-58% y, angles 160/174/188 (lean center, no cross) -->
+    <div class="whisker" style="left:25%;top:50%;--angle:160deg;--delay:0s;--len:90px"><svg viewBox="0 0 90 20"><path d="M 0,10 Q 45,-4 90,4" stroke-width="3"/></svg></div>
+    <div class="whisker" style="left:25%;top:54%;--angle:174deg;--delay:0.2s;--len:100px"><svg viewBox="0 0 100 20"><path d="M 0,10 Q 50,-4 100,4" stroke-width="3"/></svg></div>
+    <div class="whisker" style="left:25%;top:58%;--angle:188deg;--delay:0.4s;--len:96px"><svg viewBox="0 0 96 20"><path d="M 0,10 Q 48,-4 96,4" stroke-width="3"/></svg></div>
+    <!-- Right whiskers: base at 75% x, 50-58% y, angles 20/6/-8 (mirror of left) -->
+    <div class="whisker" style="left:75%;top:50%;--angle:20deg;--delay:0s;--len:90px"><svg viewBox="0 0 90 20"><path d="M 0,10 Q 45,-4 90,4" stroke-width="3"/></svg></div>
+    <div class="whisker" style="left:75%;top:54%;--angle:6deg;--delay:0.2s;--len:100px"><svg viewBox="0 0 100 20"><path d="M 0,10 Q 50,-4 100,4" stroke-width="3"/></svg></div>
+    <div class="whisker" style="left:75%;top:58%;--angle:-8deg;--delay:0.4s;--len:96px"><svg viewBox="0 0 96 20"><path d="M 0,10 Q 48,-4 96,4" stroke-width="3"/></svg></div>
   </div>
 </div>
   <div class="intro-actions">
