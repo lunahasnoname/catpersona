@@ -691,40 +691,20 @@ body::before{
 .whiskers-overlay{
   position:absolute;inset:0;pointer-events:none;z-index:2;
 }
-.whisker-group{
+.whisker{
   position:absolute;
-}
-.whisker-left{left:16%;top:56%}
-.whisker-right{left:84%;top:56%}
-.whisker-line{
-  position:absolute;top:0;
   width:0;height:1.5px;
   background:var(--accent);
   opacity:0;
-  transform-origin:left center;
+  transform-origin:0% 50%;
   border-radius:1px;
   animation:whiskerBloom 2.5s ease-out infinite;
-}
-.whisker-left .whisker-line:nth-child(1){top:0}
-.whisker-left .whisker-line:nth-child(2){top:7px}
-.whisker-left .whisker-line:nth-child(3){top:14px}
-.whisker-right .whisker-line:nth-child(1){top:0}
-.whisker-right .whisker-line:nth-child(2){top:7px}
-.whisker-right .whisker-line:nth-child(3){top:14px}
-.whisker-left .whisker-line{
-  transform-origin:left center;
-  right:0;
-  animation-delay:var(--delay,0s);
-}
-.whisker-right .whisker-line{
-  transform-origin:right center;
-  left:0;
   animation-delay:var(--delay,0s);
 }
 @keyframes whiskerBloom{
   0%{opacity:0;width:0;transform:rotate(var(--angle,0deg))}
-  25%{opacity:0.9;width:var(--len,45px)}
-  50%{opacity:0.7;width:var(--len,45px)}
+  25%{opacity:0.9;width:var(--len,45px);transform:rotate(var(--angle,0deg))}
+  50%{opacity:0.7;width:var(--len,45px);transform:rotate(var(--angle,0deg))}
   100%{opacity:0;width:0;transform:rotate(var(--angle,0deg))}
 }
 
@@ -752,8 +732,7 @@ body::before{
   .home-btn{padding:6px 12px;font-size:0.75rem}
   .intro-actions{flex-direction:column;width:100%;max-width:280px}
   .intro-actions .btn{width:100%}
-  .intro-cats-wrapper{width:220px;height:210px}
-  .whisker-line{height:1px}
+  .whisker{height:1px}
   footer{font-size:0.8rem;padding:1rem}
 }
 </style>
@@ -800,16 +779,14 @@ body::before{
   <div class="intro-cats-wrapper">
   <div class="intro-cats" id="introCats"></div>
   <div class="whiskers-overlay" id="whiskersOverlay">
-    <div class="whisker-group whisker-left">
-      <div class="whisker-line" style="--angle:-25deg;--delay:0s;--len:90px"></div>
-      <div class="whisker-line" style="--angle:-5deg;--delay:0.2s;--len:100px"></div>
-      <div class="whisker-line" style="--angle:15deg;--delay:0.4s;--len:96px"></div>
-    </div>
-    <div class="whisker-group whisker-right">
-      <div class="whisker-line" style="--angle:25deg;--delay:0s;--len:90px"></div>
-      <div class="whisker-line" style="--angle:5deg;--delay:0.2s;--len:100px"></div>
-      <div class="whisker-line" style="--angle:-15deg;--delay:0.4s;--len:96px"></div>
-    </div>
+    <!-- Left whiskers: base at ~22% x, 50-58% y, angles 155/175/195 (mirror of right 25/5/-15) -->
+    <div class="whisker" style="left:22%;top:50%;--angle:155deg;--delay:0s;--len:90px"></div>
+    <div class="whisker" style="left:22%;top:54%;--angle:175deg;--delay:0.2s;--len:100px"></div>
+    <div class="whisker" style="left:22%;top:58%;--angle:195deg;--delay:0.4s;--len:96px"></div>
+    <!-- Right whiskers: base at ~78% x, 50-58% y, angles 25/5/-15 -->
+    <div class="whisker" style="left:78%;top:50%;--angle:25deg;--delay:0s;--len:90px"></div>
+    <div class="whisker" style="left:78%;top:54%;--angle:5deg;--delay:0.2s;--len:100px"></div>
+    <div class="whisker" style="left:78%;top:58%;--angle:-15deg;--delay:0.4s;--len:96px"></div>
   </div>
 </div>
   <div class="intro-actions">
