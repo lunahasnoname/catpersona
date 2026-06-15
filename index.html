@@ -712,13 +712,13 @@ body::before{
 .whisker-right .whisker-line:nth-child(2){top:7px}
 .whisker-right .whisker-line:nth-child(3){top:14px}
 .whisker-left .whisker-line{
-  transform-origin:right center;
-  left:0;
+  transform-origin:left center;
+  right:0;
   animation-delay:var(--delay,0s);
 }
 .whisker-right .whisker-line{
-  transform-origin:left center;
-  right:0;
+  transform-origin:right center;
+  left:0;
   animation-delay:var(--delay,0s);
 }
 @keyframes whiskerBloom{
@@ -801,9 +801,9 @@ body::before{
   <div class="intro-cats" id="introCats"></div>
   <div class="whiskers-overlay" id="whiskersOverlay">
     <div class="whisker-group whisker-left">
-      <div class="whisker-line" style="--angle:155deg;--delay:0s;--len:90px"></div>
-      <div class="whisker-line" style="--angle:175deg;--delay:0.2s;--len:100px"></div>
-      <div class="whisker-line" style="--angle:195deg;--delay:0.4s;--len:96px"></div>
+      <div class="whisker-line" style="--angle:-25deg;--delay:0s;--len:90px"></div>
+      <div class="whisker-line" style="--angle:-5deg;--delay:0.2s;--len:100px"></div>
+      <div class="whisker-line" style="--angle:15deg;--delay:0.4s;--len:96px"></div>
     </div>
     <div class="whisker-group whisker-right">
       <div class="whisker-line" style="--angle:25deg;--delay:0s;--len:90px"></div>
