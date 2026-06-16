@@ -839,7 +839,7 @@ body::before{
 <!-- ===== OVERVIEW ===== -->
 <div id="overview" class="screen">
   <h2 id="ovTitle">全部 24 种 CATI 猫格类型</h2>
-  <p class="overview-sub" id="ovSub">点击卡片查看详情</p>
+  <p class="overview-sub" id="ovSub">点击卡片查看详情 · <span class="dim-link" onclick="showDimPopup()">基于猫咪行为学</span></p>
   <div class="overview-filters" id="ovFilters"></div>
   <div class="overview-grid" id="ovGrid"></div>
 </div>
@@ -1011,7 +1011,7 @@ const I18N = {
     opponents:'宿命对手',
     matchPct:'匹配度',
     ovTitle:'全部 24 种 CATI 猫格类型',
-    ovSub:'点击卡片查看详情',
+    ovSub:'点击卡片查看详情 · <span class="dim-link" onclick="showDimPopup()">基于猫咪行为学</span>',
     ovAll:'全部',
     ovGroup1:'混乱创造者',
     ovGroup2:'君主',
@@ -1068,7 +1068,7 @@ const I18N = {
     opponents:'Arch Rivals',
     matchPct:'Match',
     ovTitle:'All 24 CATI Persona Types',
-    ovSub:'Click a card for details',
+    ovSub:'Click a card for details · <span class="dim-link" onclick="showDimPopup()">Based on cat 5-Dimensional behavior</span>',
     ovAll:'All',
     ovGroup1:'Chaos Creators',
     ovGroup2:'The Monarchs',
@@ -1125,7 +1125,7 @@ const I18N = {
     opponents:'숙명의 라이벌',
     matchPct:'일치도',
     ovTitle:'24가지 CATI 고양이 성격 유형',
-    ovSub:'카드를 클릭하면 상세 정보를 볼 수 있습니다',
+    ovSub:'카드를 클릭하면 상세 정보를 볼 수 있습니다 · <span class="dim-link" onclick="showDimPopup()">고양이 행동학 기반</span>',
     ovAll:'전체',
     ovGroup1:'혼돈의 창조자',
     ovGroup2:'군주',
@@ -1183,7 +1183,7 @@ const I18N = {
     opponents:'宿命のライバル',
     matchPct:'マッチ度',
     ovTitle:'24種類のCATI猫性格タイプ',
-    ovSub:'カードをクリックして詳細を見る',
+    ovSub:'カードをクリックして詳細を見る · <span class="dim-link" onclick="showDimPopup()">猫行動学に基づく</span>',
     ovAll:'すべて',
     ovGroup1:'混沌の創造者',
     ovGroup2:'君主',
@@ -1241,7 +1241,7 @@ const I18N = {
     opponents:'Rivaux',
     matchPct:'Affinité',
     ovTitle:'Les 24 Types de Personnalité Féline CATI',
-    ovSub:'Cliquez sur une carte pour les détails',
+    ovSub:'Cliquez sur une carte pour les détails · <span class="dim-link" onclick="showDimPopup()">Basé sur le comportement félin</span>',
     ovAll:'Tous',
     ovGroup1:'Créateurs de Chaos',
     ovGroup2:'Les Monarques',
@@ -1299,7 +1299,7 @@ const I18N = {
     opponents:'Rivales',
     matchPct:'Afinidad',
     ovTitle:'Los 24 Tipos de Personalidad Felina CATI',
-    ovSub:'Haz clic en una tarjeta para ver detalles',
+    ovSub:'Haz clic en una tarjeta para ver detalles · <span class="dim-link" onclick="showDimPopup()">Basado en comportamiento felino</span>',
     ovAll:'Todos',
     ovGroup1:'Creadores de Caos',
     ovGroup2:'Los Monarcas',
@@ -1357,7 +1357,7 @@ const I18N = {
     opponents:'宿命對手',
     matchPct:'匹配度',
     ovTitle:'全部 24 種 CATI 貓格類型',
-    ovSub:'點擊卡片查看詳情',
+    ovSub:'點擊卡片查看詳情 · <span class="dim-link" onclick="showDimPopup()">基於貓咪行為學</span>',
     ovAll:'全部',
     ovGroup1:'混沌創造者',
     ovGroup2:'君主',
@@ -1415,7 +1415,7 @@ const I18N = {
     opponents:'Соперники',
     matchPct:'Совпадение',
     ovTitle:'Все 24 типа CATI',
-    ovSub:'Нажми на карточку, чтобы узнать подробнее',
+    ovSub:'Нажми на карточку, чтобы узнать подробнее · <span class="dim-link" onclick="showDimPopup()">Основано на кошачьей психологии</span>',
     ovAll:'Все',
     ovGroup1:'Создатели хаоса',
     ovGroup2:'Монархи',
@@ -1473,7 +1473,7 @@ const I18N = {
     opponents:'الخصوم',
     matchPct:'نسبة التوافق',
     ovTitle:'جميع أنواع شخصيات CATI الـ ٢٤',
-    ovSub:'انقر على البطاقة للتفاصيل',
+    ovSub:'انقر على البطاقة للتفاصيل · <span class="dim-link" onclick="showDimPopup()">مبني على سلوك القطط</span>',
     ovAll:'الكل',
     ovGroup1:'صُنّاع الفوضى',
     ovGroup2:'الملوك',
@@ -2058,7 +2058,7 @@ function showOverview(){
   s('overview');
   const d=I18N[LANG];
   document.getElementById('ovTitle').textContent=d.ovTitle;
-  document.getElementById('ovSub').textContent=d.ovSub;
+  document.getElementById('ovSub').innerHTML=d.ovSub;
   const gd=I18N[LANG];const groups=[gd.ovGroup1||GROUP_NAMES_EN[0],gd.ovGroup2||GROUP_NAMES_EN[1],gd.ovGroup3||GROUP_NAMES_EN[2],gd.ovGroup4||GROUP_NAMES_EN[3]];
   const filterNames=[d.ovAll,groups[0],groups[1],groups[2],groups[3]];
   const filters=[-1,0,1,2,3];
