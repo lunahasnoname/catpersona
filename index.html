@@ -1630,7 +1630,7 @@ function getBreed(code){
 function getBreedEn(code){
   const t=TYPES.find(x=>x.code===code);
   if(!t)return'';
-  return LANG==='zh'?t.breedEn:t.breed;
+  return t.breedEn;
 }
 const GROUP_NAMES_ZH=['混乱创造者','红尘统治者','暗影潜行者','禅修大师'];
 const GROUP_NAMES_EN=['Chaos Creators','The Monarchs','Shadow Stalkers','Zen Masters'];
