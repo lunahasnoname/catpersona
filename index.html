@@ -2109,8 +2109,8 @@ function showModal(code){
       <div class=modal-mbti>${t.mbti} — ${mbtiName}</div>
       <div class=modal-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
       <div class=modal-fo>
-        <h4>${d.modalFriends}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':LANG==='ar'?' :':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);if(!x)return c;const xi=(d.typeInfo&&d.typeInfo[c])||{};return x.code+' '+(xi.name||x.name)}).join(' · ')}</h4>
-        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':LANG==='ar'?' :':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);if(!x)return c;const xi=(d.typeInfo&&d.typeInfo[c])||{};return x.code+' '+(xi.name||x.name)}).join(' · ')}</h4>
+        <h4>${d.modalFriends}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':LANG==='ar'?' :':':'}${t.f.map(c=>{const x=TYPES.find(tt=>tt.code===c);if(!x)return c;const xi=(d.typeInfo&&d.typeInfo[c])||{};return x.code+' '+(xi.name||(LANG==='zh'?x.name:x.en))}).join(' · ')}</h4>
+        <h4 style=margin-top:6px>${d.modalOpponents}${LANG==='zh'||LANG==='hk'||LANG==='ko'||LANG==='ja'?'：':LANG==='ar'?' :':':'}${t.o.map(c=>{const x=TYPES.find(tt=>tt.code===c);if(!x)return c;const xi=(d.typeInfo&&d.typeInfo[c])||{};return x.code+' '+(xi.name||(LANG==='zh'?x.name:x.en))}).join(' · ')}</h4>
       </div>
     </div>`;
   modal.classList.add('active');
