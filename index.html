@@ -613,7 +613,7 @@ body::before{
 .ov-card-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
 .ov-card-body{padding:12px 14px 14px}
 .ov-card-code{font-size:0.78rem;font-weight:700;letter-spacing:0.03em}
-.ov-card-name{font-size:0.82rem;color:var(--ink);margin:2px 0 4px;font-weight:600}
+.ov-card-name{font-size:0.82rem;color:var(--ink);margin:2px 0 4px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ov-card-breed{font-size:0.72rem;color:var(--muted)}
 .ov-card-group{font-size:0.68rem;color:var(--accent);margin-top:4px;text-transform:uppercase;letter-spacing:0.05em}
 .overview-filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
@@ -925,22 +925,15 @@ function initPageViews(){
 
 // ===== LANGUAGE STATE =====
 let LANG = 'en';
+const LANG_LABELS={zh:'中文',en:'English',hk:'粵語',ko:'한국어',ja:'日本語',fr:'Français',es:'Español',ru:'Русский',ar:'العربية'};
 
 function setLang(l){
   LANG=l;
-  // Update custom dropdown display
+  // Update custom dropdown display — use label map for reliability
   var dd=document.getElementById('langDropdown');
   if(dd){
-    var opts=dd.querySelectorAll('.lang-option');
-    for(var i=0;i<opts.length;i++){
-      var onclick=opts[i].getAttribute('onclick')||'';
-      if(onclick.indexOf('setLang('+"'"+l+"'"+')')>-1){
-        var txt=opts[i].textContent.trim();
-        var sTxt=dd.querySelector('.lang-selected-text');
-        if(sTxt)sTxt.textContent=txt;
-        break;
-      }
-    }
+    var sTxt=dd.querySelector('.lang-selected-text');
+    if(sTxt)sTxt.textContent=LANG_LABELS[l]||l;
   }
   document.documentElement.setAttribute('data-theme',l);
   document.documentElement.lang = l==='zh'?'zh-CN':l==='hk'?'zh-HK':l==='ja'?'ja-JP':l==='ko'?'ko-KR':l==='fr'?'fr-FR':l==='es'?'es-ES':l==='ru'?'ru-RU':l==='ar'?'ar-SA':'en';
@@ -1533,7 +1526,7 @@ function refreshI18n(){
   // Re-render quiz if active
   if(document.getElementById('quiz').classList.contains('active')) rq();
   // Re-render overview if currently on overview screen
-  if(document.getElementById('overview').classList.contains('active')) showOverview();
+  if(document.getElementById('overview').classList.contains('active')) {_ovActiveFilter=-1; showOverview();}
   // Re-render result screen if active
   if(document.getElementById('result').classList.contains('active') && window._lastTop3){
     showResult(window._lastTop3[0], window._lastTop3, window._lastUD);
@@ -2058,6 +2051,7 @@ function updateCarouselPosition(){
 // ===== OVERVIEW =====
 function showOverview(){
   s('overview');
+  _ovActiveFilter=-1;
   const d=I18N[LANG];
   document.getElementById('ovTitle').textContent=d.ovTitle;
   document.getElementById('ovSub').innerHTML=d.ovSub;
