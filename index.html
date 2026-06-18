@@ -1848,7 +1848,7 @@ function shuffleCats(){
 // Localized breed/cati name pools per language
 function getBreedPool(){
   var lang=LANG;
-  if(lang==='zh'||lang==='hk')return [...new Set(TYPES.map(function(t){return t.breed}))];
+  if(lang==='zh')return [...new Set(TYPES.map(function(t){return t.breed}))];
   var d=I18N[lang];
   if(d&&d.typeInfo){
     var breeds=Object.values(d.typeInfo).map(function(ti){return ti.breed}).filter(Boolean);
@@ -1858,7 +1858,7 @@ function getBreedPool(){
 }
 function getCATIPool(){
   var lang=LANG;
-  if(lang==='zh'||lang==='hk')return TYPES.map(function(t){return t.name});
+  if(lang==='zh')return TYPES.map(function(t){return t.name});
   var d=I18N[lang];
   if(d&&d.typeInfo){
     var names=Object.values(d.typeInfo).map(function(ti){return ti.name}).filter(Boolean);
