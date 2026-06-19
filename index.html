@@ -2091,7 +2091,7 @@ function showModal(code){
   const modal=document.getElementById('modal');
   // Use localized type info if available, fallback to zh/en
   const ti=(d.typeInfo&&d.typeInfo[code])||{};
-  const typeName=ti.name?ti.name:(LANG==='zh'?t.name:t.en);
+  const typeName=ti.name||t.name;
   const breed=getBreed(t.code);
   const breedEn=getBreedEn(t.code);
   const desc=ti.desc?ti.desc:(LANG==='zh'?t.desc:(t.descEn||t.desc));
