@@ -1950,8 +1950,8 @@ function showResult(top,top3,uD){
   const typeName=ti.name||top.type.name;
   const hero=document.getElementById('resultHero');
   hero.innerHTML=imgSrc
-    ?`<img src="${imgSrc}" alt="${getBreed(top.type.code)}" onerror="this.parentElement.innerHTML='<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div>'"><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${typeName} · ${top.type.en}</div><div class=result-hero-breed>${getBreed(top.type.code)}${LANG==='en'?'':' / '+getBreedEn(top.type.code)}</div></div>`
-    :`<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${typeName} · ${top.type.en}</div><div class=result-hero-breed>${getBreed(top.type.code)}${LANG==='en'?'':' / '+getBreedEn(top.type.code)}</div></div>`;
+    ?`<img src="${imgSrc}" alt="${getBreed(top.type.code)}" onerror="this.parentElement.innerHTML='<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div>'"><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.en}『${typeName}』</div><div class=result-hero-breed>${getBreed(top.type.code)}${LANG==='en'?'':' / '+getBreedEn(top.type.code)}</div></div>`
+    :`<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.en}『${typeName}』</div><div class=result-hero-breed>${getBreed(top.type.code)}${LANG==='en'?'':' / '+getBreedEn(top.type.code)}</div></div>`;
   document.getElementById('resultPct').innerHTML=`${d.matchPct} <strong style=color:${top.type.color}>${top.pct}%</strong>`;
 
   // Top3 Carousel
@@ -2079,7 +2079,7 @@ function renderOverview(group){
     const name=ti.name||t.name;
     return `<div class=ov-card onclick="showModal('${t.code}')">
       ${src?`<img class=ov-card-img src="${src}" alt="${breed}" loading=lazy onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class=cat-fallback style=display:none;aspect-ratio:4/3;font-size:2rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:4/3;font-size:2rem>🐾</div>`}
-      <div class=ov-card-body><div class=ov-card-code style=color:${t.color}>${t.code}</div><div class=ov-card-name>${LANG==='zh'?name+'「'+t.en+'」':t.en+'『'+name+'』'}</div><div class=ov-card-breed>${breed}</div><div class=ov-card-group>${g}</div></div></div>`;
+      <div class=ov-card-body><div class=ov-card-code style=color:${t.color}>${t.code}</div><div class=ov-card-name>${t.en}『${name}』</div><div class=ov-card-breed>${breed}</div><div class=ov-card-group>${g}</div></div></div>`;
   }).join('');
 }
 
@@ -2103,7 +2103,7 @@ function showModal(code){
     ${src?`<img class=modal-img src="${src}" alt="${breed}" onerror="this.style.display='none';document.getElementById('mfallback').style.display='flex'"><div id=mfallback class=cat-fallback style=display:none;aspect-ratio:16/9;font-size:4rem>🐾</div>`:`<div class=cat-fallback style=aspect-ratio:16/9;font-size:4rem>🐾</div>`}
     <div class=modal-body>
       <div class=modal-code style=color:${t.color}>${t.code}</div>
-      <div class=modal-name>${LANG==='zh'?typeName+'「'+t.en+'」':t.en+'『'+typeName+'』'}</div>
+      <div class=modal-name>${t.en}『${typeName}』</div>
       <div class=modal-breed>${breed}${LANG==='en'?'':' / '+breedEn}</div>
       <div class=modal-group style=color:${t.color}>${groupName}</div>
       <div class=modal-desc>${desc}</div>
