@@ -1517,6 +1517,7 @@ function refreshI18n(){
   document.getElementById('loadingText').textContent=d.loading;
   document.getElementById('introTitle').innerHTML=d.introTitle;
   document.getElementById('introDesc').innerHTML=d.introDesc;
+  rotateIntroDesc(); // instant fill placeholders after lang switch
   document.getElementById('btnStart').textContent=d.btnStart;
   document.getElementById('btnOverview').textContent=d.btnOverview;
   document.getElementById('introMeta').innerHTML=d.introMeta;
