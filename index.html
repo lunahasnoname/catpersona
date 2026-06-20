@@ -1772,19 +1772,41 @@ function detectLangFromCountry(cc){
   }
 })();
 
+// Common progressive loader for intro cat images
+function _renderIntroCats(grid, items){
+  var faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,80],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
+  // Fast paint: placeholders first
+  grid.innerHTML=items.map(function(t,i){
+    var p=faces[i];
+    var style='style="left:'+p[0]+'%;top:'+p[1]+'%;animation-delay:'+(i*0.1).toFixed(1)+'s"';
+    return '<div class="cat-fallback sm cat-item" data-intro="'+t.code+'" title="'+t.name+'" '+style+'>🐾</div>';
+  }).join('');
+  // Progressive image swap
+  var batchSize=6;
+  function loadBatch(start){
+    for(var j=start;j<start+batchSize&&j<items.length;j++){
+      var code=items[j].code;var posIdx=j;
+      var src=getImage(code);if(!src)continue;
+      var el=grid.querySelector('[data-intro="'+code+'"]');
+      if(!el)continue;
+      var img=document.createElement('img');
+      img.src=src;img.alt=getBreed(code);
+      img.title=items[j].name+' · '+getBreed(code);
+      img.decoding='async';img.loading='lazy';img.fetchPriority='low';
+      img.className='cat-item';
+      img.setAttribute('style','left:'+faces[posIdx][0]+'%;top:'+faces[posIdx][1]+'%;animation-delay:'+(posIdx*0.1).toFixed(1)+'s');
+      el.parentNode.replaceChild(img,el);
+    }
+    if(start+batchSize<items.length){
+      requestAnimationFrame(function(){loadBatch(start+batchSize);});
+    }
+  }
+  requestAnimationFrame(function(){loadBatch(0);});
+}
+
 // ===== INTRO =====
 function initIntro(){
-  const grid=document.getElementById('introCats');
-  // Cat face outline coordinates (24 positions, x%/y% centered in container)
-  const faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,80],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
-  const all=[...TYPES];
-  grid.innerHTML=all.map((t,i)=>{
-    const src=getImage(t.code);
-    const p=faces[i];
-    const style=`style="left:${p[0]}%;top:${p[1]}%;animation-delay:${(i*0.1).toFixed(1)}s"`;
-    if(src)return `<img src="${src}" alt="${getBreed(t.code)}" title="${t.name} · ${getBreed(t.code)}" loading="lazy" ${style}>`;
-    return `<div class="cat-fallback sm cat-item" title="${t.name}" ${style}>🐾</div>`;
-  }).join('');
+  _renderIntroCats(document.getElementById('introCats'),[...TYPES]);
 }
 
 // ===== TYPING & SHUFFLE =====
@@ -1822,20 +1844,8 @@ function shuffleCats(){
   const imgs=Array.from(grid.children);
   imgs.forEach(el=>{el.style.opacity='0';el.style.transform='translate(-50%,-50%) scale(0.8)'});
   setTimeout(()=>{
-    // Rebuild cat face with randomized type-to-position mapping
-    const faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,80],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
-    const shuffled=[...TYPES].sort(()=>Math.random()-0.5);
-    grid.innerHTML=shuffled.map((t,i)=>{
-      const src=getImage(t.code);
-      const p=faces[i];
-      const style=`style="left:${p[0]}%;top:${p[1]}%;animation-delay:${(i*0.1).toFixed(1)}s"`;
-      if(src)return `<img src="${src}" alt="${getBreed(t.code)}" title="${t.name}" loading="lazy" ${style}>`;
-      return `<div class="cat-fallback sm cat-item" title="${t.name}" ${style}>🐾</div>`;
-    }).join('');
-    setTimeout(()=>{
-      Array.from(grid.children).forEach((el,i)=>{setTimeout(()=>{el.style.opacity='1';el.style.transform='translate(-50%,-50%) scale(1)'},i*60)});
-    },50);
-  },450);
+    _renderIntroCats(grid,[...TYPES].sort(()=>Math.random()-0.5));
+  },350);
 }
 
 // ===== INTRO DESC ROTATION =====
