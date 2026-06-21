@@ -565,7 +565,7 @@ body::before{
 .top3-card-code{font-size:1.1rem;font-weight:800;letter-spacing:0.04em}
 .top3-card-name{font-size:0.85rem;color:var(--muted);margin:3px 0}
 .top3-card-pct{display:inline-block;font-size:1rem;font-weight:700;color:var(--accent);margin:6px 0;padding:2px 12px;background:var(--warm);border-radius:12px}
-.top3-card-info{font-size:0.78rem;color:#5A4F3F;line-height:1.6;margin-top:10px;text-align:left;max-height:80px;overflow-y:auto}
+.top3-card-info{font-size:0.78rem;color:#5A4F3F;line-height:1.6;margin-top:10px;text-align:left;max-height:80px;overflow-y:auto;word-break:break-word;overflow-wrap:break-word}
 .top3-card-mbti{display:inline-block;background:var(--warm);padding:3px 10px;border-radius:8px;font-size:0.72rem;margin-top:8px}
 .top3-card-traits{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 .top3-card-traits .trait-pill{padding:3px 9px;background:var(--warm);border-radius:14px;font-size:0.68rem;color:var(--accent)}
@@ -1020,7 +1020,7 @@ const I18N = {
     btnShare:'下载结果',
     friends:'最佳猫友',
     opponents:'宿命对手',
-    matchPct:'匹配度',
+    matchPct:'前三匹配 CATI',
     ovTitle:'全部 24 种 CATI 猫格类型',
     ovSub:'点击卡片查看详情 · <span class="dim-link" onclick="showDimPopup()">基于猫咪行为学</span>',
     ovAll:'全部',
@@ -1077,7 +1077,7 @@ const I18N = {
     btnShare:'Download Result',
     friends:'Best Cat Friends',
     opponents:'Arch Rivals',
-    matchPct:'Match',
+    matchPct:'Top 3 Matched CATI',
     ovTitle:'All 24 CATI Persona Types',
     ovSub:'Click a card for details · <span class="dim-link" onclick="showDimPopup()">Based on cat 5-Dimensional behavior</span>',
     ovAll:'All',
@@ -1134,7 +1134,7 @@ const I18N = {
     btnShare:'결과 다운로드',
     friends:'베스트 캣프렌드',
     opponents:'숙명의 라이벌',
-    matchPct:'일치도',
+    matchPct:'상위 3개 매칭 CATI',
     ovTitle:'24가지 CATI 고양이 성격 유형',
     ovSub:'카드를 클릭하면 상세 정보를 볼 수 있습니다 · <span class="dim-link" onclick="showDimPopup()">고양이 행동학 기반</span>',
     ovAll:'전체',
@@ -1192,7 +1192,7 @@ const I18N = {
     btnShare:'結果をダウンロード',
     friends:'ベスト猫友',
     opponents:'宿命のライバル',
-    matchPct:'マッチ度',
+    matchPct:'トップ3マッチ CATI',
     ovTitle:'24種類のCATI猫性格タイプ',
     ovSub:'カードをクリックして詳細を見る · <span class="dim-link" onclick="showDimPopup()">猫行動学に基づく</span>',
     ovAll:'すべて',
@@ -1250,7 +1250,7 @@ const I18N = {
     btnShare:'Télécharger',
     friends:'Meilleurs Amis',
     opponents:'Rivaux',
-    matchPct:'Affinité',
+    matchPct:'Top 3 CATI',
     ovTitle:'Les 24 Types de Personnalité Féline CATI',
     ovSub:'Cliquez sur une carte pour les détails · <span class="dim-link" onclick="showDimPopup()">Basé sur le comportement félin</span>',
     ovAll:'Tous',
@@ -1308,7 +1308,7 @@ const I18N = {
     btnShare:'Descargar',
     friends:'Mejores Amigos',
     opponents:'Rivales',
-    matchPct:'Afinidad',
+    matchPct:'Top 3 CATI',
     ovTitle:'Los 24 Tipos de Personalidad Felina CATI',
     ovSub:'Haz clic en una tarjeta para ver detalles · <span class="dim-link" onclick="showDimPopup()">Basado en comportamiento felino</span>',
     ovAll:'Todos',
@@ -1366,7 +1366,7 @@ const I18N = {
     btnShare:'下載結果',
     friends:'最佳貓友',
     opponents:'宿命對手',
-    matchPct:'匹配度',
+    matchPct:'前三匹配 CATI',
     ovTitle:'全部 24 種 CATI 貓格類型',
     ovSub:'點擊卡片查看詳情 · <span class="dim-link" onclick="showDimPopup()">基於貓咪行為學</span>',
     ovAll:'全部',
@@ -1424,7 +1424,7 @@ const I18N = {
     btnShare:'Скачать',
     friends:'Коты-друзья',
     opponents:'Соперники',
-    matchPct:'Совпадение',
+    matchPct:'Топ-3 CATI',
     ovTitle:'Все 24 типа CATI',
     ovSub:'Нажми на карточку, чтобы узнать подробнее · <span class="dim-link" onclick="showDimPopup()">Основано на кошачьей психологии</span>',
     ovAll:'Все',
@@ -1482,7 +1482,7 @@ const I18N = {
     btnShare:'تحميل النتيجة',
     friends:'أفضل الأصدقاء',
     opponents:'الخصوم',
-    matchPct:'نسبة التوافق',
+    matchPct:'أفضل ٣ CATI',
     ovTitle:'جميع أنواع شخصيات CATI الـ ٢٤',
     ovSub:'انقر على البطاقة للتفاصيل · <span class="dim-link" onclick="showDimPopup()">مبني على سلوك القطط</span>',
     ovAll:'الكل',
@@ -1971,7 +1971,7 @@ function showResult(top,top3,uD,dimPcts){
   hero.innerHTML=imgSrc
     ?`<img src="${imgSrc}" alt="${getBreed(top.type.code)}" onerror="this.parentElement.innerHTML='<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div>'"><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.en}『${typeName}』</div><div class=result-hero-breed>${getBreed(top.type.code)}${LANG==='en'?'':' / '+getBreedEn(top.type.code)}</div></div>`
     :`<div class=cat-fallback style=aspect-ratio:16/9;font-size:5rem>🐾</div><div class=result-hero-overlay><div class=result-hero-code>${top.type.code}</div><div class=result-hero-name>${top.type.en}『${typeName}』</div><div class=result-hero-breed>${getBreed(top.type.code)}${LANG==='en'?'':' / '+getBreedEn(top.type.code)}</div></div>`;
-  document.getElementById('resultPct').innerHTML=`${d.matchPct} <strong style=color:${top.type.color}>${top.pct}%</strong>`;
+  document.getElementById('resultPct').textContent=d.matchPct;
 
   // Top3 Carousel
   renderTop3Carousel(top3);
@@ -2021,7 +2021,7 @@ function renderTop3Carousel(top3){
       ${src?`<img class=top3-card-avatar src="${src}" alt="" loading=lazy>`:`<div class=top3-card-avatar-fallback>🐾</div>`}
       <div class=top3-card-code style=color:${r.type.color}>${r.type.code}</div>
       <div class=top3-card-name>${r.type.en}『${r.type.name}』</div>
-      <div class=top3-card-pct>${r.pct}%</div>
+      <div class=top3-card-pct>Matched: ${r.pct}%</div>
       <div class=top3-card-info>${shortDesc}</div>
       <div class=top3-card-mbti>${r.type.mbti} ${mbtiName}</div>
       <div class=top3-card-traits>${traits.slice(0,4).map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
