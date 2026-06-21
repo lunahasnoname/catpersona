@@ -1942,17 +1942,17 @@ function calc(){
     Object.entries(m).forEach(([d,v])=>{if(dims[v]!==undefined)dims[v]+=w[v]||1})
   });
   const uD={S:dims.L>=dims.S?'L':'S',E:dims.C>=dims.M?'C':'M',V:dims.V>=dims.Q?'V':'Q',A:dims.A>=dims.G?'A':'G',C:dims.K>=dims.W?'K':'W'};
-  // Dimension percentages for bar visualization
+  // Continuous scoring — match strength based on dimension ratio, not just binary
+  const rw={S:2,E:2,V:2,A:2,C:1.5};
+  const mx=9.5;
+  const opposites={'L':'S','S':'L','C':'M','M':'C','V':'Q','Q':'V','A':'G','G':'A','K':'W','W':'K'};
+  // Dimension percentages for bar visualization (after opposites defined)
   const dimPcts={};
   Object.keys(uD).forEach(k=>{
     const d=uD[k];const od=opposites[d];
     const total=(dims[d]||0)+(dims[od]||0);
     dimPcts[k]=total>0?Math.round(dims[d]/total*100):50;
   });
-  // Continuous scoring — match strength based on dimension ratio, not just binary
-  const rw={S:2,E:2,V:2,A:2,C:1.5};
-  const mx=9.5;
-  const opposites={'L':'S','S':'L','C':'M','M':'C','V':'Q','Q':'V','A':'G','G':'A','K':'W','W':'K'};
   const results=TYPES.map(t=>{
     let sc=0;
     Object.keys(rw).forEach(group=>{
