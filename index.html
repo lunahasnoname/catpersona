@@ -556,7 +556,7 @@ body::before{
 .result-match-pct{color:var(--gold);font-weight:700;font-size:1.3rem;margin-top:4px}
 
 /* ===== TOP3 CAROUSEL ===== */
-.top3-carousel{width:100%;max-width:400px;margin:20px auto 0;overflow:hidden;position:relative}
+.top3-carousel{width:100%;max-width:160px;margin:20px auto 0;overflow:hidden;position:relative}
 .top3-track{display:flex;transition:transform 0.5s cubic-bezier(.4,0,.2,1);will-change:transform}
 .top3-slide{min-width:80%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 20px;box-sizing:border-box;transition:opacity 0.35s,transform 0.35s}
 .top3-slide:not(.active-slide){transform:scale(0.92)}
@@ -610,6 +610,8 @@ body::before{
 .fo-item img{width:36px;height:36px;border-radius:50%;object-fit:cover}
 .fo-item-code{font-size:0.82rem;font-weight:700}
 .fo-item-name{font-size:0.78rem;color:var(--muted)}
+.fo-item::after{content:'→';margin-left:auto;font-size:0.7rem;color:var(--muted);opacity:0.5;transition:all 0.2s}
+.fo-item:hover::after{opacity:1;transform:translateX(3px)}
 .friend-label{color:var(--green)}.opponent-label{color:var(--red)}
 
 .result-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;justify-content:center}
