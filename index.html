@@ -555,32 +555,20 @@ body::before{
 .result-hero-breed{color:rgba(255,255,255,0.7);font-size:0.85rem}
 .result-match-pct{color:var(--gold);font-weight:700;font-size:1.3rem;margin-top:4px}
 
-/* ===== TOP3 CAROUSEL ===== */
-.top3-carousel{width:100%;max-width:160px;margin:20px auto 0;overflow:hidden;position:relative}
-.top3-track{display:flex;transition:transform 0.5s cubic-bezier(.4,0,.2,1);will-change:transform}
-.top3-slide{min-width:80%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 20px;box-sizing:border-box;transition:opacity 0.35s,transform 0.35s}
-.top3-slide:not(.active-slide){transform:scale(0.92)}
-.top3-slide.active-slide{opacity:1;transform:scale(1)}
-.top3-avatar-wrap{position:relative;margin-bottom:16px;cursor:pointer;flex-shrink:0}
-.top3-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--accent);box-shadow:0 4px 24px rgba(44,36,22,0.15);transition:transform 0.3s}
-.top3-avatar-wrap:active .top3-avatar{transform:scale(0.95)}
-.top3-avatar-fallback{width:120px;height:120px;border-radius:50%;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:3.2rem;border:4px solid var(--accent)}
-.top3-pct-badge{position:absolute;bottom:-2px;right:-2px;background:var(--accent);color:#fff;border-radius:20px;padding:3px 10px;font-size:0.78rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
-.top3-slide-info{text-align:center;width:100%;overflow-y:auto;flex:1;padding:0 4px;max-height:220px}
-.top3-slide-code{font-size:1.15rem;font-weight:800;letter-spacing:0.04em}
-.top3-slide-name{font-size:0.9rem;color:var(--muted);margin:2px 0 4px}
-.top3-slide-breed{font-size:0.78rem;color:var(--accent2)}
-.top3-slide-link{margin-top:14px;color:var(--accent);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;cursor:pointer;font-size:0.85rem;font-family:inherit;font-weight:500;transition:color 0.2s;background:none;border:none;padding:0}
-.top3-slide-link:hover{color:var(--ink)}
-.top3-slide-desc{font-size:0.78rem;color:#5A4F3F;line-height:1.55;margin-top:8px;text-align:left}
-.top3-slide-mbti{background:var(--warm);padding:4px 10px;border-radius:8px;display:inline-block;font-size:0.75rem;margin-top:8px}
-.top3-slide-traits{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:6px}
-.top3-slide-traits .trait-pill{padding:3px 10px;background:var(--warm);border-radius:16px;font-size:0.7rem;color:var(--accent)}
-.top3-paws{display:flex;justify-content:center;align-items:flex-end;gap:32px;margin-top:16px;position:relative;height:36px}
-.paw-step{font-size:1rem;cursor:pointer;transition:all 0.4s cubic-bezier(.4,0,.2,1);position:relative;line-height:1;opacity:0.4}
-.paw-step.paw-active{font-size:1.7rem;opacity:1;animation:pawBounce 0.5s ease}
-.paw-step:not(.paw-active){filter:grayscale(0.5)}
-@keyframes pawBounce{0%{transform:translateY(0) scale(1)}30%{transform:translateY(-8px) scale(1.1)}50%{transform:translateY(-4px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
+/* ===== TOP3 MATCHES ===== */
+.top3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px;margin:20px auto 0;padding:0 8px}
+.top3-card{background:var(--card-bg);border-radius:16px;border:1px solid var(--border);padding:16px 12px;cursor:pointer;transition:all 0.25s;text-align:center}
+.top3-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(44,36,22,0.1);border-color:var(--accent)}
+.top3-card:nth-child(1){border-width:2px;border-color:var(--accent);box-shadow:0 4px 16px rgba(180,130,50,0.12)}
+.top3-card-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);margin:0 auto 10px;display:block}
+.top3-card-avatar-fallback{width:72px;height:72px;border-radius:50%;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 10px;border:3px solid var(--accent)}
+.top3-card-code{font-size:0.9rem;font-weight:800;letter-spacing:0.04em}
+.top3-card-name{font-size:0.72rem;color:var(--muted);margin:2px 0}
+.top3-card-pct{display:inline-block;font-size:0.85rem;font-weight:700;color:var(--accent);margin:4px 0 6px;padding:1px 8px;background:var(--warm);border-radius:10px}
+.top3-card-info{font-size:0.68rem;color:#5A4F3F;line-height:1.45;margin-top:6px;text-align:left;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.top3-card-mbti{display:inline-block;background:var(--warm);padding:2px 8px;border-radius:6px;font-size:0.65rem;margin-top:6px}
+.top3-card-traits{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.top3-card-traits .trait-pill{padding:2px 7px;background:var(--warm);border-radius:12px;font-size:0.62rem;color:var(--accent)}
 
 .section-label{
   font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;
@@ -746,12 +734,7 @@ body::before{
   .intro-eyebrow{font-size:0.7rem}
   .desc{font-size:0.92rem;line-height:1.6}
   .btn{padding:14px 32px;font-size:0.92rem}
-  .top3-carousel{max-width:340px}
-  .top3-slide{min-width:85%;padding:0 12px}
-  .top3-slide:not(.active-slide){transform:scale(0.9)}
-  .top3-avatar{width:100px;height:100px}
-  .top3-avatar-fallback{width:100px;height:100px;font-size:2.5rem}
-  .top3-paws{gap:24px}
+  .top3-grid{grid-template-columns:1fr;max-width:340px}
   .fo-grid{grid-template-columns:1fr}
   .quiz-card{padding:24px 20px}
   .result-hero{max-height:240px;aspect-ratio:4/3}
@@ -845,10 +828,7 @@ body::before{
 <div id="result" class="screen">
   <div class="result-hero" id="resultHero"></div>
   <p class="result-match-pct" id="resultPct"></p>
-  <div class="top3-carousel" id="top3Carousel">
-    <div class="top3-track" id="top3Track"></div>
-    <div class="top3-paws" id="top3Paws"></div>
-  </div>
+  <div class="top3-grid" id="top3Grid"></div>
   <p class="section-label" id="dimLabel">五维人格分析</p>
   <div class="dim-section" id="dimSection"></div>
   <p class="section-label" id="foLabel">最佳猫友 & 宿命对手</p>
@@ -1984,7 +1964,7 @@ function showResult(top,top3,uD,dimPcts){
   document.getElementById('resultPct').innerHTML=`${d.matchPct} <strong style=color:${top.type.color}>${top.pct}%</strong>`;
 
   // Top3 Carousel
-  renderTop3Carousel(top3);
+  renderTop3Grid(top3);
 
   // Dimensions
   const dl={S:d.dimS,E:d.dimE,V:d.dimV,A:d.dimA,C:d.dimC};
@@ -2011,82 +1991,29 @@ function showResult(top,top3,uD,dimPcts){
   generateQRInline('https://catpersona.pages.dev/');
 }
 
-// ===== TOP3 CAROUSEL =====
-let _carouselIndex=0;
+// ===== TOP3 GRID =====
 let _ovActiveFilter=-1; // preserve filter state across language switches
-let _carouselTop3=[];
-let _touchStartX=0;
-let _touchEndX=0;
 
-function renderTop3Carousel(top3){
-  _carouselTop3=top3;
-  _carouselIndex=0;
+function renderTop3Grid(top3){
   const d=I18N[LANG];
-  const track=document.getElementById('top3Track');
-  const paws=document.getElementById('top3Paws');
-  track.innerHTML=top3.map((r,i)=>{
+  const grid=document.getElementById('top3Grid');
+  grid.innerHTML=top3.map((r,i)=>{
     const src=getImage(r.type.code);
-    const breed=getBreed(r.type.code);
     const ti=(d.typeInfo&&d.typeInfo[r.type.code])||{};
     const desc=ti.desc?ti.desc:(LANG==='zh'?r.type.desc:(r.type.descEn||r.type.desc));
-    const shortDesc=desc.length>100?desc.substring(0,100)+'…':desc;
+    const shortDesc=desc.length>80?desc.substring(0,80)+'…':desc;
     const mbtiName=LANG==='zh'?r.type.mbtiName:(ti.mbtiName||r.type.mbtiNameEn||r.type.mbtiName);
     const traits=LANG==='zh'?r.type.traits:(ti.traits||r.type.traitsEn||r.type.traits);
-    return `<div class=top3-slide${i===0?' active-slide':''}>
-      <div class=top3-avatar-wrap onclick="showModal('${r.type.code}')">
-        ${src?`<img class=top3-avatar src="${src}" alt="${breed}" loading=lazy>`:`<div class=top3-avatar-fallback>🐾</div>`}
-        <span class=top3-pct-badge>${r.pct}%</span>
-      </div>
-      <div class=top3-slide-info>
-        <div class=top3-slide-code style=color:${r.type.color}>${r.type.code}</div>
-        <div class=top3-slide-name>${r.type.en}『${r.type.name}』</div>
-        <div class=top3-slide-breed>${breed}</div>
-        <div class=top3-slide-desc>${shortDesc}</div>
-        <div class=top3-slide-mbti>${r.type.mbti} — ${mbtiName}</div>
-        <div class=top3-slide-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
-      </div>
+    return `<div class=top3-card onclick="showModal('${r.type.code}')">
+      ${src?`<img class=top3-card-avatar src="${src}" alt="" loading=lazy>`:`<div class=top3-card-avatar-fallback>🐾</div>`}
+      <div class=top3-card-code style=color:${r.type.color}>${r.type.code}</div>
+      <div class=top3-card-name>${r.type.en}『${r.type.name}』</div>
+      <div class=top3-card-pct>${r.pct}%</div>
+      <div class=top3-card-info>${shortDesc}</div>
+      <div class=top3-card-mbti>${r.type.mbti} ${mbtiName}</div>
+      <div class=top3-card-traits>${traits.slice(0,4).map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
     </div>`;
   }).join('');
-  paws.innerHTML=top3.map((_,i)=>`<span class=paw-step${i===0?' paw-active':''} onclick="goToSlide(${i})">${i===0?'🐈‍⬛':'🐾'}</span>`).join('');
-  updateCarouselPosition();
-
-  // Touch events
-  track.ontouchstart=function(e){_touchStartX=e.changedTouches[0].screenX};
-  track.ontouchend=function(e){_touchEndX=e.changedTouches[0].screenX;handleSwipe()};
-  // Mouse drag
-  let mouseDown=false, mouseStartX=0;
-  track.onmousedown=function(e){mouseDown=true;mouseStartX=e.clientX;track.style.transition='none'};
-  track.onmousemove=function(e){if(!mouseDown)return;e.preventDefault();const diff=e.clientX-mouseStartX;track.style.transform=`translateX(calc(${-_carouselIndex*80}%-${diff}px))`};
-  track.onmouseup=function(e){if(!mouseDown)return;mouseDown=false;track.style.transition='transform 0.45s cubic-bezier(.4,0,.2,1)';const diff=e.clientX-mouseStartX;if(Math.abs(diff)>50){if(diff>0&&_carouselIndex>0)goToSlide(_carouselIndex-1);else if(diff<0&&_carouselIndex<_carouselTop3.length-1)goToSlide(_carouselIndex+1);else updateCarouselPosition()}else updateCarouselPosition()};
-  track.onmouseleave=function(){if(mouseDown){mouseDown=false;track.style.transition='transform 0.45s cubic-bezier(.4,0,.2,1)';updateCarouselPosition()}};
-}
-
-function handleSwipe(){
-  const diff=_touchStartX-_touchEndX;
-  if(Math.abs(diff)>50){
-    if(diff>0&&_carouselIndex<_carouselTop3.length-1)goToSlide(_carouselIndex+1);
-    else if(diff<0&&_carouselIndex>0)goToSlide(_carouselIndex-1);
-    else updateCarouselPosition();
-  }else updateCarouselPosition();
-}
-
-function goToSlide(i){
-  _carouselIndex=Math.max(0,Math.min(i,_carouselTop3.length-1));
-  updateCarouselPosition();
-  // Update paw trail
-  document.querySelectorAll('.paw-step').forEach(function(d,idx){
-    d.classList.toggle('paw-active',idx===_carouselIndex);
-    d.textContent=idx===_carouselIndex?'🐈‍⬛':'🐾';
-  });
-  // Update active slide
-  document.querySelectorAll('.top3-slide').forEach(function(s,idx){
-    s.classList.toggle('active-slide',idx===_carouselIndex);
-  });
-}
-
-function updateCarouselPosition(){
-  const track=document.getElementById('top3Track');
-  if(track)track.style.transform=`translateX(-${_carouselIndex*80}%)`;
 }
 
 // ===== OVERVIEW =====
