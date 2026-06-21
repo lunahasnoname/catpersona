@@ -556,9 +556,10 @@ body::before{
 .result-match-pct{color:var(--gold);font-weight:700;font-size:1.3rem;margin-top:4px}
 
 /* ===== TOP3 CAROUSEL ===== */
-.top3-carousel{width:100%;max-width:360px;margin:20px auto 0;overflow:hidden;position:relative}
-.top3-track{display:flex;transition:transform 0.4s cubic-bezier(.4,0,.2,1);will-change:transform}
-.top3-card{min-width:85%;flex-shrink:0;background:var(--card-bg);border-radius:20px;border:1px solid var(--border);padding:20px 20px;cursor:pointer;text-align:center;box-sizing:border-box;margin-right:4px}
+.top3-carousel{width:100%;max-width:360px;margin:20px auto 0;position:relative}
+.top3-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth}
+.top3-track::-webkit-scrollbar{display:none}
+.top3-card{min-width:calc(100% - 48px);flex-shrink:0;scroll-snap-align:start;background:var(--card-bg);border-radius:20px;border:1px solid var(--border);padding:20px;cursor:pointer;text-align:center;box-sizing:border-box}
 .top3-card-avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);margin:0 auto 12px;display:block;box-shadow:0 4px 16px rgba(44,36,22,0.1)}
 .top3-card-avatar-fallback{width:96px;height:96px;border-radius:50%;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 12px;border:3px solid var(--accent)}
 .top3-card-code{font-size:1.1rem;font-weight:800;letter-spacing:0.04em}
@@ -580,7 +581,6 @@ body::before{
 .section-label::before{
   content:'';display:block;width:40px;height:2px;
   background:var(--accent);border-radius:1px;margin:0 auto 12px
-}
 }
 
 .dim-section{width:100%;max-width:480px;margin:0 auto 20px}
@@ -2004,10 +2004,8 @@ function showResult(top,top3,uD,dimPcts){
 // ===== TOP3 CAROUSEL =====
 let _ovActiveFilter=-1;
 let _carouselIndex=0;
-let _carouselTop3=[];
 
 function renderTop3Carousel(top3){
-  _carouselTop3=top3;
   _carouselIndex=0;
   const d=I18N[LANG];
   const track=document.getElementById('top3Track');
@@ -2030,23 +2028,25 @@ function renderTop3Carousel(top3){
     </div>`;
   }).join('');
   paws.innerHTML=top3.map((_,i)=>`<span class="paw-dot${i===0?' active':''}" onclick="goToSlide(${i})"></span>`).join('');
-  updateCarousel();
-
-  // Touch swipe
-  var startX=0;
-  track.ontouchstart=function(e){startX=e.changedTouches[0].screenX};
-  track.ontouchend=function(e){var dx=startX-e.changedTouches[0].screenX;if(Math.abs(dx)>40){dx>0?_carouselIndex<_carouselTop3.length-1&&goToSlide(_carouselIndex+1):_carouselIndex>0&&goToSlide(_carouselIndex-1)}updateCarousel()};
+  // Track scroll to update active paw dot
+  track.addEventListener('scroll',function(){
+    var w=track.clientWidth-48; // card visible width
+    var idx=Math.round(track.scrollLeft/w);
+    if(idx!==_carouselIndex&&idx>=0&&idx<top3.length){
+      _carouselIndex=idx;
+      document.querySelectorAll('.paw-dot').forEach(function(d,j){d.classList.toggle('active',j===idx)});
+    }
+  });
 }
 
 function goToSlide(i){
-  _carouselIndex=Math.max(0,Math.min(i,_carouselTop3.length-1));
-  updateCarousel();
-  document.querySelectorAll('.paw-dot').forEach(function(d,idx){d.classList.toggle('active',idx===_carouselIndex)});
-}
-
-function updateCarousel(){
+  _carouselIndex=Math.max(0,Math.min(i,(window._lastTop3||[]).length-1));
   var track=document.getElementById('top3Track');
-  if(track)track.style.transform='translateX(-'+(_carouselIndex*85)+'%)';
+  if(track){
+    var w=track.clientWidth-48;
+    track.scrollTo({left:i*w,behavior:'smooth'});
+  }
+  document.querySelectorAll('.paw-dot').forEach(function(d,idx){d.classList.toggle('active',idx===_carouselIndex)});
 }
 
 // ===== OVERVIEW =====
