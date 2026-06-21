@@ -566,6 +566,10 @@ body::before{
 .top3-slide-breed{font-size:0.78rem;color:var(--accent2)}
 .top3-slide-link{margin-top:14px;color:var(--accent);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;cursor:pointer;font-size:0.85rem;font-family:inherit;font-weight:500;transition:color 0.2s;background:none;border:none;padding:0}
 .top3-slide-link:hover{color:var(--ink)}
+.top3-slide-desc{font-size:0.78rem;color:#5A4F3F;line-height:1.55;margin-top:8px;text-align:left}
+.top3-slide-mbti{background:var(--warm);padding:4px 10px;border-radius:8px;display:inline-block;font-size:0.75rem;margin-top:8px}
+.top3-slide-traits{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.top3-slide-traits .trait-pill{padding:3px 10px;background:var(--warm);border-radius:16px;font-size:0.7rem;color:var(--accent)}
 .top3-paws{display:flex;justify-content:center;align-items:flex-end;gap:32px;margin-top:16px;position:relative;height:36px}
 .paw-step{font-size:1rem;cursor:pointer;transition:all 0.4s cubic-bezier(.4,0,.2,1);position:relative;line-height:1;opacity:0.4}
 .paw-step.paw-active{font-size:1.7rem;opacity:1;animation:pawBounce 0.5s ease}
@@ -598,6 +602,11 @@ body::before{
 .friend-label{color:var(--green)}.opponent-label{color:var(--red)}
 
 .result-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;justify-content:center}
+
+/* ===== RESULT SHARE ===== */
+.result-share{text-align:center;margin-top:20px}
+.qr-canvas-inline{image-rendering:pixelated;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
+.qr-url-inline{font-size:0.78rem;color:var(--muted);margin-top:6px}
 
 /* ===== OVERVIEW ===== */
 #overview{text-align:center;max-width:900px;margin:0 auto;padding-top:60px}
@@ -747,6 +756,7 @@ body::before{
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5281168368782092"
      crossorigin="anonymous"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -830,9 +840,14 @@ body::before{
   <div class="dim-section" id="dimSection"></div>
   <p class="section-label" id="foLabel">最佳猫友 & 宿命对手</p>
   <div class="fo-grid" id="foGrid"></div>
+  <p class="section-label" id="shareLabel">扫码分享</p>
+  <div class="result-share" id="resultShare">
+    <canvas class="qr-canvas-inline" id="qrCanvasInline" width="160" height="160"></canvas>
+    <p class="qr-url-inline" id="qrUrlInline">catpersona.pages.dev</p>
+  </div>
   <div class="result-actions">
     <button class="btn btn-primary" onclick="restartQuiz()" id="btnRetake">再测一次</button>
-    <button class="btn btn-secondary" onclick="showQR()" id="btnShare">分享结果</button>
+    <button class="btn btn-secondary" onclick="downloadResult()" id="btnShare">下载结果</button>
   </div>
 </div>
 
@@ -999,7 +1014,7 @@ const I18N = {
     dimLabel:'五维人格分析',
     foLabel:'最佳猫友 & 宿命对手',
     btnRetake:'再测一次',
-    btnShare:'分享结果',
+    btnShare:'下载结果',
     friends:'最佳猫友',
     opponents:'宿命对手',
     matchPct:'匹配度',
@@ -1056,7 +1071,7 @@ const I18N = {
     dimLabel:'Five-Dimensional Analysis',
     foLabel:'Best Cat Friends & Arch Rivals',
     btnRetake:'Retake Test',
-    btnShare:'Share Result',
+    btnShare:'Download Result',
     friends:'Best Cat Friends',
     opponents:'Arch Rivals',
     matchPct:'Match',
@@ -1113,7 +1128,7 @@ const I18N = {
     dimLabel:'5차원 성격 분석',
     foLabel:'베스트 캣프렌드 & 숙명의 라이벌',
     btnRetake:'다시 테스트',
-    btnShare:'결과 공유',
+    btnShare:'결과 다운로드',
     friends:'베스트 캣프렌드',
     opponents:'숙명의 라이벌',
     matchPct:'일치도',
@@ -1171,7 +1186,7 @@ const I18N = {
     dimLabel:'5次元パーソナリティ分析',
     foLabel:'ベスト猫友 & 宿命のライバル',
     btnRetake:'もう一度テスト',
-    btnShare:'結果を共有',
+    btnShare:'結果をダウンロード',
     friends:'ベスト猫友',
     opponents:'宿命のライバル',
     matchPct:'マッチ度',
@@ -1229,7 +1244,7 @@ const I18N = {
     dimLabel:'Analyse en 5 Dimensions',
     foLabel:'Meilleurs Amis & Rivaux Destinés',
     btnRetake:'Refaire le Test',
-    btnShare:'Partager',
+    btnShare:'Télécharger',
     friends:'Meilleurs Amis',
     opponents:'Rivaux',
     matchPct:'Affinité',
@@ -1287,7 +1302,7 @@ const I18N = {
     dimLabel:'Análisis en 5 Dimensiones',
     foLabel:'Mejores Amigos & Rivales Destinados',
     btnRetake:'Repetir Test',
-    btnShare:'Compartir',
+    btnShare:'Descargar',
     friends:'Mejores Amigos',
     opponents:'Rivales',
     matchPct:'Afinidad',
@@ -1345,7 +1360,7 @@ const I18N = {
     dimLabel:'5維度性格分析',
     foLabel:'最佳貓友 & 宿命對手',
     btnRetake:'再玩一次',
-    btnShare:'分享結果',
+    btnShare:'下載結果',
     friends:'最佳貓友',
     opponents:'宿命對手',
     matchPct:'匹配度',
@@ -1403,7 +1418,7 @@ const I18N = {
     dimLabel:'Анализ по 5 измерениям',
     foLabel:'Лучшие коты-друзья & Судьбоносные соперники',
     btnRetake:'Пройти заново',
-    btnShare:'Поделиться',
+    btnShare:'Скачать',
     friends:'Коты-друзья',
     opponents:'Соперники',
     matchPct:'Совпадение',
@@ -1461,7 +1476,7 @@ const I18N = {
     dimLabel:'تحليل الأبعاد الخمسة',
     foLabel:'أفضل الأصدقاء & الخصوم المقدرون',
     btnRetake:'أعد الاختبار',
-    btnShare:'شارك النتيجة',
+    btnShare:'تحميل النتيجة',
     friends:'أفضل الأصدقاء',
     opponents:'الخصوم',
     matchPct:'نسبة التوافق',
@@ -1772,36 +1787,19 @@ function detectLangFromCountry(cc){
   }
 })();
 
-// Common progressive loader for intro cat images
+// Build intro cat face outline — 🐾 for outline, real cat images for eyes (indices 22,23)
 function _renderIntroCats(grid, items){
   var faces=[[50,10],[62,10],[66,1],[70,0],[74,6],[80,18],[84,30],[85,44],[82,56],[76,66],[66,76],[50,80],[34,76],[24,66],[18,56],[15,44],[16,30],[20,18],[26,6],[30,0],[34,1],[38,10],[38,44],[62,44]];
-  // Fast paint: placeholders first
+  var EYE_INDICES=[22,23];
   grid.innerHTML=items.map(function(t,i){
     var p=faces[i];
     var style='style="left:'+p[0]+'%;top:'+p[1]+'%;animation-delay:'+(i*0.1).toFixed(1)+'s"';
-    return '<div class="cat-fallback sm cat-item" data-intro="'+t.code+'" title="'+t.name+'" '+style+'>🐾</div>';
+    if(EYE_INDICES.indexOf(i)>-1){
+      var src=getImage(t.code);
+      if(src)return '<img src="'+src+'" alt="'+getBreed(t.code)+'" title="'+t.name+'" decoding="async" loading="lazy" class="cat-item" '+style+'>';
+    }
+    return '<div class="cat-fallback sm cat-item" title="'+t.name+'" '+style+'>🐾</div>';
   }).join('');
-  // Progressive image swap
-  var batchSize=6;
-  function loadBatch(start){
-    for(var j=start;j<start+batchSize&&j<items.length;j++){
-      var code=items[j].code;var posIdx=j;
-      var src=getImage(code);if(!src)continue;
-      var el=grid.querySelector('[data-intro="'+code+'"]');
-      if(!el)continue;
-      var img=document.createElement('img');
-      img.src=src;img.alt=getBreed(code);
-      img.title=items[j].name+' · '+getBreed(code);
-      img.decoding='async';img.loading='lazy';img.fetchPriority='low';
-      img.className='cat-item';
-      img.setAttribute('style','left:'+faces[posIdx][0]+'%;top:'+faces[posIdx][1]+'%;animation-delay:'+(posIdx*0.1).toFixed(1)+'s');
-      el.parentNode.replaceChild(img,el);
-    }
-    if(start+batchSize<items.length){
-      requestAnimationFrame(function(){loadBatch(start+batchSize);});
-    }
-  }
-  requestAnimationFrame(function(){loadBatch(0);});
 }
 
 // ===== INTRO =====
@@ -1986,6 +1984,10 @@ function showResult(top,top3,uD){
 
   document.getElementById('dimLabel').textContent=d.dimLabel;
   document.getElementById('foLabel').textContent=d.foLabel;
+  document.getElementById('shareLabel').textContent=d.shareTitle;
+  document.getElementById('qrUrlInline').textContent=d.shareUrl;
+  // QR code directly on result page
+  generateQRInline('https://catpersona.pages.dev/');
 }
 
 // ===== TOP3 CAROUSEL =====
@@ -2004,6 +2006,10 @@ function renderTop3Carousel(top3){
   track.innerHTML=top3.map((r,i)=>{
     const src=getImage(r.type.code);
     const breed=getBreed(r.type.code);
+    const ti=(d.typeInfo&&d.typeInfo[r.type.code])||{};
+    const desc=ti.desc?ti.desc:(LANG==='zh'?r.type.desc:(r.type.descEn||r.type.desc));
+    const mbtiName=LANG==='zh'?r.type.mbtiName:(ti.mbtiName||r.type.mbtiNameEn||r.type.mbtiName);
+    const traits=LANG==='zh'?r.type.traits:(ti.traits||r.type.traitsEn||r.type.traits);
     return `<div class=top3-slide${i===0?' active-slide':''}>
       <div class=top3-avatar-wrap onclick="showModal('${r.type.code}')">
         ${src?`<img class=top3-avatar src="${src}" alt="${breed}" loading=lazy>`:`<div class=top3-avatar-fallback>🐾</div>`}
@@ -2011,9 +2017,11 @@ function renderTop3Carousel(top3){
       </div>
       <div class=top3-slide-info>
         <div class=top3-slide-code style=color:${r.type.color}>${r.type.code}</div>
-        <div class=top3-slide-name>${r.type.name} · ${r.type.en}</div>
+        <div class=top3-slide-name>${r.type.en}『${r.type.name}』</div>
         <div class=top3-slide-breed>${breed}</div>
-        <span class=top3-slide-link onclick="showModal('${r.type.code}')">${d.modalDetail}</span>
+        <div class=top3-slide-desc>${desc}</div>
+        <div class=top3-slide-mbti>${r.type.mbti} — ${mbtiName}</div>
+        <div class=top3-slide-traits>${traits.map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
       </div>
     </div>`;
   }).join('');
@@ -2150,22 +2158,38 @@ function showQR(){
   generateQR(url);
 }
 
-// Minimal QR code generator
-function generateQR(text){
-  const canvas=document.getElementById('qrCanvas');
+// QR code directly on result page
+function generateQRInline(text){
+  const canvas=document.getElementById('qrCanvasInline');
   if(!canvas)return;
   const ctx=canvas.getContext('2d');
-  const size=200;const margin=4;
+  const size=160;const margin=4;
   const img=new Image();
   img.crossOrigin='anonymous';
   img.onload=function(){ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,size,size);ctx.drawImage(img,0,0,size,size);};
-  img.onerror=function(){ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,size,size);ctx.fillStyle='#2C2416';ctx.font='14px monospace';ctx.textAlign='center';ctx.fillText('QR: catpersona.pages.dev',size/2,size/2-10);ctx.font='12px monospace';ctx.fillText('Scan to discover your cat persona',size/2,size/2+16);};
-  img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(text)+'&margin='+margin;
+  img.onerror=function(){ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,size,size);ctx.fillStyle='#2C2416';ctx.font='11px monospace';ctx.textAlign='center';ctx.fillText('QR: catpersona.pages.dev',size/2,size/2);};
+  img.src='https://api.qrserver.com/v1/create-qr-code/?size=160x160&data='+encodeURIComponent(text)+'&margin='+margin;
 }
 
-// ===== SHARE (legacy) =====
-function shareResult(){
-  showQR();
+// Download result as long screenshot
+function downloadResult(){
+  if(typeof html2canvas==='undefined'){
+    alert('Loading screenshot tool... Please try again in a moment.');
+    return;
+  }
+  var el=document.getElementById('result');
+  html2canvas(el,{backgroundColor:'#FAF5EF',scale:2,useCORS:true,allowTaint:true}).then(function(canvas){
+    canvas.toBlob(function(blob){
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url;a.download='catpersona-result.png';
+      document.body.appendChild(a);a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },'image/png');
+  }).catch(function(){
+    alert('Screenshot failed. Please try again.');
+  });
 }
 </script>
 <footer style="text-align:center;padding:1.2rem;font-size:0.9rem;color:var(--muted);background:var(--warm);border-top:1px solid var(--border);font-family:'Caveat',cursive;letter-spacing:0.02em;">Designed by <a href="https://lunazhao.pages.dev/" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:700;">Luna Zhao</a></footer>
