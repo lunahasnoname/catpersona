@@ -1033,6 +1033,7 @@ const I18N = {
     dimVVals:{V:'V 表达',Q:'Q 沉默'},dimAVals:{A:'A 冒险',G:'G 谨慎'},
     dimCVals:{K:'K 规律',W:'W 随性'},
     shareTitle:'分享你的猫格',
+    matched:'匹配度',
     shareDesc:'扫描二维码，<br>发现你的猫咪人格原型',
     shareUrl:'catpersona.pages.dev',
     localeHint:'切换语言有惊喜~ ✨',
@@ -1090,6 +1091,7 @@ const I18N = {
     dimVVals:{V:'V Vocal',Q:'Q Quiet'},dimAVals:{A:'A Adventurous',G:'G Guarded'},
     dimCVals:{K:'K Keeps Routine',W:'W Whimsical'},
     shareTitle:'Share Your Cat Persona',
+    matched:'Matched',
     shareDesc:'Scan the QR code to<br>discover your cat archetype',
     shareUrl:'catpersona.pages.dev',
     localeHint:'Psst! Switch language for a surprise ✨',
@@ -1147,6 +1149,7 @@ const I18N = {
     dimVVals:{V:'V 표현형',Q:'Q 조용형'},dimAVals:{A:'A 모험형',G:'G 신중형'},
     dimCVals:{K:'K 규칙형',W:'W 자유형'},
     shareTitle:'고양이 성격 공유하기',
+    matched:'일치',
     shareDesc:'QR코드를 스캔하여<br>당신의 고양이 성격 원형을 발견하세요',
     shareUrl:'catpersona.pages.dev',
     localeHint:'언어를 바꾸면 깜짝 놀랄 거예요 ✨',
@@ -1205,6 +1208,7 @@ const I18N = {
     dimVVals:{V:'V 表現型',Q:'Q 静か型'},dimAVals:{A:'A 冒険型',G:'G 慎重型'},
     dimCVals:{K:'K 規則型',W:'W 自由型'},
     shareTitle:'猫性格を共有',
+    matched:'マッチ',
     shareDesc:'QRコードをスキャンして<br>あなたの猫の原型を発見しよう',
     shareUrl:'catpersona.pages.dev',
     localeHint:'언어를 바꾸면 깜짝 놀랄 거예요 ✨',
@@ -1263,6 +1267,7 @@ const I18N = {
     dimVVals:{V:'V Expressif',Q:'Q Silencieux'},dimAVals:{A:'A Aventureux',G:'G Prudent'},
     dimCVals:{K:'K Routinier',W:'W Fantaisiste'},
     shareTitle:'Partagez votre Personnalité Féline',
+    matched:'Correspondance',
     shareDesc:'Scannez le QR code pour<br>découvrir votre archétype félin',
     shareUrl:'catpersona.pages.dev',
     localeHint:'言語を切り替えるとサプライズが… ✨',
@@ -1321,6 +1326,7 @@ const I18N = {
     dimVVals:{V:'V Expresivo',Q:'Q Callado'},dimAVals:{A:'A Aventurero',G:'G Cauteloso'},
     dimCVals:{K:'K Rutinario',W:'W Caprichoso'},
     shareTitle:'Comparte tu Personalidad Felina',
+    matched:'Coincidencia',
     shareDesc:'Escanea el código QR para<br>descubrir tu arquetipo felino',
     shareUrl:'catpersona.pages.dev',
     localeHint:'Changez de langue pour une surprise ✨',
@@ -1379,6 +1385,7 @@ const I18N = {
     dimVVals:{V:'V 表達型',Q:'Q 安靜型'},dimAVals:{A:'A 冒險型',G:'G 謹慎型'},
     dimCVals:{K:'K 規律型',W:'W 自由型'},
     shareTitle:'分享你嘅貓格',
+    matched:'匹配度',
     shareDesc:'掃描QR碼，<br>發現你嘅貓咪人格原型',
     shareUrl:'catpersona.pages.dev',
     localeHint:'轉下語言有驚喜㗎～✨',
@@ -1437,6 +1444,7 @@ const I18N = {
     dimVVals:{V:'V Голосистый',Q:'Q Молчаливый'},dimAVals:{A:'A Искатель',G:'G Осторожный'},
     dimCVals:{K:'K По расписанию',W:'W По настроению'},
     shareTitle:'Поделись своим кототипом',
+    matched:'Совпадение',
     shareDesc:'Отсканируй QR-код и<br>узнай свой кошачий архетип',
     shareUrl:'catpersona.pages.dev',
     localeHint:'Переключи язык — будет сюрприз ✨',
@@ -1495,6 +1503,7 @@ const I18N = {
     dimVVals:{V:'V صوته عالي',Q:'Q صامت'},dimAVals:{A:'A مغامر',G:'G حَذِر'},
     dimCVals:{K:'K منضبط',W:'W مزاجي'},
     shareTitle:'شارك شخصيتك القططية',
+    matched:'تطابق',
     shareDesc:'امسح رمز QR<br>واكتشف نموذجك القططي الأصيل',
     shareUrl:'catpersona.pages.dev',
     localeHint:'غيّر اللغة… عندك مفاجأة ✨',
@@ -2021,7 +2030,7 @@ function renderTop3Carousel(top3){
       ${src?`<img class=top3-card-avatar src="${src}" alt="" loading=lazy>`:`<div class=top3-card-avatar-fallback>🐾</div>`}
       <div class=top3-card-code style=color:${r.type.color}>${r.type.code}</div>
       <div class=top3-card-name>${r.type.en}『${r.type.name}』</div>
-      <div class=top3-card-pct>Matched: ${r.pct}%</div>
+      <div class=top3-card-pct>${d.matched}: ${r.pct}%</div>
       <div class=top3-card-info>${shortDesc}</div>
       <div class=top3-card-mbti>${r.type.mbti} ${mbtiName}</div>
       <div class=top3-card-traits>${traits.slice(0,4).map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
