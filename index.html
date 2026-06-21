@@ -1558,7 +1558,7 @@ function refreshI18n(){
   if(document.getElementById('overview').classList.contains('active')) {_ovActiveFilter=-1; showOverview();}
   // Re-render result screen if active
   if(document.getElementById('result').classList.contains('active') && window._lastTop3){
-    showResult(window._lastTop3[0], window._lastTop3, window._lastUD);
+    showResult(window._lastTop3[0], window._lastTop3, window._lastUD, window._lastDimPcts);
   }
   // Update dim popup if open
   if(document.getElementById('dimPopup').classList.contains('active')){
@@ -1942,6 +1942,13 @@ function calc(){
     Object.entries(m).forEach(([d,v])=>{if(dims[v]!==undefined)dims[v]+=w[v]||1})
   });
   const uD={S:dims.L>=dims.S?'L':'S',E:dims.C>=dims.M?'C':'M',V:dims.V>=dims.Q?'V':'Q',A:dims.A>=dims.G?'A':'G',C:dims.K>=dims.W?'K':'W'};
+  // Dimension percentages for bar visualization
+  const dimPcts={};
+  Object.keys(uD).forEach(k=>{
+    const d=uD[k];const od=opposites[d];
+    const total=(dims[d]||0)+(dims[od]||0);
+    dimPcts[k]=total>0?Math.round(dims[d]/total*100):50;
+  });
   // Continuous scoring — match strength based on dimension ratio, not just binary
   const rw={S:2,E:2,V:2,A:2,C:1.5};
   const mx=9.5;
@@ -1960,12 +1967,12 @@ function calc(){
   results.sort((a,b)=>b.pct-a.pct);
   const top3=results.slice(0,3);
   s('result');
-  window._lastTop3=top3;window._lastUD=uD;
-  showResult(top3[0],top3,uD);
+  window._lastTop3=top3;window._lastUD=uD;window._lastDimPcts=dimPcts;
+  showResult(top3[0],top3,uD,dimPcts);
 }
 
 // ===== RENDER RESULT =====
-function showResult(top,top3,uD){
+function showResult(top,top3,uD,dimPcts){
   const d=I18N[LANG];
   const imgSrc=getImage(top.type.code);
   const ti=(d.typeInfo&&d.typeInfo[top.type.code])||{};
@@ -1984,10 +1991,10 @@ function showResult(top,top3,uD){
   const dm={S:d.dimSVals,E:d.dimEVals,V:d.dimVVals,A:d.dimAVals,C:d.dimCVals};
   const dc={S:'#C4734F',E:'#B8860B',V:'#5B8C5A',A:'#5C8B8A',C:'#6B5E4A'};
   document.getElementById('dimSection').innerHTML=Object.entries(dl).map(([k,lb])=>{
-    const v=uD[k];const p=v==='L'||v==='C'||v==='V'||v==='A'||v==='K'?72:28;
-    return `<div class=dim-row><span class=dim-label>${lb}</span><div class=dim-bar-wrap><div class=dim-bar-fill id=dbar-${k} style=width:0;background:${dc[k]}></div></div><span class=dim-val style=color:${dc[k]}>${dm[k][v]}</span></div>`;
+    const v=uD[k];const p=dimPcts[k];
+    return `<div class=dim-row><span class=dim-label>${lb}</span><div class=dim-bar-wrap><div class=dim-bar-fill id=dbar-${k} style=width:0;background:${dc[k]}></div></div><span class=dim-val style=color:${dc[k]}>${dm[k][v]} ${p}%</span></div>`;
   }).join('');
-  setTimeout(()=>{Object.keys(dl).forEach(k=>{const v=uD[k];const p=v==='L'||v==='C'||v==='V'||v==='A'||v==='K'?72:28;const b=document.getElementById('dbar-'+k);if(b)b.style.width=p+'%'})},200);
+  setTimeout(()=>{Object.keys(dl).forEach(k=>{const p=dimPcts[k];const b=document.getElementById('dbar-'+k);if(b)b.style.width=p+'%'})},200);
 
   // Friends & Opponents
   const friends=top.type.f.map(c=>TYPES.find(t=>t.code===c)).filter(Boolean);
@@ -2192,8 +2199,17 @@ function downloadResult(){
     alert('Loading screenshot tool... Please try again in a moment.');
     return;
   }
+  var hero=document.getElementById('resultHero');
+  var pct=document.getElementById('resultPct');
+  // Hide hero and match % for clean screenshot
+  var heroOrig=hero.style.display;
+  var pctOrig=pct.style.display;
+  hero.style.display='none';
+  pct.style.display='none';
   var el=document.getElementById('result');
   html2canvas(el,{backgroundColor:'#FAF5EF',scale:2,useCORS:true,allowTaint:true}).then(function(canvas){
+    hero.style.display=heroOrig;
+    pct.style.display=pctOrig;
     canvas.toBlob(function(blob){
       var url=URL.createObjectURL(blob);
       var a=document.createElement('a');
@@ -2203,6 +2219,8 @@ function downloadResult(){
       URL.revokeObjectURL(url);
     },'image/png');
   }).catch(function(){
+    hero.style.display=heroOrig;
+    pct.style.display=pctOrig;
     alert('Screenshot failed. Please try again.');
   });
 }
