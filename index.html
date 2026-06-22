@@ -2198,7 +2198,13 @@ function downloadResult(){
   paws.style.display='none';
   goToSlide(0);
   var el=document.getElementById('result');
-  html2canvas(el,{backgroundColor:'#FAF5EF',scale:2,useCORS:true,allowTaint:true}).then(function(canvas){
+  // Temporarily hide overlay for clean capture
+  overlay.classList.remove('active');
+  // Use scale 1.5 for speed (2.25x fewer pixels than scale 2, still sharp)
+  html2canvas(el,{backgroundColor:'#FAF5EF',scale:1.5,useCORS:true,logging:false}).then(function(canvas){
+    // Show overlay again for download phase
+    overlay.classList.add('active');
+    dlText.textContent='下载中…';
     hero.style.display=heroOrig;
     pct.style.display=pctOrig;
     paws.style.display=pawsOrig;
