@@ -569,10 +569,10 @@ body::before{
 .top3-card-mbti{display:inline-block;background:var(--warm);padding:3px 10px;border-radius:8px;font-size:0.72rem;margin-top:8px}
 .top3-card-traits{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 .top3-card-traits .trait-pill{padding:3px 9px;background:var(--warm);border-radius:14px;font-size:0.68rem;color:var(--accent)}
-.top3-paws{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:16px;height:32px}
-.paw-dot{width:10px;height:10px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.3s;border:none;padding:0}
-.paw-dot.active{background:var(--accent);transform:scale(1.4);box-shadow:0 0 0 3px rgba(180,130,50,0.2)}
-.paw-dot:hover{background:var(--accent2)}
+.top3-paws{display:flex;justify-content:center;align-items:flex-end;gap:16px;margin-top:16px;height:36px}
+.paw-step{font-size:1.2rem;cursor:pointer;transition:all 0.3s cubic-bezier(.4,0,.2,1);line-height:1;opacity:0.35;filter:grayscale(0.6)}
+.paw-step.active{font-size:1.7rem;opacity:1;filter:grayscale(0)}
+.paw-step:hover{opacity:0.7;transform:translateY(-2px)}
 
 .section-label{
   font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;
@@ -2036,14 +2036,14 @@ function renderTop3Carousel(top3){
       <div class=top3-card-traits>${traits.slice(0,4).map(x=>`<span class=trait-pill>${x}</span>`).join('')}</div>
     </div>`;
   }).join('');
-  paws.innerHTML=top3.map((_,i)=>`<span class="paw-dot${i===0?' active':''}" onclick="goToSlide(${i})"></span>`).join('');
+  paws.innerHTML=top3.map((_,i)=>`<span class="paw-step${i===0?' active':''}" onclick="goToSlide(${i})">${i===0?'🐈‍⬛':'🐾'}</span>`).join('');
   // Track scroll to update active paw dot
   track.addEventListener('scroll',function(){
     var w=track.clientWidth/3-18; // match calc(33% - 30px) with gap
     var idx=Math.round(track.scrollLeft/w);
     if(idx!==_carouselIndex&&idx>=0&&idx<top3.length){
       _carouselIndex=idx;
-      document.querySelectorAll('.paw-dot').forEach(function(d,j){d.classList.toggle('active',j===idx)});
+      document.querySelectorAll('.paw-step').forEach(function(d,j){d.classList.toggle('active',j===idx);d.textContent=j===idx?'🐈‍⬛':'🐾'});
     }
   });
 }
@@ -2055,7 +2055,7 @@ function goToSlide(i){
     var w=track.clientWidth-48;
     track.scrollTo({left:i*w,behavior:'smooth'});
   }
-  document.querySelectorAll('.paw-dot').forEach(function(d,idx){d.classList.toggle('active',idx===_carouselIndex)});
+  document.querySelectorAll('.paw-step').forEach(function(d,idx){d.classList.toggle('active',idx===_carouselIndex);d.textContent=idx===_carouselIndex?'🐈‍⬛':'🐾'});
 }
 
 // ===== OVERVIEW =====
