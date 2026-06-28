@@ -615,6 +615,21 @@ body::before{
 .dl-text{font-size:0.95rem;color:var(--ink);font-weight:500;font-family:inherit}
 @keyframes dlSpin{to{transform:rotate(360deg)}}
 
+/* ===== INTRO DIM CARDS ===== */
+.intro-dim-section{margin-top:32px;width:100%;max-width:780px;margin-left:auto;margin-right:auto}
+.intro-dim-title{font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-bottom:14px}
+.intro-dim-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.intro-dim-card{background:var(--warm);border-radius:14px;padding:14px 10px;text-align:center;border-left:3px solid var(--gold);transition:transform 0.2s}
+.intro-dim-card:nth-child(2){border-left-color:#C4734F}
+.intro-dim-card:nth-child(3){border-left-color:#5B8C5A}
+.intro-dim-card:nth-child(4){border-left-color:#5C8B8A}
+.intro-dim-card:nth-child(5){border-left-color:#6B5E4A}
+.intro-dim-card:hover{transform:translateY(-2px)}
+.intro-dim-icon{font-size:1.4rem;display:block;margin-bottom:6px}
+.intro-dim-card-title{font-size:0.72rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.intro-dim-card-sub{font-size:0.65rem;color:var(--accent);margin-bottom:6px;font-weight:600}
+.intro-dim-card-desc{font-size:0.62rem;color:#5A4F3F;line-height:1.5}
+
 /* ===== RESULT SHARE ===== */
 .result-share{text-align:center;margin-top:20px}
 .qr-canvas-inline{image-rendering:pixelated;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
@@ -754,6 +769,7 @@ body::before{
   .result-hero{max-height:240px;aspect-ratio:4/3}
   .result-actions{gap:8px}
   .result-actions .btn{padding:12px 24px;font-size:0.85rem}
+  .intro-dim-grid{grid-template-columns:repeat(2,1fr)}
   .overview-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
   .dim-popup-box,.modal-box{max-width:95vw}
   .modal-body{padding:16px 18px 20px}
@@ -823,6 +839,7 @@ body::before{
     <button class="btn btn-secondary" onclick="showOverview()" id="btnOverview">浏览 24 种类型</button>
   </div>
   <p class="intro-meta" id="introMeta"></p>
+  <div class="intro-dim-section" id="introDimSection"></div>
 </div>
 
 <!-- ===== QUIZ ===== -->
@@ -1614,6 +1631,17 @@ function renderDimCards(){
       <div class="dim-card-desc">${c.desc}</div>
       <div class="dim-card-tags">${c.tags.map(t=>`<span class="dim-tag">${t}</span>`).join('')}</div>
     </div>`).join('');
+  // Also render compact cards on intro page
+  var introSec=document.getElementById('introDimSection');
+  if(introSec){
+    introSec.innerHTML='<p class="intro-dim-title">CATI 5-Dimensional Model</p><div class="intro-dim-grid">'+d.dimCards.map((c)=>`
+      <div class="intro-dim-card">
+        <span class="intro-dim-icon">${c.icon}</span>
+        <div class="intro-dim-card-title">${c.title}</div>
+        <div class="intro-dim-card-sub">${c.sub}</div>
+        <div class="intro-dim-card-desc">${c.desc}</div>
+      </div>`).join('')+'</div>';
+  }
 }
 
 // ===== IMAGE MAPPING =====
