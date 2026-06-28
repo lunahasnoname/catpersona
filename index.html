@@ -1593,6 +1593,8 @@ function refreshI18n(){
     document.getElementById('dimPopupSub').textContent=d.dimPopupSub;
     renderDimCards();
   }
+  // Always refresh homepage dim cards on language switch
+  renderDimCards();
 }
 
 function updateResultText(){
